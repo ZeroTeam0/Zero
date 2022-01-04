@@ -9143,8 +9143,8 @@ end
 Redis:del(Zero .."Zero :Name:Bot") 
 return LuaTele.sendText(msg_chat_id,msg_id,"⌔︙تم حذف اسم البوت ","md",true)   
 end
-if text == (Redis:get(Zero .."Zero :Name:Bot") or "السلطان") then
-local NamesBot = (Redis:get(Zero .."Zero :Name:Bot") or "السلطان")
+if text == (Redis:get(Zero .."Zero :Name:Bot") or "زيرو") then
+local NamesBot = (Redis:get(Zero .."Zero :Name:Bot") or "زيرو")
 local NameBots = {
 "عمر "..NamesBot.. " شتريد؟",
 "أჂ̤ أჂ̤ هياتني اني",
@@ -9156,7 +9156,7 @@ local NameBots = {
 return LuaTele.sendText(msg_chat_id,msg_id, NameBots[math.random(#NameBots)],"md",true)  
 end
 if text == "بوت" then
-local NamesBot = (Redis:get(Zero .."Zero :Name:Bot") or "السلطان")
+local NamesBot = (Redis:get(Zero .."Zero :Name:Bot") or "زيرو")
 local BotName = {
 "باوع لك خليني احبك وصيحلي باسمي "..NamesBot,
 "لتخليني ارجع لحركاتي لقديمه وردا ترا اسمي "..NamesBot.. "",
@@ -9245,7 +9245,7 @@ local texting = {"اخر افلام شاهدتها",
 "اخر اغنية سمعتها ?", 
 "تكلم عن نفسك", 
 "ليه انت مش سالك", 
-"ما هيا عيوب سورس السلطان؟ ", 
+"ما هيا عيوب سورس زيرو؟ ", 
 "اخر كتاب قرآته", 
 "روايتك المفضله ?", 
 "اخر اكله اكلتها", 
@@ -9261,13 +9261,13 @@ local texting = {"اخر افلام شاهدتها",
 " ما السيء في هذه الحياة ؟ ", 
 "أجمل شيء حصل معك خلال هذا الاسبوع ؟ ", 
 "سؤال ينرفزك ؟ ", 
-" هل يعجبك سورس السلطان؟؟ ", 
+" هل يعجبك سورس زيرو؟؟ ", 
 " اكثر ممثل تحبه ؟ ", 
 "قد تخيلت شي في بالك وصار ؟ ", 
 "شيء عندك اهم من الناس ؟ ", 
 "تفضّل النقاش الطويل او تحب الاختصار ؟ ", 
 "وش أخر شي ضيعته؟ ", 
-"اي رايك في سورس السلطان؟ ", 
+"اي رايك في سورس زيرو؟ ", 
 "كم مره حبيت؟ ", 
 " اكثر المتابعين عندك باي برنامج؟", 
 " آخر مره ضربت عشره كانت متى ؟", 
@@ -9922,7 +9922,7 @@ if text == '/start' then
 Redis:sadd(Zero ..'Zero :Num:User:Pv',msg.sender.user_id)  
 if not msg.ControllerBot then
 if not Redis:get(Zero .."Zero :Start:Bot") then
-local CmdStart = '*\n⌔︙أهلآ بك في بوت '..(Redis:get(Zero .."Zero :Name:Bot") or "السلطان")..
+local CmdStart = '*\n⌔︙أهلآ بك في بوت '..(Redis:get(Zero .."Zero :Name:Bot") or "زيرو")..
 '\n⌔︙اختصاص البوت حماية المجموعات'..
 '\n⌔︙لتفعيل البوت عليك اتباع مايلي ...'..
 '\n⌔︙اضف البوت الى مجموعتك'..
