@@ -8939,7 +8939,7 @@ data = {
 {text = 'Annotations Source', url = 't.me/zErOPro'}, 
 },
 {
-{text = 'Communication Source', url = 't.me/tm5_bot'}, 
+{text = 'Communication Source', url = 't.me/tms5_bot'}, 
 },
 {
 {text = 'Developer Source !', url = 't.me/GGGGK'}, 
